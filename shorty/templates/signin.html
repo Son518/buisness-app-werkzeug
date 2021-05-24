@@ -1,0 +1,43 @@
+<script src="{{ url_for('static', file='jQuery/jquery.min.js') }}"></script>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', file='bootstrap/css/bootstrap.min.css') }}">
+<script src="{{ url_for('static', file='bootstrap/js/bootstrap.min.js') }}"></script>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', file='signin.css') }}">
+<script src="{{ url_for('static', file='signin.js') }}"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="login-reg-panel">
+    <div class="login-info-box">
+        <h2>Have an account?</h2>
+        <p>BlueBiz</p>
+        <label id="label-register" for="log-reg-show">Login</label>
+        <input type="radio" name="active-log-panel" id="log-reg-show"  checked="checked">
+    </div>
+                        
+    <div class="register-info-box">
+        <h2>Don't have an account?</h2>
+        <p>BlueBiz</p>
+        <label id="label-login" for="log-login-show">Register</label>
+        <input type="radio" name="active-log-panel" id="log-login-show">
+    </div>
+                        
+    <div class="white-panel">
+        <div class="login-show">
+            <h2>LOGIN</h2>
+            <form action="{{url_for('onsignin')}}" method="post">
+                <input type="text" name="email" id="loginemail" placeholder="Email">
+                <input type="password" name="password" id="loginpassword" placeholder="Password">
+                <input type="submit" name="loginBtn" id="loginBtn" value="Login">
+                <!-- <a href="">Forgot password?</a> -->
+            </form>
+        </div>
+        <div class="register-show">
+            <h2>REGISTER</h2>
+            <form action="" method="POST">
+                <input type="text" placeholder="Email">
+                <input type="password" placeholder="Password">
+                <input type="password" placeholder="Confirm Password">
+                <input type="button" name="registerBtn" id="registerBtn" value="Register">
+            </form>
+        </div>
+    </div>
+</div>

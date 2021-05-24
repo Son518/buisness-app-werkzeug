@@ -1,0 +1,175 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <img src="{{url_for('static', file='img/company-logo.png')}}" style="width: 20%;" alt="">
+    </div>
+    <div class="row">
+        <div class="col-6"></div>
+        <div class="col-6 justify-content-end">
+            <div class="justify-content-end nav">
+                <a href="{{url_for('companylist')}}" class="px-3 py-3">Botswana Golden 100</a>
+                <a href="{{url_for('news', news_type='countries')}}" class="px-3 py-3">Countries</a>
+            </div>
+        </div>
+        
+    </div>
+    <div class="row py-3">
+        <div class="col-4">
+            <span class="fw-bold fs-4 text-warning">Company:</span>
+            <span class="fw-boler fs-4">Botswana Oil</span>
+        </div>
+        <div class="col-4">
+            <span class="fw-bold fs-4 text-warning">Industry:</span>
+            <span class="fw-boler fs-4">Energy</span>
+        </div>
+        <div class="col-4">
+            <span class="fw-bold fs-4 text-warning">Type:</span>
+            <span class="fw-boler fs-4">Government</span>
+        </div>
+    </div>
+    <div class="row">
+        <p class="text-primary fw-bold fs-4">Introduction</p>
+        <p>Botswana Oil Limited is positioned as the National Oil Company of Botswana responsible for ensuring security of fuel supply for the benefit of all Batswana.</p>
+    </div>
+    <div class="row">
+        <p class="text-primary fw-bold fs-4">Vision</p>
+        <p>To be a significant player in the Oil & Gas Industry.</p>
+    </div>
+    <div class="row">
+        <p class="text-primary fw-bold fs-4">Mission</p>
+        <p>Ensuring security and efficiency of supply of petroleum products for Botswana and marketing products in the region.</p>
+    </div>
+    <div class="row">
+        <div class="row">
+            <p class="text-primary fw-bold fs-4">Top Executives</p>
+        </div>     
+        <div class="row row-cols-3">
+            <div class="col">
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ url_for('static', file='img/member1.jpg') }}" class="card-img-top" width="286" height="400">
+                    <div class="card-body">
+                        <p class="card-text">
+                            <span class="fw-bold fs-4 text-warning">Willie Mokgatlhe</span><br>
+                            <span class="text-warning">Chief Executive Officer </span><br>
+                            <span>&nbsp;</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ url_for('static', file='img/member2.jpg') }}" class="card-img-top" width="286" height="400">
+                    <div class="card-body">
+                        <p class="card-text">
+                            <span class="fw-bold fs-4 text-warning">Modise Koofhethile</span><br>
+                            <span class="text-warning">General Manager</span><br>
+                            <span class="text-warning">Strategy & Business Planning</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ url_for('static', file='img/member3.jpg') }}" class="card-img-top" width="286" height="400">
+                    <div class="card-body">
+                        <p class="card-text">
+                            <span class="fw-bold fs-4 text-warning">Noreen Evans</span><br>
+                            <span class="text-warning">General Manager</span><br>
+                            <span class="text-warning">Supply & Manufacturing</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ url_for('static', file='img/member4.jpg') }}" class="card-img-top" width="286" height="400">
+                    <div class="card-body">
+                        <p class="card-text">
+                            <span class="fw-bold fs-4 text-warning">Mokwena Morulane </span><br>
+                            <span class="text-warning">General Manager</span><br>
+                            <span class="text-warning">Corporate Services </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ url_for('static', file='img/member5.jpg') }}" class="card-img-top" width="286" height="400">
+                    <div class="card-body">
+                        <p class="card-text">
+                            <span class="fw-bold fs-4 text-warning">Mosetlho Kenamile</span><br>
+                            <span class="text-warning">General Manager</span><br>
+                            <span class="text-warning">Operations</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <p class="text-primary fw-bold fs-4">Company Description</p>
+        <p>Botswana Oil Limited (BOL) was established in order to achieve Government’s broader economic objectives of ensuring security of fuel supply and facilitating active citizen involvement in the petroleum industry. As the National Oil Company of Botswana (NOCoB), BOL will serve as the Botswana Government’s agent charged with this important responsibility. BOL is a company incorporated under the Companies Act of Botswana. It is wholly owned by the Government of Botswana, represented by Ministry of Minerals, Energy and Water Resources (MMEWR). The company functions under defined governance and operating principles to inform and guide its operations. Botswana Oil Limited is positioned as the NOCoB responsible for ensuring security of fuel supply for the benefit of all Batswana. </p>
+    </div>
+    <div class="row">
+        <p class="text-primary fw-bold fs-4">Products</p>
+        <ul>
+            <li>Diesel</li>
+            <li>Petrol</li>
+        </ul>
+    </div>
+    <div class="row">
+        <p class="text-primary fw-bold fs-4">Services</p>
+        <ul>
+            <li>Management of Sate-own strategic fuel reserve facilities</li>
+            <li>Whole sale distribution of petroleum products</li>
+        </ul>
+    </div>
+    <div class="row">
+        <p class="text-primary fw-bold fs-4">Employees</p>
+        <p>50</p>
+    </div>
+    <div class="row">
+        <p class="text-primary fw-bold fs-4">Market</p>
+        <p>N/A</p>
+    </div>
+    <div class="row">
+        <p class="text-primary fw-bold fs-4">Contact Person:</p>
+        <p>Mosetlho Kenamile</p>
+        <p>General Manager - Operations</p>
+    </div>
+    <div class="row">
+        <p class="text-primary fw-bold fs-4">Postal Address:</p>
+        <p>Private Bag BO 173</p>
+        <p>Bontleng, Gaborone</p>
+        <p>Botswana</p>
+    </div>
+    <div class="row">
+        <p class="text-primary fw-bold fs-4">Physical Address:</p>
+        <p>Plot 54373, Petroleum House,</p>
+        <p>Matante Mews, Central Business District</p>
+        <p>Gaborone</p>
+        <p>Botswana</p>
+    </div>
+    
+    <div class="row">
+        <div class="col-3"><span class="text-primary fw-bold">Tel: </span></div>
+        <div class="col-9">(+267) xxx-xxxx</div>
+    </div>
+    <div class="row">
+        <div class="col-3"><span class="text-primary fw-bold">Fax: </span></div>
+        <div class="col-9">(+267) xxx-xxxx</div>
+    </div>
+    <div class="row">
+        <div class="col-3"><span class="text-primary fw-bold">E-mail: </span></div>
+        <div class="col-9">xxxxx@xxxx.xx.xxx</div>
+    </div>
+    <div class="row">
+        <div class="col-3"><span class="text-primary fw-bold">Web: </span></div>
+        <div class="col-9">www.botswanaoil.co.bw</div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,187 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-6"></div>
+        <div class="col-6 justify-content-end">
+            <div class="justify-content-end nav">
+                <a href="{{url_for('companylist')}}" class="px-3 py-3">Botswana Golden 100</a>
+                <a href="{{url_for('news', news_type='countries')}}" class="px-3 py-3">Countries</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            <style>
+                .imagePreview {
+                    width: 100%;
+                    height: 180px;
+                    background-position: center center;
+                    background:url(http://cliquecities.com/assets/no-image-e3699ae23f866f6cbdf8ba2443ee5c4e.jpg);
+                    background-color:#fff;
+                    background-size: cover;
+                    background-repeat:no-repeat;
+                    display: inline-block;
+                    /* box-shadow:0px -3px 6px 2px rgba(0,0,0,0.2); */
+                }
+                .btn-primary {
+                    display:block;
+                    border-radius:0px;
+                    box-shadow:0px 4px 6px 2px rgba(0,0,0,0.2);
+                    margin-top:-5px;
+                }
+                .imgUp {
+                    margin-bottom:15px;
+                }
+                .del {
+                    position:absolute;
+                    top:0px;
+                    right:15px;
+                    width:30px;
+                    height:30px;
+                    text-align:center;
+                    line-height:30px;
+                    background-color:rgba(255,255,255,0.6);
+                    cursor:pointer;
+                }
+                .imgAdd {
+                    width:30px;
+                    height:30px;
+                    border-radius:50%;
+                    background-color:#4bd7ef;
+                    color:#fff;
+                    box-shadow:0px 0px 2px 1px rgba(0,0,0,0.2);
+                    text-align:center;
+                    line-height:30px;
+                    margin-top:0px;
+                    cursor:pointer;
+                    font-size:15px;
+                    padding-left: 8px;
+                }
+            </style>
+            <div class="row">
+                <div class="col-sm-2 col-md-2 imgUp">
+                <div class="imagePreview"></div>
+                <label class="btn btn-primary">
+                    + Add Company Logo
+                    <input type="file" class="uploadFile img" value="Upload Photo" style="width: 0px;height: 0px;overflow: hidden;">
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row py-3">
+        <div class="col-4">
+            <label class="fw-bold fs-4 text-warning">Company:</label>
+            <input class="form-control" type="text" placeholder="+ Add Company Name">
+        </div>
+        <div class="col-4">
+            <label class="fw-bold fs-4 text-warning">Industry:</label>
+            <input class="form-control" type="text" placeholder="+ Add Industry">
+        </div>
+        <div class="col-4">
+            <label class="fw-bold fs-4 text-warning">Type:</label>
+            <select class="form-select" aria-label="Default select example" aria-placeholder="Select a type">
+                <option value="1">Public</option>
+                <option value="2">Private</option>
+                <option value="3">Goverment</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <label class="text-primary fw-bold fs-4">Introduction</label>
+        <textarea class="form-control" name="" id="" cols="100" rows="3" placeholder="+ Add Introduction"></textarea>
+    </div>
+    <div class="row">
+        <label class="text-primary fw-bold fs-4">Vision</label>
+        <textarea class="form-control" name="" id="" cols="100" rows="1" placeholder="+ Add Vision"></textarea>
+    </div>
+    <div class="row">
+        <label class="text-primary fw-bold fs-4">Mission</label>
+        <textarea class="form-control" name="" id="" cols="100" rows="1" placeholder="+ Add Mission"></textarea>
+    </div>
+    <div class="row">
+        <div class="row">
+            <p class="text-primary fw-bold fs-4">Top Executives</p>
+        </div>     
+        <div class="row">
+            <br><div class="container">
+                <div class="row">
+                <div class="col-sm-2 imgUp">
+                  <div class="imagePreview"></div>
+                    <label class="btn btn-primary">+ Add Photo
+                        <input type="file" class="uploadFile img" value="Upload Photo" style="width: 0px;height: 0px;overflow: hidden;">
+                    </label>
+                    <input type="text" class="form-control" placeholder="+ Add Title">
+                </div><!-- col-2 -->
+                <i class="fa fa-plus imgAdd"></i>
+               </div><!-- row -->
+              </div><!-- container -->
+              
+        </div>
+    </div>
+
+    <div class="row">
+        <label class="text-primary fw-bold fs-4">Company Description</label>
+        <textarea class="form-control" name="" id="" cols="100" rows="10" placeholder="+ Add Description"></textarea>
+    </div>
+    <div class="row">
+        <label class="text-primary fw-bold fs-4">Products</label>
+        <div class="col-5">
+            <input type="text" class="form-control my-1" placeholder="+ Add Product 1">
+            <input type="text" class="form-control my-1" placeholder="+ Add Product 2">
+            <input type="text" class="form-control my-1" placeholder="+ Add Product 3">
+        </div>
+    </div>
+    <div class="row">
+        <label class="text-primary fw-bold fs-4">Services</label>
+        <div class="col-5">
+            <input type="text" class="form-control my-1" placeholder="+ Add Service 1">
+            <input type="text" class="form-control my-1" placeholder="+ Add Service 2">
+            <input type="text" class="form-control my-1" placeholder="+ Add Service 3">
+        </div>
+    </div>
+    <div class="row">
+        <p class="text-primary fw-bold fs-4">Employees</p>
+        <input type="text" class="form-control my-1" placeholder="+ Add Count">
+    </div>
+    <div class="row">
+        <p class="text-primary fw-bold fs-4">Turnover/Market Cap</p>
+        <input type="text" class="form-control my-1" placeholder="+ Add Figure">
+    </div>
+    <div class="row">
+        <p class="text-primary fw-bold fs-4">Contact Person:</p>
+        <input type="text" class="form-control my-1" placeholder="+ Add Name">
+        <input type="text" class="form-control my-1" placeholder="+ Add Title">
+    </div>
+    <div class="row">
+        <p class="text-primary fw-bold fs-4">Postal Address:</p>
+        <input type="text" class="form-control my-1" placeholder="+ Add Postal Address">
+    </div>
+    <div class="row">
+        <p class="text-primary fw-bold fs-4">Physical Address:</p>
+        <input type="text" class="form-control my-1" placeholder="+ Add Street">
+        <input type="text" class="form-control my-1" placeholder="+ Add District">
+        <input type="text" class="form-control my-1" placeholder="+ Add City">
+        <input type="text" class="form-control my-1" placeholder="+ Add Country">
+    </div>
+    
+    <div class="row">
+        <div class="col-2"><span class="text-primary fw-bold">Tel: </span></div>
+        <div class="col-6"><input type="text" class="form-control my-1" placeholder="+ Add Number"></div>
+    </div>
+    <div class="row">
+        <div class="col-2"><span class="text-primary fw-bold">Fax: </span></div>
+        <div class="col-6"><input type="text" class="form-control my-1" placeholder="+ Add Number"></div>
+    </div>
+    <div class="row">
+        <div class="col-2"><span class="text-primary fw-bold">E-mail: </span></div>
+        <div class="col-6"><input type="text" class="form-control my-1" placeholder="+ Add Email Address"></div>
+    </div>
+    <div class="row">
+        <div class="col-2"><span class="text-primary fw-bold">Web: </span></div>
+        <div class="col-6"><input type="text" class="form-control my-1" placeholder="+ Add Web Address"></div>
+    </div>
+</div>
+<script src="{{url_for('static', file='imageupload.js')}}"></script>
+{% endblock %}

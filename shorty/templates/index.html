@@ -1,0 +1,106 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Latest -->
+        <div class="col-2">
+            <hr>
+            <h3>LATEST NEWS</h3>
+            <hr>
+            <div>
+                <p>Business</p>
+                <p class="fw-bold">Japan’s Factory PMI Expands as virus Outbreak Weighs on Services</p>
+            </div>
+            <hr>
+            <div>
+                <p>Business</p>
+                <p class="fw-bold">Singapore Property Market Frenzy Continues as Prices Rise</p>
+            </div>
+            <hr>
+            <div>
+                <p>Business</p>
+                <p class="fw-bold">Ramadan Concerns Climb; New Curbs on Indian Fliers: Virus Update</p>
+            </div>
+            
+        </div>
+        <!-- Content -->
+        <div class="col-8">
+            <div class="row my-3">
+                <div class="col-6">
+                    <img src="{{ url_for('static', file='img/sample1.jpg') }}" class="img-thumbnail" alt="">
+                </div>
+                <div class="col-6">
+                    <div>
+                        <p>Prognosis</p>
+                        <p class="fw-bold fs-5">South Africa Set to Use J&J Shots After Resolving Contract Spat</p>
+                    </div>
+                    <hr>
+                    <div>
+                        <p class="fs-6">Ramadan Spike Conccern Climbs; Canada Halts Flights: Virus Update</p>
+                    </div>
+                    <hr>
+                    <div>
+                        <p class="fs-6">Global Virus Resurgence Threatens Vigorous Growth Momentum</p>
+                    </div>
+                    <hr>
+                    <div>
+                        <p class="fs-6">Coronavirus Surge Spills Over into World’s Financial Markets</p>
+                    </div>
+                    <hr>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <div>
+                        <p>Markets</p>
+                        <p class="fw-bold">Asia Stocks Follow U.S. Lower on Tax Proposal: Markets Wrap</p>
+                        <p>Get up to speed with what’s moving global markets today.</p>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div>
+                        <p>Technology</p>
+                        <p class="fw-bold">Engen to Convert Oldest South Africa Refinery to Import Terminal</p>
+                        <p>Refinery has suffered losses for much of the last decade.</p>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div>
+                        <p>Politics</p>
+                        <p class="fw-bold">Another Libyan Oil Firm Cuts Output as Funding Row Worsens</p>
+                        <p>Libya now pumping less than 1 million barrels amid cash crunch.</p>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div>
+                        <p>Markets</p>
+                        <p class="fw-bold">Ex-Deloitte Auditor Faces Disciplinary Action Over Steinhoff</p>
+                        <p>Steinhoff came close to collapse in 2017 in accounting scandal.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Most Read -->
+        <div class="col-2">
+            <hr>
+            <h3>MOST READ</h3>
+            <hr>
+            <div>
+                <p> <span class="fw-bold fs-5">1</span>  Business</p>
+                <p class="fw-bold">Need A Meeting Room? This Bank CEO’s Office Is Open for Bookings</p>
+            </div>
+            <hr>
+            <div>
+                <p> <span class="fw-bold fs-5">2</span>  Work</p>
+                <p class="fw-bold">HSBC Manager Heart Attack Prompts Viral Post About Overwork</p>
+            </div>
+            <hr>
+            <div>
+                <p> <span class="fw-bold fs-5">3</span> Wealth</p>
+                <p class="fw-bold">Romanian Programmer Turns ‘Crazy Idea’ Into $6 Billion Fortune</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

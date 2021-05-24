@@ -1,0 +1,99 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-6"></div>
+        <div class="col-6 justify-content-end">
+            <div class="justify-content-end nav">
+                <a href="{{url_for('companylist')}}" class="px-3 py-3">Botswana Golden 100</a>
+                <a href="{{url_for('news', news_type='countries')}}" class="px-3 py-3">Countries</a>
+            </div>
+        </div>
+        
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <h3 style="color: rgba(54, 100, 228, 0.9);">Botswana</h3>
+        </div>
+        <div class="col-8">
+            <div class="row">
+                <div class="col-6">
+                    <h3 style="color: rgba(54, 100, 228, 0.9);">Southern Africa</h3>
+                </div>
+                <div class="col-6">
+                    <div class="row">
+                        <div style="color: rgba(54, 100, 228, 0.9);" class="col-6">Timezone</div>
+                        <div style="color: rgba(54, 100, 228, 0.9);" class="col-6">GMT +2</div>
+                    </div>
+                    <div class="row">
+                        <div style="color: rgba(54, 100, 228, 0.9);" class="col-6">Dialing Code</div>
+                        <div style="color: rgba(54, 100, 228, 0.9);" class="col-6">+267</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3"><span class="fw-bold">Business Capital: </span></div>
+        <div class="col-9">Gaborone</div>
+    </div>
+    <div class="row">
+        <div class="col-3"><span class="fw-bold">Administrative Capital: </span></div>
+        <div class="col-9">Gaborone</div>
+    </div>
+    <div class="row">
+        <div class="col-3"><span class="fw-bold">Official Language (s): </span></div>
+        <div class="col-9">English, Setswana</div>
+    </div>
+    <div class="row">
+        <div class="col-3"><span class="fw-bold">Total Area: </span></div>
+        <div class="col-9">581,730 km2 (224,610 sq mi)</div>
+    </div>
+    <div class="row">
+        <div class="col-3"><span class="fw-bold">Population: </span></div>
+        <div class="col-9">2.3 million</div>
+    </div>
+    <div class="row">
+        <div class="col-3"><span class="fw-bold">Currency: </span></div>
+        <div class="col-9">Pula</div>
+    </div>
+    <div class="row">
+        <div class="col-3"><span class="fw-bold">GDP: </span></div>
+        <div class="col-9">18.34 billion USD (2019)</div>
+    </div>
+    <div class="row">
+        <div class="col-3"><span class="fw-bold">GDP Per Capita: </span></div>
+        <div class="col-9">7,961.33 USD (2019)</div>
+    </div>
+    <div class="row">
+        <div class="col-3"><span class="fw-bold">Key Industries: </span></div>
+        <div class="col-9">Diamonds, Tourism, Beef, Agriculture, Manufacturing, Construction, and Telecommunications</div>
+    </div>
+    <div class="row">
+        <div class="col-3"><span class="fw-bold">Exports: </span></div>
+        <div class="col-9">$5.934 billion (2017 est.)</div>
+    </div>
+    <div class="row">
+        <div class="col-3"><span class="fw-bold">Main Export Partners: </span></div>
+        <div class="col-9">Belgium 20.3% India 12.6% United Arab Emirates 12.4% South Africa 11.9% Singapore 8.7% Israel 7% Hong Kong 4.1% Namibia 4.1% (2017)</div>
+    </div>
+    <div class="row">
+        <div class="col-3"><span class="fw-bold">Imports: </span></div>
+        <div class="col-9">$5.005 billion (2017 est.)</div>
+    </div>
+    <div class="row">
+        <div class="col-3"><span class="fw-bold">Import Partners: </span></div>
+        <div class="col-9">South Africa, Canada, Namibia, India and United Arab Emirates.</div>
+    </div>
+    <hr class="my-3">
+    <div class="row">
+        <div class="col-12">Economic Brief</div>
+    </div>
+    <div class="row">
+        <p>Botswana ranks as one of the least corrupt and best places to do business in Sub-Saharan Africa. ... In 2017, Diamond exports increased to the highest levels since 2013 at about 22 million carats of output, driving Botswana's economic growth to about 4.5% and increasing foreign exchange reserves to about 45% of GDP.</p>
+        <p>Botswana has a mixed economic system, which includes a variety of private freedom, combined with centralized economic planning and government regulation. Botswana is a member of the Southern African Development Community (SADC).</p>
+    </div>
+</div>
+
+{% endblock %}

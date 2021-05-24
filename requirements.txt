@@ -1,0 +1,6 @@
+click
+werkzeug
+sqlalchemy
+jinja2
+mysql
+mysql-connector-python

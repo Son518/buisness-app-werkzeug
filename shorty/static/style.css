@@ -1,0 +1,104 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:weight@100;200;300;400;500;600;700;800&display=swap");
+
+body {
+    background-color: rgb(255, 255, 255);
+    font-family: "Poppins", sans-serif;
+    font-weight: 300
+}
+/* 
+.height {
+    height: 100vh
+} */
+
+.search {
+    position: relative;
+    /* box-shadow: 0 0 40px rgba(51, 51, 51, .1) */
+}
+
+.search input {
+    height: 60px;
+    text-indent: 25px;
+    border: 2px solid #d6d4d4;
+    background-color: #cdefcd;
+}
+
+.search input:focus {
+    box-shadow: none;
+    border: 2px solid blue
+}
+
+.search .fa-search {
+    color: white;
+}
+
+.search button {
+    position: absolute;
+    top: 1px;
+    right: 0px;
+    height: 59px;
+    width: 60px;
+    background: #0073bb
+}
+
+#navbarResponsive ul li a {
+    color: black;
+    font-size: medium;
+}
+
+#navbarResponsive ul li a:hover {
+    color: orange;
+    font-weight: bold;
+}
+
+.separater_menu {
+    font-weight: bold;
+    font-size: medium;
+    color: orange;
+    padding-right: 20px;
+}
+
+.main-menubar .nav .nav-item {
+    border: 1px solid #eee;
+    background-color: #eee;
+    font-size: 20px;
+    font-family:'Calibri';
+    font-weight: bold;
+}
+
+.main-menubar .nav .nav-item:hover, .main-menubar .nav .nav-item.active {
+    background-color: gold;
+}
+
+.main-menubar .nav .covid-item:hover, .main-menubar .nav .covid-item.active {
+    background-color: orange !important;
+}
+
+.main-menubar .nav .nav-item a {
+    color:rgb(144, 150, 149) !important;
+}
+
+.covid-item {
+    background-color: red !important;
+}
+
+.covid-item a {
+    color: #fff !important;
+}
+
+.country-name {
+    background-color: #c6dcea
+}
+
+hr {
+    margin-top: 1px;
+    margin-bottom: 1px;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* footer */
+
+.footer a {
+    text-decoration: none;
+    font-size: smaller !important;
+}
