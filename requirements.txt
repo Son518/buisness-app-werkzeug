@@ -1,6 +1,7 @@
 click
-werkzeug
+werkzeug==0.16
 sqlalchemy
 jinja2
 mysql
 mysql-connector-python
+secure-cookie
