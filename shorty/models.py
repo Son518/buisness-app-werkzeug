@@ -1,35 +1,14 @@
 from datetime import datetime
 
-from sqlalchemy import Boolean, Column, DateTime, Date, String, Table, Integer, Text
-from sqlalchemy.orm import mapper
+from sqlalchemy import Boolean, Column, DateTime, Date, String, Integer, Text
+# from sqlalchemy.orm import mapper, relationship
 
 from .utils import get_random_uid
-from .utils import metadata
+from .utils import Base
 from .utils import session
 from .utils import url_for
 
-url_table = Table(
-    "urls",
-    metadata,
-    Column("uid", String(140), primary_key=True),
-    Column("target", String(500)),
-    Column("added", DateTime),
-    Column("public", Boolean),
-)
-users_table = Table(
-    "users",
-    metadata,
-    Column("user_id", Integer, primary_key=True),
-    Column("username", String(500)),
-    Column("first_name", String(500)),
-    Column("last_name", String(500)),
-    Column("email", String(500)),
-    Column("password", String(500)),
-    Column("birthday", Date),
-    Column("phone", String(100)),
-    Column("usertype", Integer),
-    Column("public", Boolean),
-)
+""" 
 country_table = Table(
     "countries",
     metadata,
@@ -60,10 +39,15 @@ company_table = Table(
     Column("company_name", String(100)),
 
 )
+ """
 
+class URL(Base):
+    __tablename__ = "urls"
 
-class URL:
-    query = session.query_property()
+    uid = Column(String(140), primary_key=True)
+    target = Column(String(500))
+    added = Column(DateTime)
+    public = Column(Boolean)
 
     def __init__(self, target, public=True, uid=None, added=None):
         self.target = target
@@ -85,13 +69,21 @@ class URL:
         return f"<URL {self.uid!r}>"
 
 
+class User(Base):
+    __tablename__ = 'users'
 
-class User:
-    query = session.query_property()
-    email = Column(String)
+    id = Column(Integer, primary_key=True)
+    username = Column(String(30))
+    first_name = Column(String(30))
+    last_name = Column(String(30))
+    password = Column(String(30))
+    birthday = Column(Date)
+    phone = Column(String(30))
+    usertype = Column(Integer)
+    public = Column(Boolean)
     
     def __init__(self, ):
         pass
+    def __repr__(self):
+        return f"User(id={self.id!r}, username={self.username!r}, first_name={self.first_name!r}, last_name={self.last_name!r})"
 
-mapper(URL, url_table)
-mapper(User, users_table)

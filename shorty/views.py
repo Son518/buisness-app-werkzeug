@@ -1,3 +1,4 @@
+import re
 from werkzeug.exceptions import NotFound
 from werkzeug.utils import redirect
 from werkzeug import Response
@@ -58,6 +59,8 @@ def onsignin(request):
         password = request.form.get("password")
         print("Email: ", email, " Password: ", password)
         result = session.query(User).filter(User.email == email)
+        if not result:
+            return redirect(url_for("/signin"))
         for row in result:
             if row.password == password:
                 print(row.username, row.password)

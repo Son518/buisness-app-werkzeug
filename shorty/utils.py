@@ -5,7 +5,7 @@ from random import sample
 from jinja2 import Environment
 from jinja2 import FileSystemLoader
 from sqlalchemy import MetaData
-from sqlalchemy.orm import create_session
+from sqlalchemy.orm import create_session, declarative_base
 from sqlalchemy.orm import scoped_session
 from werkzeug.local import Local
 from werkzeug.local import LocalManager
@@ -26,8 +26,10 @@ local = Local()
 local_manager = LocalManager([local])
 application = local("application")
 
-metadata = MetaData()
 url_map = routes
+
+Base = declarative_base()
+metadata = Base.metadata
 
 session = scoped_session(
     lambda: create_session(
