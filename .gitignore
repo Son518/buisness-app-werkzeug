@@ -47,6 +47,9 @@ typings/
 # TypeScript cache
 *.tsbuildinfo
 
+#python virtucal env
+env/
+
 # Optional npm cache directory
 .npm
 
