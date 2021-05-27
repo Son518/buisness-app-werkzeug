@@ -49,6 +49,7 @@ typings/
 
 #python virtucal env
 env/
+*.pyc
 
 # Optional npm cache directory
 .npm
