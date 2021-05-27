@@ -1,5 +1,4 @@
-# business-app-werkzeug
-
+# BlueBiz
 1. Please install the virtual env.
 2. Please install mysql.
 3. Please run pip install -r requirements.txt
