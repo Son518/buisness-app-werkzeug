@@ -7,7 +7,7 @@ from .models import URL, User
 from .utils import expose, Pagination, render_template, session, url_for, validate_url
 
 from secure_cookie.session import FilesystemSessionStore
-from werkzeug.wrappers import Request, Response
+# from werkzeug.wrappers import Request, Response
 
 session_store = FilesystemSessionStore()
 
@@ -37,11 +37,9 @@ def test1(request):
 
 @expose("/test2")
 def test2(request):
-    sid = request.cookies.get("session_id1")
+    sid = request.cookies.get("wsessid")
     the_session = session_store.get(sid)
-
     response = Response('User is ' + the_session['user'])
-
     return response
 
 @expose("/")
@@ -64,7 +62,15 @@ def onsignin(request):
         for row in result:
             if row.password == password:
                 print(row.username, row.password)
-                return redirect(url_for("/"))
+
+                response = redirect(url_for("/"))
+
+                new_session = session_store.new()
+                new_session['user'] = 'Cathy'
+                session_store.save(new_session)
+                response..set_cookie("wsess", new_session.sid)
+
+                return response
 
     # contents = json.dumps({'say': 'hello'})
     # return Response(contents, content_type="application/json")
