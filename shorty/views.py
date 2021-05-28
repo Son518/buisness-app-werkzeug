@@ -1,15 +1,9 @@
-import re
+from sqlalchemy import true
 from werkzeug.exceptions import NotFound
 from werkzeug.utils import redirect
-from werkzeug import Response
-import json
 from .models import URL, User
-from .utils import expose, Pagination, render_template, session, url_for, validate_url
-
-from secure_cookie.session import FilesystemSessionStore
-from werkzeug.wrappers import Request, Response
-
-session_store = FilesystemSessionStore()
+from .utils import expose, Pagination, render_template, session, url_for, validate_url, session_store, new_session, auth_check
+from werkzeug.wrappers import Response
 
 @expose("/test1")
 def test1(request):
@@ -37,7 +31,7 @@ def test1(request):
 
 @expose("/test2")
 def test2(request):
-    sid = request.cookies.get("session_id1")
+    sid = request.cookies.get("session_id")
     the_session = session_store.get(sid)
 
     response = Response('User is ' + the_session['user'])
@@ -46,7 +40,8 @@ def test2(request):
 
 @expose("/")
 def index(request):
-    return render_template("index.html")
+    auth = auth_check(request)
+    return render_template("index.html", auth=auth)
 
 @expose("/signin")
 def signin(request):
@@ -57,21 +52,29 @@ def onsignin(request):
     if request.method == 'POST':
         email = request.form.get("email")
         password = request.form.get("password")
-        print("Email: ", email, " Password: ", password)
         result = session.query(User).filter(User.email == email)
-        if not result:
-            return redirect(url_for("/signin"))
-        for row in result:
-            if row.password == password:
-                print(row.username, row.password)
-                return redirect(url_for("/"))
+        if result.scalar() is None:
+            return redirect(url_for("signin"))
+        else:
+            for row in result:
+                print("result: ", row, row.password, password)
+                if row.password == password:
+                    new_session['auth'] = row
+                    new_session['issignin'] = True
+                    session_store.save(new_session)
+                    print(row.username, row.password)
+                    
+                    return redirect(url_for("/"))
+                else:
+                    print("wrong password")
+                    return redirect(url_for('signin'))
 
     # contents = json.dumps({'say': 'hello'})
     # return Response(contents, content_type="application/json")
 
 @expose("/news/<news_type>")
 def news(request, news_type):
-    print("NEWS TYPE: ", news_type)
+    res = auth_check(request)
     return render_template("news.html", news_type=news_type)
 
 @expose("/countryprofile/<country>")
