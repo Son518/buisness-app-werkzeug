@@ -9,36 +9,53 @@ from secure_cookie.session import FilesystemSessionStore
 
 session_store = FilesystemSessionStore()
 
-@expose("/test1")
-def test1(request):
-
-    # sid = request.cookies.get('cookie_name')
-    #
-    # if sid is None:
-    #     request.session = session_store.new()
-    # else:
-    #     request.session = session_store.get(sid)
-
-    new_session = session_store.new()
-
-    new_session['user'] = 'Joe'
-
-    session_store.save(new_session)
-
-    # response = Response(do_stuff(request))
-    response = Response('Hello World!')
-
-    # if request.session.should_save:
-    response.set_cookie("session_id", new_session.sid)
-
+@expose("/test/login")
+def test_login(request):
+    response = render_template('test/login.html')
     return response
 
+@expose("/test/doLogin")
+def test_do_login(request):
+    if request.method != "POST":
+        return Response('Not allowed')
+
+    # If invalid user
+    username = request.form.get("username")
+    if username != 'Joe':
+        return render_template('test/login.html', error='Invalid user')
+
+    new_session = session_store.new()
+    new_session['user'] = username
+    session_store.save(new_session)
+
+    response = redirect(url_for("test_index"))
+    response.set_cookie("wsessid", new_session.sid)
+    return response
+
+<<<<<<< HEAD
 @expose("/test2")
 def test2(request):
     # sid = request.cookies.get("session_id")
+=======
+@expose("/test/index")
+def test_index(request):
+>>>>>>> 4f73591217aede34c310695228288134fc31c40a
     sid = request.cookies.get("wsessid")
+    if not sid:
+        return redirect(url_for("test_login"))
+
     the_session = session_store.get(sid)
-    response = Response('User is ' + the_session['user'])
+    user = the_session['user']
+    print(user)
+    if not user or user != 'Joe':
+        return redirect(url_for("test_login"))
+
+    return render_template('test/index.html')
+
+@expose("/test/logout")
+def test_logout(request):
+    response = redirect(url_for("test_login"))
+    response.set_cookie("wsessid")
     return response
 
 @expose("/")

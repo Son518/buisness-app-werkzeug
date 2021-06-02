@@ -67,14 +67,9 @@ jinja_env.globals["url_for"] = url_for
 
 
 def render_template(template, **context):
-    print(context)
-
     response = Response(
         jinja_env.get_template(template).render(**context), mimetype="text/html"
     )
-
-    response.set_cookie("wsessid", context['sid'])
-
     return response
 
 
