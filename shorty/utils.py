@@ -51,9 +51,7 @@ def expose(rule, **kw):
     return decorate
 
 def auth_check(req):
-    sid = req.cookies.get('session_id')
-    print("Cookie: ", req.cookies)
-    print("Session: ", new_session)
+    sid = req.cookies.get('werkzeug_id')
     if sid is None:
         return False
     else:
@@ -69,12 +67,9 @@ jinja_env.globals["url_for"] = url_for
 
 
 def render_template(template, **context):
-    response = Response(
+    return Response(
         jinja_env.get_template(template).render(**context), mimetype="text/html"
     )
-    print("NEW SESSION ID: ", new_session.sid)
-    # response.set_cookie("session_id", new_session.sid)
-    return response
 
 
 def validate_url(url):

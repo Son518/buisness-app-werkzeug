@@ -23,8 +23,15 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse justify-content-end" id="navbarResponsive"> 
-        {% if is_signin %}
-          <p>Profile!</p>
+        {% if auth.issignin %}
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="{{url_for('profile')}}"><span class="separater_menu">|</span>My Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('signout')}}"><span class="separater_menu">|</span>Sign Out</a>
+            </li>
+          </ul>
         {% else %}    
           <ul class="navbar-nav">
             <li class="nav-item active">

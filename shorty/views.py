@@ -52,25 +52,36 @@ def onsignin(request):
     if request.method == 'POST':
         email = request.form.get("email")
         password = request.form.get("password")
-        result = session.query(User).filter(User.email == email)
-        if result.scalar() is None:
+        result = session.query(User).filter(User.email == email).first()
+        if result is None:
             return redirect(url_for("signin"))
         else:
-            for row in result:
-                print("result: ", row, row.password, password)
-                if row.password == password:
-                    new_session['auth'] = row
-                    new_session['issignin'] = True
-                    session_store.save(new_session)
-                    print(row.username, row.password)
-                    
-                    return redirect(url_for("/"))
-                else:
-                    print("wrong password")
-                    return redirect(url_for('signin'))
+            if result.password == password:
+                new_session['auth'] = result
+                new_session['issignin'] = True
+                session_store.save(new_session)
+                response = redirect(url_for("/"))
+                response.set_cookie("werkzeug_id", new_session.sid)
+                return response
+            else:
+                print("wrong password")
+                return redirect(url_for('signin'))
 
     # contents = json.dumps({'say': 'hello'})
     # return Response(contents, content_type="application/json")
+
+@expose("/signout")
+def signout(request):
+    auth = auth_check(request)
+    session_store.delete(auth)
+    return redirect(url_for("/"))
+
+@expose("/profile")
+def profile(request):
+    the_session = auth_check(request)
+    if not the_session:
+        return redirect(url_for("/"))
+    return render_template("profile.html", userdata=the_session['auth'])
 
 @expose("/news/<news_type>")
 def news(request, news_type):
