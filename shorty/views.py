@@ -2,8 +2,12 @@ from sqlalchemy import true
 from werkzeug.exceptions import NotFound
 from werkzeug.utils import redirect
 from .models import URL, User
-from .utils import expose, Pagination, render_template, session, url_for, validate_url, session_store, new_session, auth_check
-from werkzeug.wrappers import Response
+from .utils import expose, Pagination, render_template, session, url_for, validate_url
+
+from secure_cookie.session import FilesystemSessionStore
+# from werkzeug.wrappers import Request, Response
+
+session_store = FilesystemSessionStore()
 
 @expose("/test1")
 def test1(request):
@@ -31,11 +35,10 @@ def test1(request):
 
 @expose("/test2")
 def test2(request):
-    sid = request.cookies.get("session_id")
+    # sid = request.cookies.get("session_id")
+    sid = request.cookies.get("wsessid")
     the_session = session_store.get(sid)
-
     response = Response('User is ' + the_session['user'])
-
     return response
 
 @expose("/")
@@ -52,23 +55,39 @@ def onsignin(request):
     if request.method == 'POST':
         email = request.form.get("email")
         password = request.form.get("password")
-        result = session.query(User).filter(User.email == email).first()
-        if result is None:
-            return redirect(url_for("signin"))
-        else:
-            if result.password == password:
-                new_session['auth'] = result
-                new_session['issignin'] = True
-                session_store.save(new_session)
+        print("Email: ", email, " Password: ", password)
+        result = session.query(User).filter(User.email == email)
+        if not result:
+            return redirect(url_for("/signin"))
+        for row in result:
+            if row.password == password:
+                print(row.username, row.password)
+
                 response = redirect(url_for("/"))
-                response.set_cookie("werkzeug_id", new_session.sid)
+
+                new_session = session_store.new()
+                new_session['user'] = 'Cathy'
+                session_store.save(new_session)
+                response.set_cookie("wsess", new_session.sid)
+
                 return response
-            else:
-                print("wrong password")
-                return redirect(url_for('signin'))
 
     # contents = json.dumps({'say': 'hello'})
     # return Response(contents, content_type="application/json")
+    # result = session.query(User).filter(User.email == email).first()
+    #     if result is None:
+    #         return redirect(url_for("signin"))
+    #     else:
+    #         if result.password == password:
+    #             new_session['auth'] = result
+    #             new_session['issignin'] = True
+    #             session_store.save(new_session)
+    #             response = redirect(url_for("/"))
+    #             response.set_cookie("werkzeug_id", new_session.sid)
+    #             return response
+    #         else:
+    #             print("wrong password")
+    #             return redirect(url_for('signin'))
 
 @expose("/signout")
 def signout(request):
