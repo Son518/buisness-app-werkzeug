@@ -32,14 +32,8 @@ def test_do_login(request):
     response.set_cookie("wsessid", new_session.sid)
     return response
 
-<<<<<<< HEAD
-@expose("/test2")
-def test2(request):
-    # sid = request.cookies.get("session_id")
-=======
 @expose("/test/index")
 def test_index(request):
->>>>>>> 4f73591217aede34c310695228288134fc31c40a
     sid = request.cookies.get("wsessid")
     if not sid:
         return redirect(url_for("test_login"))
