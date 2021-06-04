@@ -70,9 +70,13 @@ def signup(request):
         password = request.form.get("password")
         confirm_password = request.form.get("confirm_password")
         if password == confirm_password:
-            session.query(User).filter(User.email == email)
-            
-        print("SIGN UP: ", email, password, confirm_password)
+            newUser = User()
+            newUser.email = email
+            newUser.password = password
+            session.add(newUser)
+            session.flush()
+            result = session.query(User).filter(User.email == email)
+            print("SIGN UP: ", result.count())
         if email is True:
             return 'ddd'
         return redirect(url_for('/'))
