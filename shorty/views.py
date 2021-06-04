@@ -3,7 +3,7 @@ from sqlalchemy import true
 from werkzeug.exceptions import NotFound
 from werkzeug.utils import redirect
 from .models import URL, User
-from .utils import expose, Pagination, render_template, session, url_for, validate_url, auth_check, session_store
+from .utils import expose, Pagination, render_template, session, url_for, validate_url
 
 from secure_cookie.session import FilesystemSessionStore
 
