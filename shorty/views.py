@@ -1,61 +1,34 @@
+import json
 from sqlalchemy import true
 from werkzeug.exceptions import NotFound
 from werkzeug.utils import redirect
 from .models import URL, User
 from .utils import expose, Pagination, render_template, session, url_for, validate_url
-
 from secure_cookie.session import FilesystemSessionStore
-# from werkzeug.wrappers import Request, Response
 
 session_store = FilesystemSessionStore()
 
-@expose("/test/login")
-def test_login(request):
-    response = render_template('test/login.html')
-    return response
-
-@expose("/test/doLogin")
-def test_do_login(request):
-    if request.method != "POST":
-        return Response('Not allowed')
-
-    # If invalid user
-    username = request.form.get("username")
-    if username != 'Joe':
-        return render_template('test/login.html', error='Invalid user')
-
-    new_session = session_store.new()
-    new_session['user'] = username
-    session_store.save(new_session)
-
-    response = redirect(url_for("test_index"))
-    response.set_cookie("wsessid", new_session.sid)
-    return response
-
-@expose("/test/index")
-def test_index(request):
+def user_session(request):
     sid = request.cookies.get("wsessid")
     if not sid:
-        return redirect(url_for("test_login"))
+        return False
 
     the_session = session_store.get(sid)
-    user = the_session['user']
-    print(user)
-    if not user or user != 'Joe':
-        return redirect(url_for("test_login"))
 
-    return render_template('test/index.html')
+    userdata = the_session['user']
+    if not userdata:
+        return False
 
-@expose("/test/logout")
-def test_logout(request):
-    response = redirect(url_for("test_login"))
-    response.set_cookie("wsessid")
-    return response
+    return userdata
 
 @expose("/")
 def index(request):
-    auth = auth_check(request)
-    return render_template("index.html", auth=auth)
+    usersession = user_session(request)
+    if not usersession:
+        return render_template("index.html")
+    else:
+        print("USER SESSION: ", usersession)
+        return render_template("index.html", usersession=usersession)
 
 @expose("/signin")
 def signin(request):
@@ -66,56 +39,60 @@ def onsignin(request):
     if request.method == 'POST':
         email = request.form.get("email")
         password = request.form.get("password")
-        print("Email: ", email, " Password: ", password)
         result = session.query(User).filter(User.email == email)
-        if not result:
-            return redirect(url_for("/signin"))
+        print("dddds", result.count())
+        if result.count() == 0:
+            return redirect(url_for('/'))
         for row in result:
             if row.password == password:
-                print(row.username, row.password)
+                print("User Info: ", row.username, row.password)
+
+                session_data = {
+                    "usertype": row.usertype,
+                    "username": row.username,
+                    "id"      : row.id
+                }
+                new_session = session_store.new()
+                new_session['user'] = json.dumps(session_data)
+                session_store.save(new_session)
 
                 response = redirect(url_for("/"))
-
-                new_session = session_store.new()
-                new_session['user'] = 'Cathy'
-                session_store.save(new_session)
-                response.set_cookie("wsess", new_session.sid)
-
+                response.set_cookie("wsessid", new_session.sid)
                 return response
+            else:
+                print("wrong password")
+                return redirect(url_for('signin'))
 
-    # contents = json.dumps({'say': 'hello'})
-    # return Response(contents, content_type="application/json")
-    # result = session.query(User).filter(User.email == email).first()
-    #     if result is None:
-    #         return redirect(url_for("signin"))
-    #     else:
-    #         if result.password == password:
-    #             new_session['auth'] = result
-    #             new_session['issignin'] = True
-    #             session_store.save(new_session)
-    #             response = redirect(url_for("/"))
-    #             response.set_cookie("werkzeug_id", new_session.sid)
-    #             return response
-    #         else:
-    #             print("wrong password")
-    #             return redirect(url_for('signin'))
+@expose("/signup")
+def signup(request):
+    if request.method == 'POST':
+        email = request.form.get("email")
+        password = request.form.get("password")
+        confirm_password = request.form.get("confirm_password")
+        if password == confirm_password:
+            session.query(User).filter(User.email == email)
+            
+        print("SIGN UP: ", email, password, confirm_password)
+        if email is True:
+            return 'ddd'
+        return redirect(url_for('/'))
 
 @expose("/signout")
 def signout(request):
-    auth = auth_check(request)
-    session_store.delete(auth)
-    return redirect(url_for("/"))
+    response = redirect(url_for("/"))
+    response.set_cookie("wsessid")
+    return response
 
 @expose("/profile")
 def profile(request):
-    the_session = auth_check(request)
-    if not the_session:
-        return redirect(url_for("/"))
-    return render_template("profile.html", userdata=the_session['auth'])
+    usersession = user_session(request)
+    print("usersession on profile: ", usersession)
+    if not usersession:
+        return redirect(url_for('/'))
+    return render_template("profile.html", usersession=usersession)
 
 @expose("/news/<news_type>")
 def news(request, news_type):
-    res = auth_check(request)
     return render_template("news.html", news_type=news_type)
 
 @expose("/countryprofile/<country>")

@@ -1,21 +1,15 @@
 from os import path
-from random import randrange
-from random import sample
+from random import randrange, sample
 from urllib import response
-
-from jinja2 import Environment
-from jinja2 import FileSystemLoader
+from jinja2 import Environment, FileSystemLoader
 from sqlalchemy import MetaData
-from sqlalchemy.orm import create_session, declarative_base
-from sqlalchemy.orm import scoped_session
-from werkzeug.local import Local
-from werkzeug.local import LocalManager
-from werkzeug.routing import Map
-from werkzeug.routing import Rule
+from sqlalchemy.orm import create_session, declarative_base, scoped_session
+from werkzeug.local import Local, LocalManager
+from werkzeug.routing import Map, Rule
 from werkzeug.urls import url_parse
 from werkzeug.utils import cached_property
-from werkzeug.wrappers import Response
-from secure_cookie.session import FilesystemSessionStore
+from werkzeug.wrappers import ResponseStream, Response
+
 from .routes import routes
 
 
@@ -27,8 +21,6 @@ URL_CHARS = "abcdefghijkmpqrstuvwxyzABCDEFGHIJKLMNPQRST23456789"
 local = Local()
 local_manager = LocalManager([local])
 application = local("application")
-session_store = FilesystemSessionStore()
-new_session = session_store.new()
 url_map = routes
 
 Base = declarative_base()
@@ -50,21 +42,11 @@ def expose(rule, **kw):
 
     return decorate
 
-def auth_check(req):
-    sid = req.cookies.get('werkzeug_id')
-    if sid is None:
-        return False
-    else:
-        the_session = session_store.get(sid)
-        return the_session
-
 def url_for(endpoint, _external=False, **values):
     return local.url_adapter.build(endpoint, values, force_external=_external)
 
 
 jinja_env.globals["url_for"] = url_for
-# jinja_env.globals["auth_check"] = auth_check
-
 
 def render_template(template, **context):
     response = Response(
