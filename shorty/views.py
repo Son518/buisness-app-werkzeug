@@ -2,7 +2,7 @@ from sqlalchemy import true
 from werkzeug.exceptions import NotFound
 from werkzeug.utils import redirect
 from .models import URL, User
-from .utils import expose, Pagination, render_template, session, url_for, validate_url
+from .utils import expose, Pagination, render_template, session, url_for, validate_url, auth_check, session_store
 
 from secure_cookie.session import FilesystemSessionStore
 # from werkzeug.wrappers import Request, Response
@@ -40,7 +40,6 @@ def test_index(request):
 
     the_session = session_store.get(sid)
     user = the_session['user']
-    print(user)
     if not user or user != 'Joe':
         return redirect(url_for("test_login"))
 
@@ -72,16 +71,26 @@ def onsignin(request):
             return redirect(url_for("/signin"))
         for row in result:
             if row.password == password:
-                print(row.username, row.password)
-
-                response = redirect(url_for("/"))
-
                 new_session = session_store.new()
-                new_session['user'] = 'Cathy'
+                new_session['auth'] = result
+                new_session['issignin'] = True
                 session_store.save(new_session)
-                response.set_cookie("wsess", new_session.sid)
-
+                response = redirect(url_for("/"))
+                response.set_cookie("werkzeug_id", new_session.sid)
                 return response
+            else:
+                print("wrong password")
+                return redirect(url_for('signin'))
+                # print(row.username, row.password)
+                #
+                # response = redirect(url_for("/"))
+                #
+                # new_session = session_store.new()
+                # new_session['user'] = 'Cathy'
+                # session_store.save(new_session)
+                # response.set_cookie("wsess", new_session.sid)
+                #
+                # return response
 
     # contents = json.dumps({'say': 'hello'})
     # return Response(contents, content_type="application/json")
