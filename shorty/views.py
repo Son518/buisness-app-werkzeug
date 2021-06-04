@@ -74,7 +74,6 @@ def signup(request):
         password = request.form.get("password")
         confirm_password = request.form.get("confirm_password")
         if password == confirm_password:
-<<<<<<< HEAD
             newUser = User()
             newUser.email = email
             newUser.password = password
@@ -82,11 +81,6 @@ def signup(request):
             session.flush()
             result = session.query(User).filter(User.email == email)
             print("SIGN UP: ", result.count())
-=======
-            session.query(User).filter(User.email == email)
-
-        print("SIGN UP: ", email, password, confirm_password)
->>>>>>> 2b9913c145508f958bdde6d24327ba4c8ce924f3
         if email is True:
             return 'ddd'
         return redirect(url_for('/'))
