@@ -1,3 +1,4 @@
+import json
 from sqlalchemy import true
 from werkzeug.exceptions import NotFound
 from werkzeug.utils import redirect
@@ -5,56 +6,33 @@ from .models import URL, User
 from .utils import expose, Pagination, render_template, session, url_for, validate_url, auth_check, session_store
 
 from secure_cookie.session import FilesystemSessionStore
-# from werkzeug.wrappers import Request, Response
 
 session_store = FilesystemSessionStore()
 
-@expose("/test/login")
-def test_login(request):
-    response = render_template('test/login.html')
-    return response
-
-@expose("/test/doLogin")
-def test_do_login(request):
-    if request.method != "POST":
-        return Response('Not allowed')
-
-    # If invalid user
-    username = request.form.get("username")
-    if username != 'Joe':
-        return render_template('test/login.html', error='Invalid user')
-
-    new_session = session_store.new()
-    new_session['user'] = username
-    session_store.save(new_session)
-
-    response = redirect(url_for("test_index"))
-    response.set_cookie("wsessid", new_session.sid)
-    return response
-
-@expose("/test/index")
-def test_index(request):
+def user_session(request):
     sid = request.cookies.get("wsessid")
     if not sid:
-        return redirect(url_for("test_login"))
+        return False
 
     the_session = session_store.get(sid)
     user = the_session['user']
     if not user or user != 'Joe':
         return redirect(url_for("test_login"))
 
-    return render_template('test/index.html')
+    userdata = the_session['user']
+    if not userdata:
+        return False
 
-@expose("/test/logout")
-def test_logout(request):
-    response = redirect(url_for("test_login"))
-    response.set_cookie("wsessid")
-    return response
+    return userdata
 
 @expose("/")
 def index(request):
-    auth = auth_check(request)
-    return render_template("index.html", auth=auth)
+    usersession = user_session(request)
+    if not usersession:
+        return render_template("index.html")
+    else:
+        print("USER SESSION: ", usersession)
+        return render_template("index.html", usersession=usersession)
 
 @expose("/signin")
 def signin(request):
@@ -65,66 +43,60 @@ def onsignin(request):
     if request.method == 'POST':
         email = request.form.get("email")
         password = request.form.get("password")
-        print("Email: ", email, " Password: ", password)
         result = session.query(User).filter(User.email == email)
-        if not result:
-            return redirect(url_for("/signin"))
+        print("dddds", result.count())
+        if result.count() == 0:
+            return redirect(url_for('/'))
         for row in result:
             if row.password == password:
+                print("User Info: ", row.username, row.password)
+
+                session_data = {
+                    "usertype": row.usertype,
+                    "username": row.username,
+                    "id"      : row.id
+                }
                 new_session = session_store.new()
-                new_session['auth'] = result
-                new_session['issignin'] = True
+                new_session['user'] = json.dumps(session_data)
                 session_store.save(new_session)
+
                 response = redirect(url_for("/"))
-                response.set_cookie("werkzeug_id", new_session.sid)
+                response.set_cookie("wsessid", new_session.sid)
                 return response
             else:
                 print("wrong password")
                 return redirect(url_for('signin'))
-                # print(row.username, row.password)
-                #
-                # response = redirect(url_for("/"))
-                #
-                # new_session = session_store.new()
-                # new_session['user'] = 'Cathy'
-                # session_store.save(new_session)
-                # response.set_cookie("wsess", new_session.sid)
-                #
-                # return response
 
-    # contents = json.dumps({'say': 'hello'})
-    # return Response(contents, content_type="application/json")
-    # result = session.query(User).filter(User.email == email).first()
-    #     if result is None:
-    #         return redirect(url_for("signin"))
-    #     else:
-    #         if result.password == password:
-    #             new_session['auth'] = result
-    #             new_session['issignin'] = True
-    #             session_store.save(new_session)
-    #             response = redirect(url_for("/"))
-    #             response.set_cookie("werkzeug_id", new_session.sid)
-    #             return response
-    #         else:
-    #             print("wrong password")
-    #             return redirect(url_for('signin'))
+@expose("/signup")
+def signup(request):
+    if request.method == 'POST':
+        email = request.form.get("email")
+        password = request.form.get("password")
+        confirm_password = request.form.get("confirm_password")
+        if password == confirm_password:
+            session.query(User).filter(User.email == email)
+
+        print("SIGN UP: ", email, password, confirm_password)
+        if email is True:
+            return 'ddd'
+        return redirect(url_for('/'))
 
 @expose("/signout")
 def signout(request):
-    auth = auth_check(request)
-    session_store.delete(auth)
-    return redirect(url_for("/"))
+    response = redirect(url_for("/"))
+    response.set_cookie("wsessid")
+    return response
 
 @expose("/profile")
 def profile(request):
-    the_session = auth_check(request)
-    if not the_session:
-        return redirect(url_for("/"))
-    return render_template("profile.html", userdata=the_session['auth'])
+    usersession = user_session(request)
+    print("usersession on profile: ", usersession)
+    if not usersession:
+        return redirect(url_for('/'))
+    return render_template("profile.html", usersession=usersession)
 
 @expose("/news/<news_type>")
 def news(request, news_type):
-    res = auth_check(request)
     return render_template("news.html", news_type=news_type)
 
 @expose("/countryprofile/<country>")
@@ -202,8 +174,3 @@ def list(request, page):
 
 def not_found(request):
     return render_template("not_found.html")
-
-"""
-https://upwork-usw2-prod-file-storage-wp1.s3.us-west-2.amazonaws.com/workplace/attachment/7aad6c5aa01b188ca465b5c2498f7815?response-content-disposition=inline%3B%20filename%3D%22Pasted%2520File%2520at%2520May%252013%252C%25202021%25208%253A20%2520AM.png%22%3B%20filename%2A%3Dutf-8%27%27Pasted%2520File%2520at%2520May%252013%252C%25202021%25208%253A20%2520AM.png&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEkaCXVzLXdlc3QtMiJHMEUCIDboTmTauqDjzeisZS74z%2FX0GAcoOIedEXNr1%2BcLQcMEAiEAiIO0KxI%2BMCgntTA%2BJfFWs0ISBaj6dN4TCwTmTL%2FKwl8q1gQI0v%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgw3Mzk5MzkxNzM4MTkiDH2UTZfyeX%2FXjYQxsCqqBLXvjTl0OvnXUD419ipArpiJM4vL%2BJb05DEudgl0QqOWp7FWViS9RwvRe5U%2Bop6%2BQ99qCTV%2F4gdOCiZNOQ2FVU2Gr9BwHa9RiNcVEEOhavAW7%2FCutBqOQYdCtq7fV4MFFhgaFv9ELXl3QGnHqvU7Mae0CMHwKjISl1mvrJ6cEEv6aP1YtShd575XqsZvrHKItApZ6rCh5O%2FSClEgfEyTjxXA3MDL8XZKlvMSUyZymcCakbZk%2B4dTasocArfL3p5xJ0AbLVCcG36qLI6laLwsdPpFmcomNsdCxlDTYp4ArprDEK%2Bo7m0G56ZO8iVVEzgg0JDAv%2BS57ZZWC92J5rLUjE57sERYu3Ytia3oAB8%2BZ3vZRtVtjxVTNBH9Q3XzastekjdTAV7%2BAjxq4zKWcZOofrijxnmxbBjYmoDT%2Bt5dwQ0irBaAOa6l7qbUBTijgoGE9B5yxxwNX69uQv%2BjYA6LdFbUajua6J%2FRiaEXhMaSo%2BQ%2FAJT79CjOJqN4CFF0JPxvtyRlMVdjCwWCypwS0nYHGlCY9%2BUI5gbfDeNbsfHgCLyxq9GRUNcOXZ6gWElX5GtJdw%2Fe8zEsZSj%2FKFMbRSs79svUz5tKRZwafZHNEWT5jCJoL0Jg%2BCc6J2W4byuMr5HS6bd6VW5aTYDZCX67vOv0H59qziMZuwsWiKLJhy0LYPaP1OYg6yq5eZyMPXijrRSJPizYoVSR%2FJWrCZWDD9IMpW2PasHgRNsvyzo6MIPN84QGOqcBiON2A%2BeCAHUd4rL1f%2Fw8ugTXBx%2FHosFx3mh9YXXjPbQn7K7zMPLom6JkUXSf8hhiHWELJ9ZHkzb2Htc14ZWIx9Lg%2FjMk%2B2CxR08iA%2FpE8mhGkFTWJYnpX%2FOc7%2Fh%2FXd2bpUjxTOxYnQyOQCQwdPVf9Npt0NXK5hb47nifmY3vL0shc%2Fh3Fipxy2gVIx8DFfg%2FjV0Ca8oJPBJAkckhKGQj2yYUh729eBs%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20210513T105644Z&X-Amz-SignedHeaders=host&X-Amz-Expires=599&X-Amz-Credential=ASIA2YR6PYW5YJTNLDHR%2F20210513%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Signature=7eda7af046888be4d0e46e204b0ff60edbace4d805753607b84b90f9a86685dc
-
-(I don't need the purple arrow, just the text) """
