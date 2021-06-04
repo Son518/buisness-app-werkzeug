@@ -15,9 +15,6 @@ def user_session(request):
         return False
 
     the_session = session_store.get(sid)
-    user = the_session['user']
-    if not user or user != 'Joe':
-        return redirect(url_for("test_login"))
 
     userdata = the_session['user']
     if not userdata:
