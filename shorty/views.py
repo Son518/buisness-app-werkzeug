@@ -15,15 +15,20 @@ def user_session(request):
         return False
 
     the_session = session_store.get(sid)
-    user = the_session['user']
-    if not user or user != 'Joe':
-        return redirect(url_for("test_login"))
 
     userdata = the_session['user']
     if not userdata:
         return False
 
     return userdata
+
+@expose("/test")
+def test(request):
+    our_user = session.query(User).filter_by(username='wang').first()
+    our_user.last_name = 'naixu'
+    session.commit()
+
+    return render_template("test/login.html")
 
 @expose("/")
 def index(request):
@@ -36,10 +41,9 @@ def index(request):
 
 @expose("/signin")
 def signin(request):
-    return render_template("signin.html")
+    if request.method == 'GET':
+        return render_template("signin.html")
 
-@expose("/onsignin")
-def onsignin(request):
     if request.method == 'POST':
         email = request.form.get("email")
         password = request.form.get("password")
