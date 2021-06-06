@@ -22,6 +22,14 @@ def user_session(request):
 
     return userdata
 
+@expose("/test")
+def test(request):
+    our_user = session.query(User).filter_by(username='wang').first()
+    our_user.last_name = 'naixu'
+    session.commit()
+
+    return render_template("test/login.html")
+
 @expose("/")
 def index(request):
     usersession = user_session(request)
@@ -33,7 +41,13 @@ def index(request):
 
 @expose("/signin")
 def signin(request):
+<<<<<<< HEAD
     login_err_msg=""
+=======
+    if request.method == 'GET':
+        return render_template("signin.html")
+
+>>>>>>> 7b665e4ff0d1937dd07ea4324580aed6374cbb96
     if request.method == 'POST':
         email = request.form.get("email")
         password = request.form.get("password")
