@@ -1,0 +1,136 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="container">
+    <form action="" method="POST" class="">
+        <div class="row">
+            <div class="mx-auto justify-content-center">
+                <button class="btn btn-primary">Edit Country</button>
+                <button class="btn btn-danger">Delete Country</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6"></div>
+            <div class="col-6 justify-content-end">
+                <div class="justify-content-end nav">
+                    <a href="{{url_for('companylist')}}" class="px-3 py-3">Botswana Golden 100</a>
+                    <a href="{{url_for('news', news_type='countries')}}" class="px-3 py-3">Countries</a>
+                </div>
+            </div>
+            
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <h3 style="color: rgba(54, 100, 228, 0.9);">Botswana</h3>
+            </div>
+            <div class="col-8">
+                <div class="row">
+                    <div class="col-6">
+                        <h3 style="color: rgba(54, 100, 228, 0.9);">Southern Africa</h3>
+                    </div>
+                    <div class="col-6">
+                        <div class="row">
+                            <div style="color: rgba(54, 100, 228, 0.9);" class="col-6">Timezone</div>
+                            <div style="color: rgba(54, 100, 228, 0.9);" class="col-6">GMT +2</div>
+                        </div>
+                        <div class="row">
+                            <div style="color: rgba(54, 100, 228, 0.9);" class="col-6">Dialing Code</div>
+                            <div style="color: rgba(54, 100, 228, 0.9);" class="col-6">+267</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mx-2 my-2">
+            <div class="col-3"><span class="fw-bold">Business Capital: </span></div>
+            <div class="col-9">
+                <input type="text" class="form-control" placeholder="">
+            </div>
+        </div>
+        <div class="row mx-2 my-2">
+            <div class="col-3"><span class="fw-bold">Administrative Capital: </span></div>
+            <div class="col-9">
+                <input type="text" class="form-control" placeholder="">
+            </div>
+        </div>
+        <div class="row mx-2 my-2">
+            <div class="col-3"><span class="fw-bold">Official Language (s): </span></div>
+            <div class="col-9">
+                <input type="text" class="form-control" placeholder="">
+            </div>
+        </div>
+        <div class="row mx-2 my-2">
+            <div class="col-3"><span class="fw-bold">Total Area: </span></div>
+            <div class="col-9">
+                <input type="text" class="form-control" placeholder="">
+            </div>
+        </div>
+        <div class="row mx-2 my-2">
+            <div class="col-3"><span class="fw-bold">Population: </span></div>
+            <div class="col-9">
+                <input type="text" class="form-control" placeholder="">
+            </div>
+        </div>
+        <div class="row mx-2 my-2">
+            <div class="col-3"><span class="fw-bold">Currency: </span></div>
+            <div class="col-9">
+                <input type="text" class="form-control" placeholder="">
+            </div>
+        </div>
+        <div class="row mx-2 my-2">
+            <div class="col-3"><span class="fw-bold">GDP: </span></div>
+            <div class="col-9">
+                <input type="text" class="form-control" placeholder="">
+            </div>
+        </div>
+        <div class="row mx-2 my-2">
+            <div class="col-3"><span class="fw-bold">GDP Per Capita: </span></div>
+            <div class="col-9">
+                <input type="text" class="form-control" placeholder="">
+            </div>
+        </div>
+        <div class="row mx-2 my-2">
+            <div class="col-3"><span class="fw-bold">Key Industries: </span></div>
+            <div class="col-9">
+                <input type="text" class="form-control" placeholder="">
+            </div>
+        </div>
+        <div class="row mx-2 my-2">
+            <div class="col-3"><span class="fw-bold">Exports: </span></div>
+            <div class="col-9">
+                <input type="text" class="form-control" placeholder="">
+            </div>
+        </div>
+        <div class="row mx-2 my-2">
+            <div class="col-3"><span class="fw-bold">Main Export Partners: </span></div>
+            <div class="col-9">
+                <textarea class="form-control" name="" id="" cols="100" rows="1"></textarea>
+            </div>
+        </div>
+        <div class="row mx-2 my-2">
+            <div class="col-3"><span class="fw-bold">Imports: </span></div>
+            <div class="col-9">
+                <input type="text" class="form-control" placeholder="">
+            </div>
+        </div>
+        <div class="row mx-2 my-2">
+            <div class="col-3"><span class="fw-bold">Import Partners: </span></div>
+            <div class="col-9">
+                <input type="text" class="form-control" placeholder="">
+            </div>
+        </div>
+        <hr class="my-3">
+        <div class="row mx-2 my-2">
+            <div class="col-12">Economic Brief</div>
+        </div>
+        <div class="row mx-2 my-2">
+            <p>
+                <textarea class="form-control" name="" id="" cols="100" rows="5"></textarea>
+            </p>
+        </div>
+        <div class="row">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

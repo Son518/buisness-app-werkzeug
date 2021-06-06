@@ -33,17 +33,14 @@ def index(request):
 
 @expose("/signin")
 def signin(request):
-    return render_template("signin.html")
-
-@expose("/onsignin")
-def onsignin(request):
+    login_err_msg=""
     if request.method == 'POST':
         email = request.form.get("email")
         password = request.form.get("password")
         result = session.query(User).filter(User.email == email)
-        print("dddds", result.count())
+
         if result.count() == 0:
-            return redirect(url_for('/'))
+            login_err_msg = "Invaild User!"
         for row in result:
             if row.password == password:
                 print("User Info: ", row.username, row.password)
@@ -61,26 +58,28 @@ def onsignin(request):
                 response.set_cookie("wsessid", new_session.sid)
                 return response
             else:
-                print("wrong password")
-                return redirect(url_for('signin'))
+                login_err_msg = "wrong password"
+    return render_template("signin.html", login_err_msg=login_err_msg)
 
 @expose("/signup")
 def signup(request):
     if request.method == 'POST':
+        err_msg = ""
         email = request.form.get("email")
         password = request.form.get("password")
-        confirm_password = request.form.get("confirm_password")
-        if password == confirm_password:
+        result = session.query(User).filter(User.email == email)
+        if result.count() > 0:
+            err_msg = "Existing User!"
+        elif len(password) < 6:
+            err_msg = "Weak Password. At least 6 characters!"
+        else:
             newUser = User()
             newUser.email = email
             newUser.password = password
             session.add(newUser)
-            session.flush()
-            result = session.query(User).filter(User.email == email)
-            print("SIGN UP: ", result.count())
-        if email is True:
-            return 'ddd'
-        return redirect(url_for('/'))
+            session.commit()
+            return redirect(url_for('signin'))
+        return render_template("signin.html", err_msg=err_msg)
 
 @expose("/signout")
 def signout(request):
@@ -91,87 +90,77 @@ def signout(request):
 @expose("/profile")
 def profile(request):
     usersession = user_session(request)
-    print("usersession on profile: ", usersession)
     if not usersession:
         return redirect(url_for('/'))
     return render_template("profile.html", usersession=usersession)
 
+@expose("/countries")
+def countries(request):
+    usersession = user_session(request)
+    if not usersession:
+        return redirect(url_for('/'))
+    return render_template("country/country_list.html", usersession=usersession)
+
+@expose("/newcountry")
+def newcountry(request):
+    usersession = user_session(request)
+    if not usersession:
+        return redirect(url_for('/'))
+    
+    if request.method == 'POST':
+        print("Form DATA: ", request.form)
+    return render_template("country/country_form.html", usersession=usersession)
+
+
 @expose("/news/<news_type>")
 def news(request, news_type):
-    return render_template("news.html", news_type=news_type)
+    usersession = user_session(request)
+    if not usersession:
+        return redirect(url_for('/'))
+    return render_template("news.html", news_type=news_type, usersession=usersession)
 
-@expose("/countryprofile/<country>")
-def countryprofile(request, country):
+@expose("/country/<country>")
+def country(request, country):
+    usersession = user_session(request)
+    if not usersession:
+        return redirect(url_for('/'))
     print("Country Name: ", country)
-    return render_template("country_profile.html", countryname=country)
+    return render_template("country/country_profile.html", countryname=country, usersession=usersession)
 
 @expose("/countryadd")
 def countryadd(request):
-    return render_template("country_form.html")
+    usersession = user_session(request)
+    if not usersession:
+        return redirect(url_for('/'))
+    return render_template("country_form.html", usersession=usersession)
 
 @expose("/companylist")
 def companylist(request):
-    return render_template("company_profile.html")
+    usersession = user_session(request)
+    if not usersession:
+        return redirect(url_for('/'))
+    return render_template("company_profile.html", usersession=usersession)
 
 @expose("/companyprofile/<company>")
 def companyprofile(request, company):
-    return render_template("company_profile.html", companyname=company)
+    usersession = user_session(request)
+    if not usersession:
+        return redirect(url_for('/'))
+    return render_template("company_profile.html", companyname=company, usersession=usersession)
 
 @expose("/companyadd")
 def companyadd(request):
-    return render_template("company_form.html")
+    usersession = user_session(request)
+    if not usersession:
+        return redirect(url_for('/'))
+    return render_template("company_form.html", usersession=usersession)
 
 @expose("/industries")
 def industries(request):
+    usersession = user_session(request)
+    if not usersession:
+        return redirect(url_for('/'))
     return render_template("./industry/index.html")
-
-@expose("/new")
-def new(request):
-    error = url = ""
-    if request.method == "POST":
-        url = request.form.get("url")
-        alias = request.form.get("alias")
-        if not validate_url(url):
-            error = "I'm sorry but you cannot shorten this URL."
-        elif alias:
-            if len(alias) > 140:
-                error = "Your alias is too long"
-            elif "/" in alias:
-                error = "Your alias might not include a slash"
-            elif URL.query.get(alias):
-                error = "The alias you have requested exists already"
-        if not error:
-            uid = URL(url, "private" not in request.form, alias).uid
-            session.commit()
-            return redirect(url_for("display", uid=uid))
-    return render_template("new.html", error=error, url=url)
-
-@expose("/display/<uid>")
-def display(request, uid):
-    url = URL.query.get(uid)
-    print("UID: ", uid)
-    if not url:
-        raise NotFound()
-    return render_template("display.html", url=url)
-
-
-@expose("/u/<uid>")
-def link(request, uid):
-    url = URL.query.get(uid)
-    if not url:
-        raise NotFound()
-    return redirect(url.target, 301)
-
-
-@expose("/list/", defaults={"page": 1})
-@expose("/list/<int:page>")
-def list(request, page):
-    query = URL.query.filter_by(public=True)
-    pagination = Pagination(query, 30, page, "list")
-    if pagination.page > 1 and not pagination.entries:
-        raise NotFound()
-    return render_template("list.html", pagination=pagination)
-
 
 def not_found(request):
     return render_template("not_found.html")

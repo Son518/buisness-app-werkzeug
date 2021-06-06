@@ -70,7 +70,7 @@
             <a class="nav-link" href="{{ url_for('news', news_type='technology') }}">TECHNOLOGY</a>
           </li>
           <li class="nav-item mx-2 p-2 {{'active' if news_type == 'countries' }}">
-            <a class="nav-link" href="{{ url_for('news', news_type='countries') }}">COUNTRIES</a>
+            <a class="nav-link" href="{{ url_for('countries') }}">COUNTRIES</a>
           </li>
           <li class="nav-item mx-2 p-2 {{'active' if news_type == 'tv' }}">
             <a class="nav-link" href="{{ url_for('news', news_type='tv') }}">TV</a>
@@ -83,7 +83,7 @@
     </nav>
   </div>
   <!-- Page Content -->
-  <div class="body">{% block body %}{% endblock %}</div>
+  <div class="body container">{% block body %}{% endblock %}</div>
   <div class="footer">
     <div class="container-fluid bg-light pt-1">
       <section

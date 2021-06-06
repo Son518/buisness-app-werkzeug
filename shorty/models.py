@@ -67,7 +67,7 @@ class User(Base):
     def __init__(self, ):
         pass
     def __repr__(self):
-        return "<user('%s','%s','%s','%s','%s','%s','%s','%s','%s')="">" % (self.username, self.first_name, self.last_name, 
+        return "<user('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')="">" % (self.username, self.email, self.first_name, self.last_name, 
         self.password, self.birthday, self.phone, self.usertype, self.public, self.photo)
 
 class Country(Base):

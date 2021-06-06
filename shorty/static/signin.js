@@ -22,24 +22,5 @@ $(function () {
             $('.register-show').removeClass('show-log-panel');
         }
     });
-    /* document.querySelector('#loginBtn').onclick = (ev) => {
-        var data =  {
-            email: document.querySelector("#loginemail").value,
-            password: document.querySelector('#loginpassword').value
-        };
-        console.log(data);
-        $.ajax({
-            url: "/onsignin",
-            data: data,
-            success: (res) => {
-                console.log(res);
-            }
-        });
-        return false;
-    } */
-
-    document.querySelector('#registerBtn').onclick = () => {
-
-    }
 });
 
