@@ -41,13 +41,7 @@ def index(request):
 
 @expose("/signin")
 def signin(request):
-<<<<<<< HEAD
     login_err_msg=""
-=======
-    if request.method == 'GET':
-        return render_template("signin.html")
-
->>>>>>> 7b665e4ff0d1937dd07ea4324580aed6374cbb96
     if request.method == 'POST':
         email = request.form.get("email")
         password = request.form.get("password")
