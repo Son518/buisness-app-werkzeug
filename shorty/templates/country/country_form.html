@@ -14,7 +14,7 @@
             </div>
             
         </div>
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-4">
                 <h3 style="color: rgba(54, 100, 228, 0.9);">Botswana</h3>
             </div>
@@ -35,70 +35,139 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div class="row mx-2 my-2">
             <div class="col-3"><span class="fw-bold">Country Name: </span></div>
             <div class="col-9">
                 <input type="text" name="country_name" class="form-control {{ ('is-invalid' if err_msg.country_name else 'is-valid') if err_msg else '' }}" 
-                placeholder="" value="{{form_data['country_name'] if form_data else ''}}">
+                placeholder="" value="{{insert_data['country_name'] if insert_data else ''}}">
+            </div>
+        </div>
+        <div class="row mx-2 my-2">
+            <div class="col-3"><span class="fw-bold">Country Timezone: </span></div>
+            <div class="col-9">
+                <select name="timezone" id="timezone" class="form-control {{ ('is-invalid' if err_msg.timezone else 'is-valid') if err_msg else '' }}" 
+                    placeholder="" value="{{insert_data['timezone'] if insert_data else ''}}">
+                    {% for timezone in timezone_enum %}
+                    <option value="{{timezone}}" {{
+                        '' if not insert_data else ('selected' if insert_data.timezone == timezone else '')
+                    }}> {{timezone}} </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="row mx-2 my-2">
+            <div class="col-3"><span class="fw-bold">Dialing Code: </span></div>
+            <div class="col-9">
+                <select name="area_number" id="area_number" class="form-control {{ ('is-invalid' if err_msg.area_number else 'is-valid') if err_msg else '' }}" 
+                    placeholder="" value="{{insert_data['area_number'] if insert_data else ''}}">
+                    {% for area_number in area_number_enum %}
+                    <option value="{{area_number}}" {{
+                        '' if not insert_data else ('selected' if insert_data.area_number == area_number else '')
+                    }}> {{area_number}} </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="row mx-2 my-2">
+            <div class="col-3"><span class="fw-bold">Country Region: </span></div>
+            <div class="col-9">
+                <select name="region" id="region" class="form-control {{ ('is-invalid' if err_msg.region else 'is-valid') if err_msg else '' }}" 
+                    placeholder="" value="{{insert_data['region'] if insert_data else ''}}">
+                    {% for region in region_enum %}
+                    <option value="{{region}}" {{
+                        '' if not insert_data else ('selected' if insert_data.region == region else '')
+                    }}> {{region}} </option>
+                    {% endfor %}
+                </select>
             </div>
         </div>
         <div class="row mx-2 my-2">
             <div class="col-3"><span class="fw-bold">Business Capital: </span></div>
             <div class="col-9">
-                <input type="text" name="business_capital" class="form-control {{ ('is-invalid' if err_msg.business_capital else 'is-valid') if err_msg else '' }}" 
-                placeholder="" value="{{form_data['business_capital'] if form_data else ''}}">
+                <select name="business_capital" id="business_capital" class="form-control {{ ('is-invalid' if err_msg.business_capital else 'is-valid') if err_msg else '' }}" 
+                    placeholder="" value="{{insert_data['business_capital'] if insert_data else ''}}">
+                    {% for city in city_enum %}
+                    <option value="{{city}}" {{
+                        '' if not insert_data else ('selected' if insert_data.business_capital == city else '')
+                    }}> {{city}} </option>
+                    {% endfor %}
+                </select>
             </div>
         </div>
         <div class="row mx-2 my-2">
             <div class="col-3"><span class="fw-bold">Administrative Capital: </span></div>
             <div class="col-9">
-                <input type="text" name="administrative_capital" class="form-control {{ ('is-invalid' if err_msg.administrative_capital else 'is-valid') if err_msg else '' }}" 
-                placeholder="" value="{{form_data['administrative_capital'] if form_data else ''}}">
+                <select name="administrative_capital" id="administrative_capital" class="form-control {{ ('is-invalid' if err_msg.administrative_capital else 'is-valid') if err_msg else '' }}" 
+                    placeholder="" value="{{insert_data['administrative_capital'] if insert_data else ''}}">
+                    {% for city in city_enum %}
+                    <option value="{{city}}" {{
+                        '' if not insert_data else ('selected' if insert_data.administrative_capital == city else '')
+                    }}> {{city}} </option>
+                    {% endfor %}
+                </select>
             </div>
         </div>
         <div class="row mx-2 my-2">
             <div class="col-3"><span class="fw-bold">Official Language (s): </span></div>
             <div class="col-9">
-                <input type="text" name="official_language1" class="my-1 form-control {{ ('is-invalid' if err_msg.official_language1 else 'is-valid') if err_msg else '' }}"
-                placeholder="" value="{{form_data['official_language1'] if form_data else ''}}">
-                <input type="text" name="official_language2" class="my-1 form-control {{ ('is-invalid' if err_msg.official_language2 else 'is-valid') if err_msg else '' }}" 
-                placeholder="" value="{{form_data['official_language2'] if form_data else ''}}">
+                <select name="official_language1" id="official_language1" class="form-control {{ ('is-invalid' if err_msg.official_language1 else 'is-valid') if err_msg else '' }}" 
+                    placeholder="" value="{{insert_data['official_language1'] if insert_data else ''}}">
+                    {% for language in language_enum %}
+                    <option value="{{language}}" {{
+                        '' if not insert_data else ('selected' if insert_data.official_language1 == language else '')
+                    }}> {{language}} </option>
+                    {% endfor %}
+                </select>
+                <select name="official_language2" id="official_language2" class="form-control {{ ('is-invalid' if err_msg.official_language2 else 'is-valid') if err_msg else '' }}" 
+                    placeholder="" value="{{insert_data['official_language2'] if insert_data else ''}}">
+                    {% for language in language_enum %}
+                    <option value="{{language}}" {{
+                        '' if not insert_data else ('selected' if insert_data.official_language2 == language else '')
+                    }}> {{language}} </option>
+                    {% endfor %}
+                </select>
             </div>
         </div>
         <div class="row mx-2 my-2">
             <div class="col-3"><span class="fw-bold">Total Area: </span></div>
             <div class="col-9">
                 <input type="text" name="total_area" class="form-control {{ ('is-invalid' if err_msg.total_area else 'is-valid') if err_msg else '' }}" 
-                placeholder="" value="{{form_data['total_area'] if form_data else ''}}">
+                placeholder="" value="{{insert_data['total_area'] if insert_data else ''}}">
             </div>
         </div>
         <div class="row mx-2 my-2">
             <div class="col-3"><span class="fw-bold">Population: </span></div>
             <div class="col-9">
                 <input type="text" name="population" class="form-control {{ ('is-invalid' if err_msg.population else 'is-valid') if err_msg else '' }}" 
-                placeholder="" value="{{form_data['population'] if form_data else ''}}">
+                placeholder="" value="{{insert_data['population'] if insert_data else ''}}">
             </div>
         </div>
         <div class="row mx-2 my-2">
             <div class="col-3"><span class="fw-bold">Currency: </span></div>
             <div class="col-9">
-                <input type="text" name="currency" class="form-control {{ ('is-invalid' if err_msg.currency else 'is-valid') if err_msg else '' }}" 
-                placeholder="" value="{{form_data['currency'] if form_data else ''}}">
+                <select name="currency" id="currency" class="form-control {{ ('is-invalid' if err_msg.currency else 'is-valid') if err_msg else '' }}" 
+                    placeholder="" value="{{insert_data['currency'] if insert_data else ''}}">
+                    {% for currency in currency_enum %}
+                    <option value="{{currency}}" {{
+                        '' if not insert_data else ('selected' if insert_data.currency == currency else '')
+                    }}> {{currency}} </option>
+                    {% endfor %}
+                </select>
             </div>
         </div>
         <div class="row mx-2 my-2">
             <div class="col-3"><span class="fw-bold">GDP: </span></div>
             <div class="col-9">
                 <input type="text" name="gdp" class="form-control {{ ('is-invalid' if err_msg.gdp else 'is-valid') if err_msg else '' }}" 
-                placeholder="" value="{{form_data['gdp'] if form_data else ''}}">
+                placeholder="" value="{{insert_data['gdp'] if insert_data else ''}}">
             </div>
         </div>
         <div class="row mx-2 my-2">
             <div class="col-3"><span class="fw-bold">GDP Per Capita: </span></div>
             <div class="col-9">
                 <input type="text" name="gdp_per_capital" class="form-control {{ ('is-invalid' if err_msg.gdp_per_capital else 'is-valid') if err_msg else '' }}" 
-                placeholder="" value="{{form_data['gdp_per_capital'] if form_data else ''}}">
+                placeholder="" value="{{insert_data['gdp_per_capital'] if insert_data else ''}}">
             </div>
         </div>
         <div class="row mx-2 my-2">
@@ -117,28 +186,28 @@
             <div class="col-3"><span class="fw-bold">Exports: </span></div>
             <div class="col-9">
                 <input type="text" name="exports" class="form-control {{ ('is-invalid' if err_msg.exports else 'is-valid') if err_msg else '' }}" 
-                placeholder="" value="{{form_data['exports'] if form_data else ''}}">
+                placeholder="" value="{{insert_data['exports'] if insert_data else ''}}">
             </div>
         </div>
         <div class="row mx-2 my-2">
             <div class="col-3"><span class="fw-bold">Main Export Partners: </span></div>
             <div class="col-9">
                 <textarea name="main_export_partners" class="form-control {{ ('is-invalid' if err_msg.main_export_partners else 'is-valid') if err_msg else '' }}" 
-                id="" cols="100" rows="1" value="{{form_data['main_export_partners'] if form_data else ''}}"></textarea>
+                id="" cols="100" rows="1" value="{{insert_data['main_export_partners'] if insert_data else ''}}"></textarea>
             </div>
         </div>
         <div class="row mx-2 my-2">
             <div class="col-3"><span class="fw-bold">Imports: </span></div>
             <div class="col-9">
                 <input type="text" name="imports" class="form-control {{ ('is-invalid' if err_msg.imports else 'is-valid') if err_msg else '' }}" 
-                placeholder="" value="{{form_data['imports'] if form_data else ''}}">
+                placeholder="" value="{{insert_data['imports'] if insert_data else ''}}">
             </div>
         </div>
         <div class="row mx-2 my-2">
             <div class="col-3"><span class="fw-bold">Import Partners: </span></div>
             <div class="col-9">
                 <input type="text" name="import_partners" class="form-control {{ ('is-invalid' if err_msg.import_partners else 'is-valid') if err_msg else '' }}" 
-                placeholder="" value="{{form_data['import_partners'] if form_data else ''}}">
+                placeholder="" value="{{insert_data['import_partners'] if insert_data else ''}}">
             </div>
         </div>
         <hr class="my-3">
@@ -148,7 +217,7 @@
         <div class="row mx-2 my-2">
             <p>
                 <textarea name="economic_brief" class="form-control {{ ('is-invalid' if err_msg.economic_brief else 'is-valid') if err_msg else '' }}" 
-                id="" cols="100" rows="5" value="{{form_data['economic_brief'] if form_data else ''}}"></textarea>
+                id="" cols="100" rows="5" value="{{insert_data['economic_brief'] if insert_data else ''}}"></textarea>
             </p>
         </div>
         <div class="row mx-2 my-2">
@@ -160,9 +229,9 @@
     $(document).ready(function(){
         var multipleCancelButton = new Choices('#industries', {
         removeItemButton: true,
-        maxItemCount:5,
-        searchResultLimit:5,
-        renderChoiceLimit:5
+        maxItemCount:10,
+        searchResultLimit:10,
+        renderChoiceLimit:10
         });
     });
 </script>

@@ -3,7 +3,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="mx-auto justify-content-center">
+        <div class="mx-auto justify-content-center my-2">
             <!-- <button class="btn btn-primary">Edit Country</button> -->
             <a class="btn btn-primary" href="{{url_for('country_edit', id=country.id)}}">Edit Country</a>
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
@@ -16,7 +16,7 @@
         <div class="col-6 justify-content-end">
             <div class="justify-content-end nav">
                 <a href="{{url_for('countries')}}" class="px-3 py-3">Botswana Golden 100</a>
-                <a href="{{url_for('news', news_type='countries')}}" class="px-3 py-3">Countries</a>
+                <a href="{{url_for('countries')}}" class="px-3 py-3">Countries</a>
             </div>
         </div>
         
@@ -33,11 +33,11 @@
                 <div class="col-6">
                     <div class="row">
                         <div style="color: rgba(54, 100, 228, 0.9);" class="col-6">Timezone</div>
-                        <div style="color: rgba(54, 100, 228, 0.9);" class="col-6">GMT +2</div>
+                        <div style="color: rgba(54, 100, 228, 0.9);" class="col-6">{{country.timezone}}</div>
                     </div>
                     <div class="row">
                         <div style="color: rgba(54, 100, 228, 0.9);" class="col-6">Dialing Code</div>
-                        <div style="color: rgba(54, 100, 228, 0.9);" class="col-6">+267</div>
+                        <div style="color: rgba(54, 100, 228, 0.9);" class="col-6">{{country.area_number}}</div>
                     </div>
                 </div>
             </div>
@@ -101,7 +101,7 @@
     </div>
     <hr class="my-3">
     <div class="row">
-        <div class="col-12">Economic Brief</div>
+        <div class="col-12"><span class="fw-bold">Economic Brief</span></div>
     </div>
     <div class="row">
         <p>{{country.economic_brief}}</p>
@@ -118,7 +118,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <a class="btn btn-danger" href="{{url_for('countries')}}">Delete</a>
+              <a class="btn btn-danger" href="{{url_for('country_delete', id=country.id)}}">Delete</a>
             </div>
           </div>
         </div>

@@ -22,6 +22,37 @@ class NewsEnum(enum.Enum):
     Technology = 4
     TV = 5
     Covid = 6
+language_enum = Enum("Afar", "Afrikaans", "Akan", "Algerian Arabic", "Amharic", "Arabic", "Balanta", \
+        "Bambara", "Bariba", "Berber", "Bulu", "Chewa", "Chokwe", "Comorian", "Creole", "Dangme", "Dioula", "Duala", \
+        "Dyula", "Egyptian Arabic", "English", "Ewe", "Fan", "Fang", "Fon", "French", "Fula", "Fulani", "Fulfulde", \
+        "Ga", "Guan", "Hausa", "Igbo", "Italian", "Jola", "Kabiye", "Kalanga", "Kasem", "Khoekhoegowab", "Kikongo", \
+        "Kimbundu", "Kinyarwanda", "Kirundi", "Kituba", "Krio", "Libyan Arabic", "Lingala", "Malagasy", "Mandinka", \
+        "Manjak", "Mole-Dagbani", "Moore", "Moroccan Arabic", "Mwani", "Ndebele", "Oromo", "Oshiwambo", "Otjiherero", \
+        "Pedi", "Pidgin-English", "Portuguese", "Pulaar", "RuKwangali", "Sango", "Serer", "Shona", "Somali", "Soninke", \
+        "Sotho", "Spanish", "Susu", "Swahili", "Swati", "Swazi", "Teda", "Tigrinya", "Tonga", "Tshiluba", "Tsonga", "Tswana", \
+        "Tunisian Arabic", "Umbundu", "Venda", "Wolof", "Xhosa", "Yoruba", "Zarma-Songhai", "Zulu")
+city_enum = Enum("Abidjan", "Abuja", "Accra", "Addis Ababa", "Algiers", \
+        "Antananarivo", "Asmara", "Bamako", "Bangui", "Banjul", "Bissau", "Brazzaville", "Bujumbura", \
+        "Cairo", "Cape Town", "Casablanca", "Conakry", "Cotonou", "Dakar", "Dar es Salaam", "Djibouti",\
+        "Dodoma", "Douala", "Freetown", "Gaborone", "Gitega", "Harare", "Johannesburg", "Juba", "Kampala",\
+        "Khartoum", "Kigali", "Kinshasa", "Lagos", "Libreville", "Lilongwe", "Lobamba", "Lome", "Luanda", \
+        "Lusaka", "Malabo", "Maputo", "Maseru", "Mbabane", "Mogadishu", "Monrovia", "Moroni", "N’Djamena", \
+        "Nairobi", "Niamey", "Nouakchott", "Ouagadougou", "Port Louis", "Porto-Novo", "Praia", "Pretoria", \
+        "Rabat", "Sao Tome", "Serekunda", "Tripoli", "Tunis", "Victoria", "Windhoek", "Yamoussoukro", "Yaounde")
+currency_enum = Enum("Algerian dinar", "Angolan kwanza", "CFA franc", "Botswana pula", "CFA franc", "Burundian franc", "CFA franc", \
+        "Cape Verdean escudo", "CFA franc", "CFA franc", "Comorian franc", "CFA franc", "Congolese franc", "Djiboutian franc", "Egyptian pound", \
+        "CFA franc", "Eritrean nakfa", "Lilangeni", "Ethiopian birr", "CFA franc", "Dalasi", "Ghanaian cedi", "Guinean franc", "CFA franc", \
+        "CFA franc", "Kenyan shilling", "Lesotho loti", "Liberian dollar", "Libyan dinar", "Malagasy ariary", "Malawian kwacha", "CFA franc", \
+        "Ouguiya", "Mauritian rupee", "Moroccan dirham", "Mozambican metical", "Namibian dollar", "CFA franc", "Nigeria naira", "Rwandan franc", \
+        "Saint Helena pound", "Sao Tome and Principe dobra", "CFA franc", "Seychellois rupee", "Sierra Leone leone", "Somali shilling", "South African rand", \
+        "South Sudanese pound", "Sudanese pound", "Tanzanian shilling", "CFA Franc", "Tunisian dinar", "Ugandan shilling", "Zambian kwacha", "RTGS dollar")
+area_number_enum = Enum("+20", "+27", "+211", "+212", "+213", "+216", "+218", "+220", "+221", "+222", "+223", \
+        "+224", "+225", "+226", "+227", "+228", "+229", "+230", "+231", "+232", "+233", "+234", "+235", "+236", "+237",\
+        "+238", "+239", "+240", "+241", "+242", "+243", "+244", "+245", "+248", "+249", "+250", "+251", "+252", "+253",\
+        "+254", "+255", "+256", "+257", "+258", "+260", "+261", "+263", "+264", "+265", "+266", "+267", "+268", "+269", "+290", "+291")
+region_enum = Enum("Southern Africa", "Central Africa", "East Africa", "North Africa", "West Africa", "East Central Africa", \
+        "North East Africa", "North West Africa")
+timezone_enum = Enum("GMT/UTC-1:00", "GMT/UTC+0:00", "GMT/UTC+1:00", "GMT/UTC+2:00", "GMT/UTC+3:00", "GMT/UTC+4:00")
 
 class URL(Base):
     __tablename__ = "urls"
@@ -76,41 +107,16 @@ class Country(Base):
 
     id = Column(Integer, primary_key=True)
     country_name = Column(String(50))
-    region = Column(Enum("Southern Africa", "Central Africa", "East Africa", "North Africa", "West Africa", "East Central Africa", \
-        "North East Africa", "North West Africa"))
-    timezone = Column(String(20))
-    area_number = Column(Enum("+20", "+27", "+211", "+212", "+213", "+216", "+218", "+220", "+221", "+222", "+223", \
-        "+224", "+225", "+226", "+227", "+228", "+229", "+230", "+231", "+232", "+233", "+234", "+235", "+236", "+237",\
-        "+238", "+239", "+240", "+241", "+242", "+243", "+244", "+245", "+248", "+249", "+250", "+251", "+252", "+253",\
-        "+254", "+255", "+256", "+257", "+258", "+260", "+261", "+263", "+264", "+265", "+266", "+267", "+268", "+269", "+290", "+291"))
-    business_capital = Column(Enum("Abidjan", "Abuja", "Accra", "Addis Ababa", "Algiers", \
-        "Antananarivo", "Asmara", "Bamako", "Bangui", "Banjul", "Bissau", "Brazzaville", "Bujumbura", \
-        "Cairo", "Cape Town", "Casablanca", "Conakry", "Cotonou", "Dakar", "Dar es Salaam", "Djibouti",\
-        "Dodoma", "Douala", "Freetown", "Gaborone", "Gitega", "Harare", "Johannesburg", "Juba", "Kampala",\
-        "Khartoum", "Kigali", "Kinshasa", "Lagos", "Libreville", "Lilongwe", "Lobamba", "Lome", "Luanda", \
-        "Lusaka", "Malabo", "Maputo", "Maseru", "Mbabane", "Mogadishu", "Monrovia", "Moroni", "N’Djamena", \
-        "Nairobi", "Niamey", "Nouakchott", "Ouagadougou", "Port Louis", "Porto-Novo", "Praia", "Pretoria", \
-        "Rabat", "Sao Tome", "Serekunda", "Tripoli", "Tunis", "Victoria", "Windhoek", "Yamoussoukro", "Yaounde"))
-    administrative_capital = Column(String(100))
-    official_language1 = Column(Enum("Afar", "Afrikaans", "Akan", "Algerian Arabic", "Amharic", "Arabic", "Balanta", \
-        "Bambara", "Bariba", "Berber", "Bulu", "Chewa", "Chokwe", "Comorian", "Creole", "Dangme", "Dioula", "Duala", \
-        "Dyula", "Egyptian Arabic", "English", "Ewe", "Fan", "Fang", "Fon", "French", "Fula", "Fulani", "Fulfulde", \
-        "Ga", "Guan", "Hausa", "Igbo", "Italian", "Jola", "Kabiye", "Kalanga", "Kasem", "Khoekhoegowab", "Kikongo", \
-        "Kimbundu", "Kinyarwanda", "Kirundi", "Kituba", "Krio", "Libyan Arabic", "Lingala", "Malagasy", "Mandinka", \
-        "Manjak", "Mole-Dagbani", "Moore", "Moroccan Arabic", "Mwani", "Ndebele", "Oromo", "Oshiwambo", "Otjiherero", \
-        "Pedi", "Pidgin-English", "Portuguese", "Pulaar", "RuKwangali", "Sango", "Serer", "Shona", "Somali", "Soninke", \
-        "Sotho", "Spanish", "Susu", "Swahili", "Swati", "Swazi", "Teda", "Tigrinya", "Tonga", "Tshiluba", "Tsonga", "Tswana", \
-        "Tunisian Arabic", "Umbundu", "Venda", "Wolof", "Xhosa", "Yoruba", "Zarma-Songhai", "Zulu"))
-    official_language2 = Column(String(100))
+    region = Column(region_enum)
+    timezone = Column(timezone_enum)
+    area_number = Column(area_number_enum)
+    business_capital = Column(city_enum)
+    administrative_capital = Column(city_enum)
+    official_language1 = Column(language_enum)
+    official_language2 = Column(language_enum)
     total_area = Column(DECIMAL(12,2))
     population = Column(DECIMAL(12,2))
-    currency = Column(Enum("Algerian dinar", "Angolan kwanza", "CFA franc", "Botswana pula", "CFA franc", "Burundian franc", "CFA franc", \
-        "Cape Verdean escudo", "CFA franc", "CFA franc", "Comorian franc", "CFA franc", "Congolese franc", "Djiboutian franc", "Egyptian pound", \
-        "CFA franc", "Eritrean nakfa", "Lilangeni", "Ethiopian birr", "CFA franc", "Dalasi", "Ghanaian cedi", "Guinean franc", "CFA franc", \
-        "CFA franc", "Kenyan shilling", "Lesotho loti", "Liberian dollar", "Libyan dinar", "Malagasy ariary", "Malawian kwacha", "CFA franc", \
-        "Ouguiya", "Mauritian rupee", "Moroccan dirham", "Mozambican metical", "Namibian dollar", "CFA franc", "Nigeria naira", "Rwandan franc", \
-        "Saint Helena pound", "Sao Tome and Principe dobra", "CFA franc", "Seychellois rupee", "Sierra Leone leone", "Somali shilling", "South African rand", \
-        "South Sudanese pound", "Sudanese pound", "Tanzanian shilling", "CFA Franc", "Tunisian dinar", "Ugandan shilling", "Zambian kwacha", "RTGS dollar"))
+    currency = Column(currency_enum)
     gdp = Column(String(50))
     gdp_per_capital = Column(String(100))
     exports = Column(String(100))

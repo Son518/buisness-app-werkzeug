@@ -3,19 +3,20 @@
 
 {% if usersession %}
 <div class="row justify-content-center">
-    <div class="mx-auto justify-content-center">
+    <div class="mx-auto justify-content-center my-2">
         <a class="btn btn-primary" href="{{url_for('country_new')}}">+ Add Country</a>
     </div>
 </div>
 {% endif %}
 <div class="row">
-    <!-- <div class="container d-flex justify-content-center"> -->
     <div class="container">
         <ol>
             {% for country in countries %}
-            <li><a href="{{url_for('country', id=country.id)}}">
-                {{country.country_name}}
-            </a></li>
+            <li>
+                <a href="{{url_for('country', id=country.id)}}">
+                    {{country.country_name}}
+                </a>
+            </li>
             {% else %}
                 did not iterate
             {% endfor %}
