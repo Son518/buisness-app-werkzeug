@@ -14,14 +14,14 @@
             </div>
             
         </div>
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-4">
-                <h3 style="color: rgba(54, 100, 228, 0.9);">Botswana</h3>
+                <h3 style="color: rgba(54, 100, 228, 0.9);">{{country.country_name}}</h3>
             </div>
             <div class="col-8">
                 <div class="row">
                     <div class="col-6">
-                        <h3 style="color: rgba(54, 100, 228, 0.9);">Southern Africa</h3>
+                        <h3 style="color: rgba(54, 100, 228, 0.9);">{{country.region}}</h3>
                     </div>
                     <div class="col-6">
                         <div class="row">
@@ -35,70 +35,91 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div class="row mx-2 my-2">
             <div class="col-3"><span class="fw-bold">Country Name: </span></div>
             <div class="col-9">
                 <input type="text" name="country_name" class="form-control {{ ('is-invalid' if err_msg.country_name else 'is-valid') if err_msg else '' }}" 
-                placeholder="" value="{{form_data['country_name'] if form_data else ''}}">
+                placeholder="" value="{{country.country_name}}">
+            </div>
+        </div>
+        <div class="row mx-2 my-2">
+            <div class="col-3"><span class="fw-bold">Country Timezone: </span></div>
+            <div class="col-9">
+                <input type="text" name="timezone" class="form-control {{ ('is-invalid' if err_msg.timezone else 'is-valid') if err_msg else '' }}" 
+                placeholder="" value="{{country.timezone}}">
+            </div>
+        </div>
+        <div class="row mx-2 my-2">
+            <div class="col-3"><span class="fw-bold">Dialing Code: </span></div>
+            <div class="col-9">
+                <input type="text" name="area_number" class="form-control {{ ('is-invalid' if err_msg.area_number else 'is-valid') if err_msg else '' }}" 
+                placeholder="" value="{{country.area_number}}">
+            </div>
+        </div>
+        <div class="row mx-2 my-2">
+            <div class="col-3"><span class="fw-bold">Country Region: </span></div>
+            <div class="col-9">
+                <input type="text" name="region" class="form-control {{ ('is-invalid' if err_msg.region else 'is-valid') if err_msg else '' }}" 
+                placeholder="" value="{{country.region}}">
             </div>
         </div>
         <div class="row mx-2 my-2">
             <div class="col-3"><span class="fw-bold">Business Capital: </span></div>
             <div class="col-9">
                 <input type="text" name="business_capital" class="form-control {{ ('is-invalid' if err_msg.business_capital else 'is-valid') if err_msg else '' }}" 
-                placeholder="" value="{{form_data['business_capital'] if form_data else ''}}">
+                placeholder="" value="{{country.business_capital}}">
             </div>
         </div>
         <div class="row mx-2 my-2">
             <div class="col-3"><span class="fw-bold">Administrative Capital: </span></div>
             <div class="col-9">
                 <input type="text" name="administrative_capital" class="form-control {{ ('is-invalid' if err_msg.administrative_capital else 'is-valid') if err_msg else '' }}" 
-                placeholder="" value="{{form_data['administrative_capital'] if form_data else ''}}">
+                placeholder="" value="{{country.administrative_capital}}">
             </div>
         </div>
         <div class="row mx-2 my-2">
             <div class="col-3"><span class="fw-bold">Official Language (s): </span></div>
             <div class="col-9">
                 <input type="text" name="official_language1" class="my-1 form-control {{ ('is-invalid' if err_msg.official_language1 else 'is-valid') if err_msg else '' }}"
-                placeholder="" value="{{form_data['official_language1'] if form_data else ''}}">
+                placeholder="" value="{{country.official_language1}}">
                 <input type="text" name="official_language2" class="my-1 form-control {{ ('is-invalid' if err_msg.official_language2 else 'is-valid') if err_msg else '' }}" 
-                placeholder="" value="{{form_data['official_language2'] if form_data else ''}}">
+                placeholder="" value="{{country.official_language2}}">
             </div>
         </div>
         <div class="row mx-2 my-2">
             <div class="col-3"><span class="fw-bold">Total Area: </span></div>
             <div class="col-9">
                 <input type="text" name="total_area" class="form-control {{ ('is-invalid' if err_msg.total_area else 'is-valid') if err_msg else '' }}" 
-                placeholder="" value="{{form_data['total_area'] if form_data else ''}}">
+                placeholder="" value="{{country.total_area}}">
             </div>
         </div>
         <div class="row mx-2 my-2">
             <div class="col-3"><span class="fw-bold">Population: </span></div>
             <div class="col-9">
                 <input type="text" name="population" class="form-control {{ ('is-invalid' if err_msg.population else 'is-valid') if err_msg else '' }}" 
-                placeholder="" value="{{form_data['population'] if form_data else ''}}">
+                placeholder="" value="{{country.population}}">
             </div>
         </div>
         <div class="row mx-2 my-2">
             <div class="col-3"><span class="fw-bold">Currency: </span></div>
             <div class="col-9">
                 <input type="text" name="currency" class="form-control {{ ('is-invalid' if err_msg.currency else 'is-valid') if err_msg else '' }}" 
-                placeholder="" value="{{form_data['currency'] if form_data else ''}}">
+                placeholder="" value="{{country.currency}}">
             </div>
         </div>
         <div class="row mx-2 my-2">
             <div class="col-3"><span class="fw-bold">GDP: </span></div>
             <div class="col-9">
                 <input type="text" name="gdp" class="form-control {{ ('is-invalid' if err_msg.gdp else 'is-valid') if err_msg else '' }}" 
-                placeholder="" value="{{form_data['gdp'] if form_data else ''}}">
+                placeholder="" value="{{country.gdp}}">
             </div>
         </div>
         <div class="row mx-2 my-2">
             <div class="col-3"><span class="fw-bold">GDP Per Capita: </span></div>
             <div class="col-9">
                 <input type="text" name="gdp_per_capital" class="form-control {{ ('is-invalid' if err_msg.gdp_per_capital else 'is-valid') if err_msg else '' }}" 
-                placeholder="" value="{{form_data['gdp_per_capital'] if form_data else ''}}">
+                placeholder="" value="{{country.gdp_per_capital}}">
             </div>
         </div>
         <div class="row mx-2 my-2">
@@ -106,7 +127,7 @@
             <div class="col-9">
                 <select id="industries" name="industries" class="" placeholder="{{ ('Please select the industry types...' if err_msg.industries else 'Looks good!') if err_msg else '' }}" multiple="multiple" size="10" value="">
                     {% for industry in industries %}
-                    <option value="{{industry.id}}">{{industry.industry_name}}</option>
+                    <option value="{{industry.id}}" {{ "selected" if industry.id in selected_industries }}>{{industry.industry_name}}</option>
                     {% else %}
                         did not iterate
                     {% endfor %}
@@ -117,28 +138,28 @@
             <div class="col-3"><span class="fw-bold">Exports: </span></div>
             <div class="col-9">
                 <input type="text" name="exports" class="form-control {{ ('is-invalid' if err_msg.exports else 'is-valid') if err_msg else '' }}" 
-                placeholder="" value="{{form_data['exports'] if form_data else ''}}">
+                placeholder="" value="{{country.exports}}">
             </div>
         </div>
         <div class="row mx-2 my-2">
             <div class="col-3"><span class="fw-bold">Main Export Partners: </span></div>
             <div class="col-9">
                 <textarea name="main_export_partners" class="form-control {{ ('is-invalid' if err_msg.main_export_partners else 'is-valid') if err_msg else '' }}" 
-                id="" cols="100" rows="1" value="{{form_data['main_export_partners'] if form_data else ''}}"></textarea>
+                id="" cols="100" rows="1" value="{{country.main_export_partners}}">{{country.main_export_partners}}</textarea>
             </div>
         </div>
         <div class="row mx-2 my-2">
             <div class="col-3"><span class="fw-bold">Imports: </span></div>
             <div class="col-9">
                 <input type="text" name="imports" class="form-control {{ ('is-invalid' if err_msg.imports else 'is-valid') if err_msg else '' }}" 
-                placeholder="" value="{{form_data['imports'] if form_data else ''}}">
+                placeholder="" value="{{country.imports}}">
             </div>
         </div>
         <div class="row mx-2 my-2">
             <div class="col-3"><span class="fw-bold">Import Partners: </span></div>
             <div class="col-9">
                 <input type="text" name="import_partners" class="form-control {{ ('is-invalid' if err_msg.import_partners else 'is-valid') if err_msg else '' }}" 
-                placeholder="" value="{{form_data['import_partners'] if form_data else ''}}">
+                placeholder="" value="{{country.import_partners}}">
             </div>
         </div>
         <hr class="my-3">
@@ -148,7 +169,7 @@
         <div class="row mx-2 my-2">
             <p>
                 <textarea name="economic_brief" class="form-control {{ ('is-invalid' if err_msg.economic_brief else 'is-valid') if err_msg else '' }}" 
-                id="" cols="100" rows="5" value="{{form_data['economic_brief'] if form_data else ''}}"></textarea>
+                id="" cols="100" rows="5" value="{{country.economic_brief}}">{{country.economic_brief}}</textarea>
             </p>
         </div>
         <div class="row mx-2 my-2">

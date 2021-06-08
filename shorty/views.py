@@ -1,8 +1,11 @@
 import json
+from os import error
 from sqlalchemy import true
+from sqlalchemy.sql.functions import count
+from sqlalchemy.orm import Load
 from werkzeug.exceptions import NotFound
 from werkzeug.utils import redirect
-from .models import URL, User
+from .models import Industry, User, Country, IndustryCountry
 from .utils import expose, Pagination, render_template, session, url_for, validate_url
 
 from secure_cookie.session import FilesystemSessionStore
@@ -20,7 +23,14 @@ def user_session(request):
     if not userdata:
         return False
 
-    return userdata
+    return json.loads(userdata)
+
+def exist_empty(data):
+    err_msg = {}
+    for key, value in data.items():
+        if value=="":
+                err_msg[key]=True
+    return err_msg
 
 @expose("/test")
 def test(request):
@@ -107,18 +117,105 @@ def countries(request):
     usersession = user_session(request)
     if not usersession:
         return redirect(url_for('/'))
-    return render_template("country/country_list.html", usersession=usersession)
+    countries = session.query(Country).all()
+    print("Countries: ", countries)
+    return render_template("country/country_list.html", usersession=usersession, countries=countries)
 
-@expose("/newcountry")
-def newcountry(request):
+@expose("/country/new")
+def country_new(request):
     usersession = user_session(request)
-    if not usersession:
+    if not usersession or (usersession['usertype'] is not 1):
         return redirect(url_for('/'))
-    
-    if request.method == 'POST':
-        print("Form DATA: ", request.form)
-    return render_template("country/country_form.html", usersession=usersession)
 
+    industries = session.query(Industry).all()
+    if request.method == 'POST':
+        form_data = request.form.to_dict(flat=False)
+        print("RAW form data: ", form_data)
+        insert_data = {}
+        insert_industries = ()
+
+        for key, value in form_data.items():
+            if len(value) == 1 and key != 'industries':
+                insert_data[key] = value[0]
+            elif key == 'industries':
+                insert_industries = value
+    
+        country = Country()
+        err_msg = exist_empty(insert_data)
+        if len(insert_industries) == 0:
+            err_msg['industries'] = True
+        if err_msg:
+            return render_template("country/country_form.html", err_msg=err_msg, insert_data=insert_data, industries=industries)
+        print(err_msg, not err_msg)
+        for key,value in insert_data.items():
+            setattr(country, key, value)
+        session.add(country)
+        session.commit()
+        print("RESULT: ", country.id)
+        
+        if len(insert_industries) > 0:
+            for industry_id in insert_industries:
+                industry_country = IndustryCountry()
+                industry_country.industry_id = industry_id
+                industry_country.country_id = country.id
+                session.add(industry_country)
+                session.commit()
+        
+        return redirect(url_for("countries"))
+    return render_template("country/country_form.html", usersession=usersession, industries=industries)
+
+@expose("/country/edit/<id>")
+def country_edit(request, id):
+    usersession = user_session(request)
+    if not usersession or (usersession['usertype'] is not 1):
+        return redirect(url_for('/'))
+    if request.method == 'GET':
+        country = session.query(Country).filter(Country.id == id).one()
+        industries = session.query(Industry).all()
+        selected_industries = session.query(Industry.id).filter(IndustryCountry.country_id == id).\
+        join(IndustryCountry, Industry.id == IndustryCountry.industry_id).\
+        options(
+            Load(Industry).load_only("industry_name")
+        ).all()
+        selected_industries = [item[0] for item in selected_industries]
+        print("Selected: ", selected_industries)
+        return render_template("country/country_edit.html", usersession=usersession, country=country, industries=industries, selected_industries=selected_industries)
+    
+    industries = session.query(Industry).all()
+    if request.method == 'POST':
+        form_data = request.form.to_dict(flat=False)
+        print("RAW form data: ", form_data)
+        insert_data = {}
+        insert_industries = ()
+
+        for key, value in form_data.items():
+            if len(value) == 1 and key != 'industries':
+                insert_data[key] = value[0]
+            elif key == 'industries':
+                insert_industries = value
+    
+        country = session.query(Country).filter(Country.id == id).one()
+        err_msg = exist_empty(insert_data)
+        if len(insert_industries) == 0:
+            err_msg['industries'] = True
+        if err_msg:
+            return render_template("country/country_edit.html", err_msg=err_msg, insert_data=insert_data, industries=industries)
+        print(err_msg, not err_msg)
+        for key,value in insert_data.items():
+            setattr(country, key, value)
+        session.commit()
+        print("RESULT: ", country.id)
+        session.query(IndustryCountry).filter(IndustryCountry.country_id == id).delete()
+        if len(insert_industries) > 0:
+            for industry_id in insert_industries:
+                industry_country = IndustryCountry()
+                industry_country.industry_id = industry_id
+                industry_country.country_id = country.id
+                session.add(industry_country)
+                session.commit()
+        
+        return redirect(url_for("country", id=id))
+    return render_template("country/countries.html", usersession=usersession, industries=industries)
 
 @expose("/news/<news_type>")
 def news(request, news_type):
@@ -127,13 +224,19 @@ def news(request, news_type):
         return redirect(url_for('/'))
     return render_template("news.html", news_type=news_type, usersession=usersession)
 
-@expose("/country/<country>")
-def country(request, country):
+@expose("/country/<id>")
+def country(request, id):
     usersession = user_session(request)
     if not usersession:
         return redirect(url_for('/'))
-    print("Country Name: ", country)
-    return render_template("country/country_profile.html", countryname=country, usersession=usersession)
+    country = session.query(Country).filter(Country.id == id).one()
+    industries = session.query(Industry).filter(IndustryCountry.country_id == id).\
+        join(IndustryCountry, Industry.id == IndustryCountry.industry_id).\
+        options(
+            Load(Industry).load_only("industry_name")
+        ).all()
+    
+    return render_template("country/country_profile.html", country=country, usersession=usersession, industries=industries)
 
 @expose("/countryadd")
 def countryadd(request):
