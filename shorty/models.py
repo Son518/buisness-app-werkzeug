@@ -8,12 +8,7 @@ from .utils import get_random_uid
 from .utils import Base
 from .utils import session
 from .utils import url_for
-
 import enum
-class TypeEnum(enum.Enum):
-    Public = 1
-    Private = 2
-    Government = 3
 
 class NewsEnum(enum.Enum):
     Business = 1
@@ -22,6 +17,7 @@ class NewsEnum(enum.Enum):
     Technology = 4
     TV = 5
     Covid = 6
+type_enum = Enum("Public", "Private", "Government", "Co-operative")
 language_enum = Enum("Afar", "Afrikaans", "Akan", "Algerian Arabic", "Amharic", "Arabic", "Balanta", \
         "Bambara", "Bariba", "Berber", "Bulu", "Chewa", "Chokwe", "Comorian", "Creole", "Dangme", "Dioula", "Duala", \
         "Dyula", "Egyptian Arabic", "English", "Ewe", "Fan", "Fang", "Fon", "French", "Fula", "Fulani", "Fulfulde", \
@@ -136,8 +132,7 @@ class Company(Base):
     id = Column(Integer, primary_key=True)
     company_logo = Column(String(255))
     company_name = Column(String(255))
-    industry_id = Column(Integer)
-    company_type = Column(Enum(TypeEnum))
+    company_type = Column(type_enum)
     company_intro = Column(String(500))
     company_vision = Column(String(255))
     company_mission = Column(String(255))

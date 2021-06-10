@@ -144,7 +144,8 @@ def profile(request):
     if not usersession:
         return redirect(url_for('/'))
     return render_template("profile.html", usersession=usersession)
-# Country CRUD
+
+# Country CRUD --------------
 @expose("/countries")
 def countries(request):
     usersession = user_session(request)
@@ -267,13 +268,6 @@ def country_delete(request, id):
     session.commit()
     return redirect(url_for("countries"))
 
-@expose("/news/<news_type>")
-def news(request, news_type):
-    usersession = user_session(request)
-    if not usersession:
-        return redirect(url_for('/'))
-    return render_template("news.html", news_type=news_type, usersession=usersession)
-
 @expose("/country/<id>")
 def country(request, id):
     usersession = user_session(request)
@@ -288,19 +282,28 @@ def country(request, id):
     
     return render_template("country/country_profile.html", country=country, usersession=usersession, industries=industries)
 
-@expose("/countryadd")
-def countryadd(request):
+# News CRUD -------------------
+@expose("/news/<news_type>")
+def news(request, news_type):
     usersession = user_session(request)
     if not usersession:
         return redirect(url_for('/'))
-    return render_template("country_form.html", usersession=usersession)
+    return render_template("news.html", news_type=news_type, usersession=usersession)
 
-@expose("/companylist")
-def companylist(request):
+# Company CRUD ----------------
+@expose("/companies")
+def companies(request):
     usersession = user_session(request)
     if not usersession:
         return redirect(url_for('/'))
-    return render_template("company_profile.html", usersession=usersession)
+    return render_template("company/company_list.html", usersession=usersession)
+
+@expose("/company/new")
+def company_new(request):
+    usersession = user_session(request)
+    if not usersession:
+        return redirect(url_for('/'))
+    return render_template("company/company_form.html", usersession=usersession)
 
 @expose("/companyprofile/<company>")
 def companyprofile(request, company):
@@ -308,13 +311,6 @@ def companyprofile(request, company):
     if not usersession:
         return redirect(url_for('/'))
     return render_template("company_profile.html", companyname=company, usersession=usersession)
-
-@expose("/companyadd")
-def companyadd(request):
-    usersession = user_session(request)
-    if not usersession:
-        return redirect(url_for('/'))
-    return render_template("company_form.html", usersession=usersession)
 
 @expose("/industries")
 def industries(request):

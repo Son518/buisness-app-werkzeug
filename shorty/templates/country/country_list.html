@@ -2,9 +2,11 @@
 {% block body %}
 
 {% if usersession %}
-<div class="row justify-content-center">
-    <div class="mx-auto justify-content-center my-2">
-        <a class="btn btn-primary" href="{{url_for('country_new')}}">+ Add Country</a>
+<div class="row">
+    <div class="row justify-content-center">
+        <div class="mx-auto justify-content-center my-2">
+            <a class="btn btn-primary" href="{{url_for('country_new')}}">+ Add Country</a>
+        </div>
     </div>
 </div>
 {% endif %}

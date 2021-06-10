@@ -1,0 +1,127 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <h1>BOTSWANA GOLDEN 100</h1>
+    </div>
+    <div class="row">
+        <div class="mx-auto justify-content-center my-2">
+            <a class="btn btn-info" href="#">FULL LIST</a>
+            <a class="btn btn-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                BY COMPANY TYPE
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li><a class="dropdown-item" href="#">Public</a></li>
+                <li><a class="dropdown-item" href="#">Private</a></li>
+                <li><a class="dropdown-item" href="#">Government</a></li>
+                <li><a class="dropdown-item" href="#">Co-operative</a></li>
+            </ul>
+            <a class="btn btn-warning" href="#">BY INDUSTRY</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3 mx-auto justify-content-center my-2">
+            <a class="btn btn-primary" href="{{url_for('company_new')}}">+ ADD COMPANY</a>
+        </div>
+    </div>
+    <div class="row">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">COMPANY</th>
+                <th scope="col">TICKER</th>
+                <th scope="col">TYPE</th>
+                <th scope="col">INDUSTRY</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>4MS GROUP HOLDINGS</td>
+                <td>ABSA</td>
+                <td>PRIVATE</td>
+                <td>TRANSPORTATION & LOGISTICS</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>4MS GROUP HOLDINGS</td>
+                <td>ABSA</td>
+                <td>PRIVATE</td>
+                <td>TRANSPORTATION & LOGISTICS</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>4MS GROUP HOLDINGS</td>
+                <td>ABSA</td>
+                <td>PRIVATE</td>
+                <td>TRANSPORTATION & LOGISTICS</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>4MS GROUP HOLDINGS</td>
+                <td>ABSA</td>
+                <td>PRIVATE</td>
+                <td>TRANSPORTATION & LOGISTICS</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>4MS GROUP HOLDINGS</td>
+                <td>ABSA</td>
+                <td>PRIVATE</td>
+                <td>TRANSPORTATION & LOGISTICS</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>4MS GROUP HOLDINGS</td>
+                <td>ABSA</td>
+                <td>PRIVATE</td>
+                <td>TRANSPORTATION & LOGISTICS</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>4MS GROUP HOLDINGS</td>
+                <td>ABSA</td>
+                <td>PRIVATE</td>
+                <td>TRANSPORTATION & LOGISTICS</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>4MS GROUP HOLDINGS</td>
+                <td>ABSA</td>
+                <td>PRIVATE</td>
+                <td>TRANSPORTATION & LOGISTICS</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>4MS GROUP HOLDINGS</td>
+                <td>ABSA</td>
+                <td>PRIVATE</td>
+                <td>TRANSPORTATION & LOGISTICS</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>4MS GROUP HOLDINGS</td>
+                <td>ABSA</td>
+                <td>PRIVATE</td>
+                <td>TRANSPORTATION & LOGISTICS</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>4MS GROUP HOLDINGS</td>
+                <td>ABSA</td>
+                <td>PRIVATE</td>
+                <td>TRANSPORTATION & LOGISTICS</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>4MS GROUP HOLDINGS</td>
+                <td>ABSA</td>
+                <td>PRIVATE</td>
+                <td>TRANSPORTATION & LOGISTICS</td>
+              </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
