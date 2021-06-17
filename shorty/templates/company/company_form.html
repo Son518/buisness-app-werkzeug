@@ -1,13 +1,15 @@
 {% extends 'layout.html' %}
 {% block body %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css">
+<script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
 <div class="container">
-    <form action="" class="row" method="POST">
+    <form action="" class="row" method="POST" enctype=multipart/form-data>
         <div class="row">
             <div class="col-6"></div>
             <div class="col-6 justify-content-end">
                 <div class="justify-content-end nav">
                     <a href="{{url_for('companies')}}" class="px-3 py-3">Botswana Golden 100</a>
-                    <a href="{{url_for('news', news_type='countries')}}" class="px-3 py-3">Countries</a>
+                    <a href="{{url_for('countries')}}" class="px-3 py-3">Countries</a>
                 </div>
             </div>
         </div>
@@ -30,18 +32,28 @@
                 <input name="company_name" class="form-control" type="text" placeholder="+ Add Company Name">
             </div>
             <div class="col-4">
-                <label class="fw-bold fs-4 text-warning">Industry:</label>
-                <input name="company_industry" class="form-control" type="text" placeholder="+ Add Industry">
+                <label for="" class="fw-bold fs-4 text-warning">TICKER</label>
+                <input name="company_ticker" class="form-control" type="text" placeholder="+ Add Company Ticker">
             </div>
             <div class="col-4">
                 <label class="fw-bold fs-4 text-warning">Type:</label>
                 <select name="company_type" class="form-select" aria-label="Default select example" aria-placeholder="Select a type">
                     <option value="Public">Public</option>
                     <option value="Private">Private</option>
-                    <option value="Goverment">Goverment</option>
+                    <option value="Government">Government</option>
                     <option value="Co-operative">Co-operative</option>
                 </select>
             </div>
+        </div>
+        <div class="row">
+            <label class="fw-bold fs-4 text-warning">Industry:</label>
+            <select id="industries" name="company_industry" class="" placeholder="{{ ('Please select the industry types...' if err_msg.industries else 'Looks good!') if err_msg else '' }}" multiple="multiple" size="10" value="">
+                {% for industry in industries %}
+                <option value="{{industry.id}}">{{industry.industry_name}}</option>
+                {% else %}
+                    did not iterate
+                {% endfor %}
+            </select>
         </div>
         <div class="row">
             <label class="text-primary fw-bold fs-4">Introduction</label>
@@ -65,9 +77,11 @@
                     <div class="col-sm-2 imgUp">
                     <div class="imagePreview"></div>
                         <label class="btn btn-primary">+ Add Photo
-                            <input type="file" class="uploadFile img" value="Upload Photo" style="width: 0px;height: 0px;overflow: hidden;">
+                            <input name="member_photo"  type="file" class="uploadFile img" value="Upload Photo" style="width: 0px;height: 0px;overflow: hidden;">
                         </label>
-                        <input type="text" class="form-control" placeholder="+ Add Title">
+                        <input name="member_name" type="text" class="form-control" placeholder="+ Add Name">
+                        <input name="member_title1" type="text" class="form-control" placeholder="+ Add Title">
+                        <input name="member_title2" type="text" class="form-control" placeholder="+ Add Title">
                     </div><!-- col-2 -->
                     <i class="fa fa-plus imgAdd"></i>
                 </div><!-- row -->
@@ -83,17 +97,17 @@
         <div class="row">
             <label class="text-primary fw-bold fs-4">Products</label>
             <div class="col-5">
-                <input type="text" class="form-control my-1" placeholder="+ Add Product 1">
-                <input type="text" class="form-control my-1" placeholder="+ Add Product 2">
-                <input type="text" class="form-control my-1" placeholder="+ Add Product 3">
+                <input name="company_product1" type="text" class="form-control my-1" placeholder="+ Add Product 1">
+                <input name="company_product2" type="text" class="form-control my-1" placeholder="+ Add Product 2">
+                <input name="company_product3" type="text" class="form-control my-1" placeholder="+ Add Product 3">
             </div>
         </div>
         <div class="row">
             <label class="text-primary fw-bold fs-4">Services</label>
             <div class="col-5">
-                <input type="text" class="form-control my-1" placeholder="+ Add Service 1">
-                <input type="text" class="form-control my-1" placeholder="+ Add Service 2">
-                <input type="text" class="form-control my-1" placeholder="+ Add Service 3">
+                <input name="company_service1" type="text" class="form-control my-1" placeholder="+ Add Service 1">
+                <input name="company_service2" type="text" class="form-control my-1" placeholder="+ Add Service 2">
+                <input name="company_service3" type="text" class="form-control my-1" placeholder="+ Add Service 3">
             </div>
         </div>
         <div class="row">
@@ -106,8 +120,9 @@
         </div>
         <div class="row">
             <p class="text-primary fw-bold fs-4">Contact Person:</p>
-            <input name="" type="text" class="form-control my-1" placeholder="+ Add Name">
-            <input name="" type="text" class="form-control my-1" placeholder="+ Add Title">
+            <input name="company_contact_name" type="text" class="form-control my-1" placeholder="+ Add Name">
+            <input name="company_contact_title1" type="text" class="form-control my-1" placeholder="+ Add Title">
+            <input name="company_contact_title2" type="text" class="form-control my-1" placeholder="+ Add Title">
         </div>
         <div class="row">
             <p class="text-primary fw-bold fs-4">Postal Address:</p>
@@ -137,7 +152,20 @@
             <div class="col-2"><span class="text-primary fw-bold">Web: </span></div>
             <div class="col-6"><input name="company_web" type="text" class="form-control my-1" placeholder="+ Add Web Address"></div>
         </div>
+        <div class="row">
+            <button class="btn btn-success" type="submit">Save</button>
+        </div>
     </form>
 </div>
 <script src="{{url_for('static', file='imageupload.js')}}"></script>
+<script>
+    $(document).ready(function(){
+        var multipleCancelButton = new Choices('#industries', {
+        removeItemButton: true,
+        maxItemCount:10,
+        searchResultLimit:10,
+        renderChoiceLimit:10
+        });
+    });
+</script>
 {% endblock %}

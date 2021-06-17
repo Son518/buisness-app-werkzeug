@@ -1,0 +1,190 @@
+{% extends 'layout.html' %}
+{% block body %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css">
+<script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
+<div class="container">
+    <form action="" class="row" method="POST" enctype=multipart/form-data>
+        <div class="row">
+            <div class="col-6"></div>
+            <div class="col-6 justify-content-end">
+                <div class="justify-content-end nav">
+                    <a href="{{url_for('companies')}}" class="px-3 py-3">Botswana Golden 100</a>
+                    <a href="{{url_for('countries')}}" class="px-3 py-3">Countries</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-2 col-md-2 imgUp">
+                    <div class="imagePreview" {{ "style='background-image: url(" + url_for('static', file='uploads/'+company.company_logo) + ");'"}}></div>
+                    <label class="btn btn-primary">
+                        + Replace Company Logo
+                        <input name="company_logo" type="file" class="uploadFile img" value="Upload Photo" style="width: 0px;height: 0px;overflow: hidden;">
+                    </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row py-3">
+            <div class="col-4">
+                <label class="fw-bold fs-4 text-warning">Company:</label>
+                <input name="company_name" class="form-control" type="text" placeholder="+ Add Company Name" value="{{company.company_name}}">
+            </div>
+            <div class="col-4">
+                <label for="" class="fw-bold fs-4 text-warning">TICKER</label>
+                <input name="company_ticker" class="form-control" type="text" placeholder="+ Add Company Ticker" value="{{company.company_ticker}}">
+            </div>
+            <div class="col-4">
+                <label class="fw-bold fs-4 text-warning">Type:</label>
+                <select name="company_type" class="form-select" aria-label="Default select example" aria-placeholder="Select a type">
+                    <option value="Public" {{'selected' if company.company_type == 'Public'}} >Public</option>
+                    <option value="Private" {{'selected' if company.company_type == 'Private'}}>Private</option>
+                    <option value="Government" {{'selected' if company.company_type == 'Government'}}>Government</option>
+                    <option value="Co-operative" {{'selected' if company.company_type == 'Co-operative'}}>Co-operative</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <label class="fw-bold fs-4 text-warning">Industry:</label>
+            <select id="industries" name="company_industry" class="" placeholder="{{ ('Please select the industry types...' if err_msg.industries else 'Looks good!') if err_msg else '' }}" multiple="multiple" size="10" value="">
+                {% for industry in industries %}
+                <option value="{{industry.id}}" {{ "selected" if industry.id in selected_industries }}>{{industry.industry_name}}</option>
+                {% else %}
+                    did not iterate
+                {% endfor %}
+            </select>
+        </div>
+        <div class="row">
+            <label class="text-primary fw-bold fs-4">Introduction</label>
+            <textarea class="form-control" name="company_intro" id="" cols="100" rows="3" placeholder="+ Add Introduction">
+                {{company.company_intro}}
+            </textarea>
+        </div>
+        <div class="row">
+            <label class="text-primary fw-bold fs-4">Vision</label>
+            <textarea class="form-control" name="company_vision" id="" cols="100" rows="1" placeholder="+ Add Vision">
+                {{company.company_vision}}
+            </textarea>
+        </div>
+        <div class="row">
+            <label class="text-primary fw-bold fs-4">Mission</label>
+            <textarea class="form-control" name="company_mission" id="" cols="100" rows="1" placeholder="+ Add Mission">
+                {{company.company_mission}}
+            </textarea>
+        </div>
+        <div class="row">
+            <div class="row">
+                <p class="text-primary fw-bold fs-4">Top Executives</p>
+            </div>     
+            <div class="row">
+                <div class="container">
+                    <div class="row">
+                        {% for executive in executives %}
+                        <div class="col-sm-2 imgUp">
+                            <div class="imagePreview" {{ "style='background-image: url(" + url_for('static', file='uploads/'+executive.photo) + ");'"}} ></div>
+                            <label class="btn btn-primary">+ Replace Photo
+                                <input name="member_photo"  type="file" class="uploadFile img" value="Upload Photo" style="width: 0px;height: 0px;overflow: hidden;">
+                            </label>
+                            <input name="member_name" type="text" class="form-control" placeholder="+ Add Name" value="{{executive.name}}">
+                            <input name="member_title1" type="text" class="form-control" placeholder="+ Add Title" value="{{executive.title1}}">
+                            <input name="member_title2" type="text" class="form-control" placeholder="+ Add Title" value="{{executive.title1}}">
+                        </div><!-- col-2 -->
+                        {% endfor %}
+                        <div class="col-sm-2 imgUp">
+                            <div class="imagePreview"></div>
+                            <label class="btn btn-primary">+ Add Photo
+                                <input name="member_photo"  type="file" class="uploadFile img" value="Upload Photo" style="width: 0px;height: 0px;overflow: hidden;">
+                            </label>
+                            <input name="member_name" type="text" class="form-control" placeholder="+ Add Name">
+                            <input name="member_title1" type="text" class="form-control" placeholder="+ Add Title">
+                            <input name="member_title2" type="text" class="form-control" placeholder="+ Add Title">
+                        </div><!-- col-2 -->
+                        <i class="fa fa-plus imgAdd"></i>
+                    </div><!-- row -->
+                </div><!-- container -->
+                
+            </div>
+        </div>
+
+        <div class="row">
+            <label class="text-primary fw-bold fs-4">Company Description</label>
+            <textarea class="form-control" name="company_desc" id="" cols="100" rows="10" placeholder="+ Add Description">
+                {{company.company_desc}}
+            </textarea>
+        </div>
+        <div class="row">
+            <label class="text-primary fw-bold fs-4">Products</label>
+            <div class="col-5">
+                <input name="company_product1" type="text" class="form-control my-1" placeholder="+ Add Product 1" value="{{company.company_product1}}">
+                <input name="company_product2" type="text" class="form-control my-1" placeholder="+ Add Product 2" value="{{company.company_product2}}">
+                <input name="company_product3" type="text" class="form-control my-1" placeholder="+ Add Product 3" value="{{company.company_product3}}">
+            </div>
+        </div>
+        <div class="row">
+            <label class="text-primary fw-bold fs-4">Services</label>
+            <div class="col-5">
+                <input name="company_service1" type="text" class="form-control my-1" placeholder="+ Add Service 1" value="{{company.company_service1}}">
+                <input name="company_service2" type="text" class="form-control my-1" placeholder="+ Add Service 2" value="{{company.company_service2}}">
+                <input name="company_service3" type="text" class="form-control my-1" placeholder="+ Add Service 3" value="{{company.company_service3}}">
+            </div>
+        </div>
+        <div class="row">
+            <p class="text-primary fw-bold fs-4">Employees</p>
+            <input name="company_employees" type="text" class="form-control my-1" placeholder="+ Add Count" value="{{company.company_employees}}">
+        </div>
+        <div class="row">
+            <p class="text-primary fw-bold fs-4">Turnover/Market Cap</p>
+            <input name="company_market" type="text" class="form-control my-1" placeholder="+ Add Figure" value="{{company.company_market}}">
+        </div>
+        <div class="row">
+            <p class="text-primary fw-bold fs-4">Contact Person:</p>
+            <input name="company_contact_name" type="text" class="form-control my-1" placeholder="+ Add Name" value="{{company.company_contact_name}}">
+            <input name="company_contact_title1" type="text" class="form-control my-1" placeholder="+ Add Title" value="{{company.company_contact_title1}}">
+            <input name="company_contact_title2" type="text" class="form-control my-1" placeholder="+ Add Title" value="{{company.company_contact_title2}}">
+        </div>
+        <div class="row">
+            <p class="text-primary fw-bold fs-4">Postal Address:</p>
+            <input name="company_postal_address" type="text" class="form-control my-1" placeholder="+ Add Postal Address" value="{{company.company_postal_address}}">
+        </div>
+        <div class="row">
+            <p class="text-primary fw-bold fs-4">Physical Address:</p>
+            <input name="company_physical_street" type="text" class="form-control my-1" placeholder="+ Add Street" value="{{company.company_physical_street}}">
+            <input name="company_physical_district" type="text" class="form-control my-1" placeholder="+ Add District" value="{{company.company_physical_district}}">
+            <input name="company_physical_city" type="text" class="form-control my-1" placeholder="+ Add City" value="{{company.company_physical_city}}">
+            <input name="company_physical_country" type="text" class="form-control my-1" placeholder="+ Add Country" value="{{company.company_physical_country}}">
+        </div>
+        
+        <div class="row">
+            <div class="col-2"><span class="text-primary fw-bold">Tel: </span></div>
+            <div class="col-6"><input name="company_tel" type="text" class="form-control my-1" placeholder="+ Add Number" value="{{company.company_tel}}"></div>
+        </div>
+        <div class="row">
+            <div class="col-2"><span class="text-primary fw-bold">Fax: </span></div>
+            <div class="col-6"><input name="company_fax" type="text" class="form-control my-1" placeholder="+ Add Number" value="{{company.company_fax}}"></div>
+        </div>
+        <div class="row">
+            <div class="col-2"><span class="text-primary fw-bold">E-mail: </span></div>
+            <div class="col-6"><input name="company_email" type="text" class="form-control my-1" placeholder="+ Add Email Address" value="{{company.company_email}}"></div>
+        </div>
+        <div class="row">
+            <div class="col-2"><span class="text-primary fw-bold">Web: </span></div>
+            <div class="col-6"><input name="company_web" type="text" class="form-control my-1" placeholder="+ Add Web Address" value="{{company.company_web}}"></div>
+        </div>
+        <div class="row">
+            <button class="btn btn-success" type="submit">Save</button>
+        </div>
+    </form>
+</div>
+<script src="{{url_for('static', file='imageupload.js')}}"></script>
+<script>
+    $(document).ready(function(){
+        var multipleCancelButton = new Choices('#industries', {
+        removeItemButton: true,
+        maxItemCount:10,
+        searchResultLimit:10,
+        renderChoiceLimit:10
+        });
+    });
+</script>
+{% endblock %}

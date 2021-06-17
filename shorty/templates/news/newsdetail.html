@@ -1,0 +1,66 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="row">
+            <label class="text-warning fw-bold fs-5 text-warning"> {{news.news_country}} </label>
+        </div>
+        <div class="row">
+            <label class="text-primary fw-bold fs-6"> {{news.news_category}} </label>
+        </div>
+        <div class="row">
+            <label for="" class="text-dark fw-bold fs-3 text-warning"> {{news.news_title}} </label>
+        </div>
+        <div class="row">
+            <label class="text-dark fw-bold fs-6"> {{news.news_reporter}} </label>
+        </div>
+        <div class="row">
+            <label for="" class="text-black-50 fs-6">Published: <span>{{news.news_created}}</span> GMT +2</label>
+        </div>
+        <div class="row">
+            <label class="text-dark fw-bold fs-5"> {{news.news_source}} </label>
+        </div>
+        <div class="row">
+            <ul class="list-group list-group-horizontal">
+                <a href="#" class="social-icon"><img src="{{url_for('static', file='social_icons/facebook.png')}}" alt=""></a>
+                <a href="#" class="social-icon"><img src="{{url_for('static', file='social_icons/gmail.png')}}" alt=""></a>
+                <a href="#" class="social-icon"><img src="{{url_for('static', file='social_icons/instagram.png')}}" alt=""></a>
+                <a href="#" class="social-icon"><img src="{{url_for('static', file='social_icons/pinter.png')}}" alt=""></a>
+                <a href="#" class="social-icon"><img src="{{url_for('static', file='social_icons/twitter.png')}}" alt=""></a>
+                <a href="#" class="social-icon"><img src="{{url_for('static', file='social_icons/whatsapp.png')}}" alt=""></a>
+            </ul>
+        </div>
+        <div class="row">
+            <img src=" {{url_for('static', file='uploads/news/'+news.news_image)}} " alt="">
+        </div>
+        <div class="row py-3">
+            <label class="text-dark fw-bold fs-4">{{news.news_content}}</label>
+        </div>
+    </div>
+
+    <div class="row">
+        <a href="{{url_for('newslist')}}">Back to list</a>
+        <a href="{{url_for('news_edit', id=news.id)}}">Edit this article</a>
+        <a href="#deleteModal" data-bs-toggle="modal">Delete this article</a>
+    </div>
+    
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Would you delete this news?</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            ...
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <a class="btn btn-danger" href="{{url_for('news_delete', id=news.id)}}">Delete</a>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

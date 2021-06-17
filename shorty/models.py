@@ -1,7 +1,8 @@
 from datetime import datetime
 from decimal import Decimal
+from unicodedata import category
 
-from sqlalchemy import Boolean, Column, DateTime, Date, String, Integer, Text, Enum, DECIMAL
+from sqlalchemy import Boolean, Column, DateTime, Date, String, Integer, Text, Enum, DECIMAL, column
 # from sqlalchemy.orm import mapper, relationship
 
 from .utils import get_random_uid
@@ -10,13 +11,7 @@ from .utils import session
 from .utils import url_for
 import enum
 
-class NewsEnum(enum.Enum):
-    Business = 1
-    Market = 2
-    Politics = 3
-    Technology = 4
-    TV = 5
-    Covid = 6
+news_categories = Enum("Business", "Market", "Politics", "Technology", "TV", "COVID-19")
 type_enum = Enum("Public", "Private", "Government", "Co-operative")
 language_enum = Enum("Afar", "Afrikaans", "Akan", "Algerian Arabic", "Amharic", "Arabic", "Balanta", \
         "Bambara", "Bariba", "Berber", "Bulu", "Chewa", "Chokwe", "Comorian", "Creole", "Dangme", "Dioula", "Duala", \
@@ -85,7 +80,7 @@ class User(Base):
     email = Column(String(30))
     first_name = Column(String(30))
     last_name = Column(String(30))
-    password = Column(String(30))
+    password = Column(String(255))
     birthday = Column(Date)
     phone = Column(String(30))
     usertype = Column(Integer)
@@ -148,6 +143,26 @@ class Company(Base):
     company_fax = Column(String(255))
     company_email = Column(String(255))
     company_web = Column(String(255))
+    company_product1 = Column(String(255))
+    company_product2 = Column(String(255))
+    company_product3 = Column(String(255))
+    company_service1 = Column(String(255))
+    company_service2 = Column(String(255))
+    company_service3 = Column(String(255))
+    company_ticker = Column(String(50))
+    company_contact_name = Column(String(250))
+    company_contact_title1 = Column(String(250))
+    company_contact_title2 = Column(String(250))
+
+class Executive(Base):
+    __tablename__ = 'executives'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(50))
+    title1 = Column(String(50))
+    title2 = Column(String(50))
+    photo = Column(String(50))
+    company_id = Column(Integer)
 
 class Industry(Base):
     __tablename__ = "industries"
@@ -174,13 +189,20 @@ class Contact(Base):
 class News(Base):
     __tablename__ = "news"
     id = Column(Integer, primary_key=True)
+    news_country = Column(String(255))
+    news_category = Column(news_categories)
     news_title = Column(String(255))
-    news_content = Column(String(255))
+    news_reporter = Column(String(255))
     news_created = Column(DateTime)
-    new_type = Column(Enum(NewsEnum))
+    news_source = Column(String(255))
+    news_sharing_links = Column(String(255))
+    news_image = Column(String(255))
+    news_image_caption = Column(String(255))
+    news_content = Column(String(255))
 
 class IndustryCountry(Base):
     __tablename__ = "industry_country"
     id = Column(Integer, primary_key=True)
     industry_id = Column(Integer)
     country_id = Column(Integer)
+    company_id = Column(Integer)

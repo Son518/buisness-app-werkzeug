@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="mx-auto justify-content-center my-2">
+            <a class="btn btn-success" href="{{url_for('news_add')}}">+ ADD NEWS</a>
+        </div>
+    </div>
+    <div class="row">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">TYPE</th>
+                <th scope="col">Author</th>
+                <th scope="col">Publish Date</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for news in allnews %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{news.news_title}}</td>
+                    <td>{{news.news_category}}</td>
+                    <td>{{news.news_reporter}}</td>
+                    <td>{{news.news_created}}</td>
+                    <td>
+                        <a href=" {{url_for('news_detail', id=news.id)}} " class="btn btn-primary"><i class="far fa-eye"></i></a>
+                        <a href=" {{url_for('news_edit', id=news.id)}} " class="btn btn-success"><i class="fas fa-edit"></i></a>
+                        <a href="" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

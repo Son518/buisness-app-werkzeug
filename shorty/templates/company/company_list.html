@@ -20,7 +20,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-3 mx-auto justify-content-center my-2">
+        <div class="mx-auto justify-content-center my-2">
             <a class="btn btn-primary" href="{{url_for('company_new')}}">+ ADD COMPANY</a>
         </div>
     </div>
@@ -36,90 +36,26 @@
               </tr>
             </thead>
             <tbody>
+              {% for company in companies %}
               <tr>
                 <th scope="row">1</th>
-                <td>4MS GROUP HOLDINGS</td>
-                <td>ABSA</td>
-                <td>PRIVATE</td>
-                <td>TRANSPORTATION & LOGISTICS</td>
+                <td>
+                  <a href="{{url_for('company', id=company.id)}}">{{company.company_name}}</a>
+                </td>
+                <td>{{company.company_ticker}}</td>
+                <td>{{company.company_type}}</td>
+                <td>
+                  {% for industry_name in company.industries %}
+                    {{industry_name[0]}},
+                  {% else %}
+                  <p style="color: green;">No Matched Industries</p>      
+                  {% endfor %}
+                </td>
               </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>4MS GROUP HOLDINGS</td>
-                <td>ABSA</td>
-                <td>PRIVATE</td>
-                <td>TRANSPORTATION & LOGISTICS</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>4MS GROUP HOLDINGS</td>
-                <td>ABSA</td>
-                <td>PRIVATE</td>
-                <td>TRANSPORTATION & LOGISTICS</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>4MS GROUP HOLDINGS</td>
-                <td>ABSA</td>
-                <td>PRIVATE</td>
-                <td>TRANSPORTATION & LOGISTICS</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>4MS GROUP HOLDINGS</td>
-                <td>ABSA</td>
-                <td>PRIVATE</td>
-                <td>TRANSPORTATION & LOGISTICS</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>4MS GROUP HOLDINGS</td>
-                <td>ABSA</td>
-                <td>PRIVATE</td>
-                <td>TRANSPORTATION & LOGISTICS</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>4MS GROUP HOLDINGS</td>
-                <td>ABSA</td>
-                <td>PRIVATE</td>
-                <td>TRANSPORTATION & LOGISTICS</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>4MS GROUP HOLDINGS</td>
-                <td>ABSA</td>
-                <td>PRIVATE</td>
-                <td>TRANSPORTATION & LOGISTICS</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>4MS GROUP HOLDINGS</td>
-                <td>ABSA</td>
-                <td>PRIVATE</td>
-                <td>TRANSPORTATION & LOGISTICS</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>4MS GROUP HOLDINGS</td>
-                <td>ABSA</td>
-                <td>PRIVATE</td>
-                <td>TRANSPORTATION & LOGISTICS</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>4MS GROUP HOLDINGS</td>
-                <td>ABSA</td>
-                <td>PRIVATE</td>
-                <td>TRANSPORTATION & LOGISTICS</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>4MS GROUP HOLDINGS</td>
-                <td>ABSA</td>
-                <td>PRIVATE</td>
-                <td>TRANSPORTATION & LOGISTICS</td>
-              </tr>
+              {% else %}
+              <p style="color: green;">No Companies</p>
+              
+              {% endfor %}
             </tbody>
         </table>
     </div>

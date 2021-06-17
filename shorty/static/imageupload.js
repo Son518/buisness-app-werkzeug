@@ -1,5 +1,5 @@
 $(".imgAdd").click(function(){
-    $(this).closest(".row").find('.imgAdd').before('<div class="col-sm-2 imgUp"><div class="imagePreview"></div><label class="btn btn-primary">+ Add Photo<input type="file" class="uploadFile img" value="+ Add Photo" style="width:0px;height:0px;overflow:hidden;"></label><input type="text" class="form-control" placeholder="+ Add Title"><i class="fa fa-times del"></i></div>');
+    $(this).closest(".row").find('.imgAdd').before('<div class="col-sm-2 imgUp"><div class="imagePreview"></div><label class="btn btn-primary">+ Add Photo<input type="file" name="member_photo"  class="uploadFile img" value="+ Add Photo" style="width:0px;height:0px;overflow:hidden;"></label><input name="member_name" type="text" class="form-control" placeholder="+ Add Name"><input name="member_title1" type="text" class="form-control" placeholder="+ Add Title"><input name="member_title2" type="text" class="form-control" placeholder="+ Add Title"><i class="fa fa-times del"></i></div>');
 });
 $(document).on("click", "i.del" , function() {
     $(this).parent().remove();

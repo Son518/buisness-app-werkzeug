@@ -1,13 +1,24 @@
+from ast import Try
 import json
 from os import error
+import os
 from time import timezone
 from sqlalchemy import true
 from sqlalchemy.sql.functions import count
 from sqlalchemy.orm import Load
 from werkzeug.exceptions import NotFound
 from werkzeug.utils import redirect
-from .models import Industry, User, Country, IndustryCountry
+from werkzeug import secure_filename
+from .models import Company, Industry, User, Country, IndustryCountry, Executive, News
 from .utils import expose, Pagination, render_template, session, url_for, validate_url
+from datetime import datetime
+from cryptography.fernet import Fernet
+key = b'pRmgMa8T0INjEAfksaq2aafzoZXEuwKI7wDe4c1F8AY='
+fernet = Fernet(key)
+
+import smtplib, ssl
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 from secure_cookie.session import FilesystemSessionStore
 
@@ -44,6 +55,7 @@ area_number_enum = ("+20", "+27", "+211", "+212", "+213", "+216", "+218", "+220"
 region_enum = ("Southern Africa", "Central Africa", "East Africa", "North Africa", "West Africa", "East Central Africa", \
         "North East Africa", "North West Africa")
 timezone_enum = ("GMT/UTC-1:00", "GMT/UTC+0:00", "GMT/UTC+1:00", "GMT/UTC+2:00", "GMT/UTC+3:00", "GMT/UTC+4:00")
+
 
 def user_session(request):
     sid = request.cookies.get("wsessid")
@@ -89,13 +101,11 @@ def signin(request):
         email = request.form.get("email")
         password = request.form.get("password")
         result = session.query(User).filter(User.email == email)
-
+        
         if result.count() == 0:
             login_err_msg = "Invaild User!"
         for row in result:
-            if row.password == password:
-                print("User Info: ", row.username, row.password)
-
+            if fernet.decrypt(row.password.encode()).decode() == password:
                 session_data = {
                     "usertype": row.usertype,
                     "username": row.username,
@@ -112,6 +122,59 @@ def signin(request):
                 login_err_msg = "wrong password"
     return render_template("signin.html", login_err_msg=login_err_msg)
 
+@expose('/forgot')
+def forgot_password(request):
+    if request.method == 'POST':
+        email = request.form.get("email")
+        print("Email: ", email)
+        sender_email = "seth.motlotle@gmail.com"
+        receiver_email = email
+        password = "Botswana"
+
+        message = MIMEMultipart("alternative")
+        message["Subject"] = "multipart test"
+        message["From"] = sender_email
+        message["To"] = receiver_email
+
+        # Create the plain-text and HTML version of your message
+        text = """\
+        Hi,
+        How are you?
+        Real Python has many great tutorials:
+        www.realpython.com"""
+        html = """\
+        <html>
+        <body>
+            <p>Hi,<br>
+            How are you?<br>
+            <a href="http://www.realpython.com">Real Python</a> 
+            has many great tutorials.
+            </p>
+        </body>
+        </html>
+        """
+
+        # Turn these into plain/html MIMEText objects
+        part1 = MIMEText(text, "plain")
+        part2 = MIMEText(html, "html")
+        print(part1, part2)
+        # Add HTML/plain-text parts to MIMEMultipart message
+        # The email client will try to render the last part first
+        message.attach(part1)
+        message.attach(part2)
+
+        # Create secure connection with server and send email
+        context = ssl.create_default_context()
+        print("Context: ", context, smtplib)
+        
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+            print("server: ", server)
+            server.login(sender_email, password)
+            server.sendmail(
+                sender_email, receiver_email, message.as_string()
+            )
+    return render_template("forgot_password.html")
+
 @expose("/signup")
 def signup(request):
     if request.method == 'POST':
@@ -126,7 +189,10 @@ def signup(request):
         else:
             newUser = User()
             newUser.email = email
-            newUser.password = password
+            
+            encrypt_password = fernet.encrypt(password.encode())
+            print("encrypt password: ", encrypt_password, encrypt_password.decode())
+            newUser.password = encrypt_password
             session.add(newUser)
             session.commit()
             return redirect(url_for('signin'))
@@ -206,9 +272,9 @@ def country_edit(request, id):
     usersession = user_session(request)
     if not usersession or (usersession['usertype'] is not 1):
         return redirect(url_for('/'))
+    industries = session.query(Industry).all()
     if request.method == 'GET':
         country = session.query(Country).filter(Country.id == id).one()
-        industries = session.query(Industry).all()
         selected_industries = session.query(Industry.id).filter(IndustryCountry.country_id == id).\
         join(IndustryCountry, Industry.id == IndustryCountry.industry_id).\
         options(
@@ -220,7 +286,6 @@ def country_edit(request, id):
             language_enum=language_enum, city_enum=city_enum, currency_enum=currency_enum, area_number_enum=area_number_enum, \
             region_enum=region_enum, timezone_enum=timezone_enum)
     
-    industries = session.query(Industry).all()
     if request.method == 'POST':
         form_data = request.form.to_dict(flat=False)
         insert_data = {}
@@ -282,35 +347,143 @@ def country(request, id):
     
     return render_template("country/country_profile.html", country=country, usersession=usersession, industries=industries)
 
-# News CRUD -------------------
-@expose("/news/<news_type>")
-def news(request, news_type):
-    usersession = user_session(request)
-    if not usersession:
-        return redirect(url_for('/'))
-    return render_template("news.html", news_type=news_type, usersession=usersession)
-
 # Company CRUD ----------------
 @expose("/companies")
 def companies(request):
     usersession = user_session(request)
     if not usersession:
         return redirect(url_for('/'))
-    return render_template("company/company_list.html", usersession=usersession)
+    companies = session.query(Company).all()
+    for company in companies:
+        company.industries= session.query(Industry.industry_name).join(IndustryCountry, IndustryCountry.industry_id==Industry.id).filter(company.id == IndustryCountry.company_id).all()
+    
+    return render_template("company/company_list.html", usersession=usersession, companies=companies)
 
 @expose("/company/new")
 def company_new(request):
     usersession = user_session(request)
     if not usersession:
         return redirect(url_for('/'))
-    return render_template("company/company_form.html", usersession=usersession)
+    industries = session.query(Industry).all()
+    if request.method == 'POST':
+        form_data = request.form.to_dict(flat=False)
+        insert_data = {}
+        insert_industries = {}
+        for key, value in form_data.items():
+            if key == 'company_industry' or key == 'member_name' or key == 'member_title1' or key == 'member_title2':
+                pass
+            else:
+                insert_data[key] = value[0]
+        company = Company()
+        for key,value in insert_data.items():
+            setattr(company, key, value)
+        if 'company_logo' in request.files:
+            company_logo_file = request.files.get("company_logo")
+            print("Company Logo File name: ", company_logo_file.filename)
+            logo_path = os.path.join('./shorty/static/uploads/', secure_filename(company_logo_file.filename))
+            company_logo_file.save(logo_path)
+            company.company_logo = company_logo_file.filename
 
-@expose("/companyprofile/<company>")
-def companyprofile(request, company):
+        session.add(company)
+        session.commit()
+
+        for key, value in form_data.items():
+            if key == 'company_industry':
+                insert_industries = value
+            elif key == 'member_name':
+                member_photos = request.files.getlist('member_photo')
+                if len(member_photos) == 0:
+                    pass
+                index = 0
+                for member_photo in member_photos:
+                    path = os.path.join('./shorty/static/uploads/', secure_filename(member_photo.filename))
+                    member_photo.save(path)
+                    data = form_data
+                    member_titles1 = data['member_title1']
+                    member_titles2 = data['member_title2']
+                    executive = Executive(name=value[index], title1=member_titles1[index], \
+                        title2=member_titles2[index], photo=member_photo.filename, company_id=company.id)
+                    index += 1
+                    session.add(executive)
+                    session.commit()
+            elif key == 'member_title1' or key == 'member_title2': pass
+            else:
+                pass
+       
+        for industry_id in insert_industries:
+            industry_country = IndustryCountry()
+            industry_country.industry_id = industry_id
+            industry_country.company_id = company.id
+            session.add(industry_country)
+            session.commit()
+        return redirect(url_for("companies"))
+    return render_template("company/company_form.html", usersession=usersession, industries=industries)
+
+@expose("/company/<id>")
+def company(request, id):
     usersession = user_session(request)
     if not usersession:
         return redirect(url_for('/'))
-    return render_template("company_profile.html", companyname=company, usersession=usersession)
+    company = session.query(Company).filter(Company.id == id).one()
+    industries = session.query(Industry.industry_name).filter(IndustryCountry.company_id == id).\
+        join(IndustryCountry, Industry.id == IndustryCountry.industry_id).all()
+    executives = session.query(Executive).filter(Executive.company_id == id).all()
+    return render_template("company/company_profile.html", company=company, usersession=usersession, industries=industries, executives=executives)
+
+@expose("/company/edit/<id>")
+def company_edit(request, id):
+    usersession = user_session(request)
+    if not usersession:
+        return redirect(url_for('/'))
+    company = session.query(Company).filter(Company.id == id).one()
+    industries = session.query(Industry).all()
+    if request.method == 'GET':
+        selected_industries = session.query(Industry.id).filter(IndustryCountry.company_id == id).\
+            join(IndustryCountry, Industry.id == IndustryCountry.industry_id).all()
+        selected_industries = [item[0] for item in selected_industries]
+        executives = session.query(Executive).filter(Executive.company_id == id).all()
+        print(industries, selected_industries)
+        return render_template("company/company_edit.html", usersession=usersession, company=company, industries=industries, executives=executives, \
+            selected_industries=selected_industries)
+    
+    if request.method == 'POST':
+        form_data = request.form.to_dict(flat=False)
+        insert_data = {}
+        insert_industries = {}
+        for key, value in form_data.items():
+            if key == 'company_industry':
+                insert_industries = value
+            elif key == 'member_name':
+                member_photos = request.files.getlist('member_photo')
+                print("value: ", value)
+            elif key == 'member_title1' or key == 'member_title2': pass
+            else:
+                insert_data[key] = value[0]
+        
+        for key,value in insert_data.items():
+            setattr(company, key, value)
+        # if 'company_logo' in request.files:
+        #     company_logo_file = request.files.get("company_logo")
+        #     print("Company Logo File name: ", company_logo_file.filename)
+        #     logo_path = os.path.join('./shorty/static/uploads/', secure_filename(company_logo_file.filename))
+        #     company.company_logo = company_logo_file.filename
+        session.commit()
+        session.query(IndustryCountry).filter(IndustryCountry.company_id == id).delete()
+        for industry_id in insert_industries:
+            industry_country = IndustryCountry()
+            industry_country.industry_id = industry_id
+            industry_country.company_id = company.id
+            session.add(industry_country)
+            session.commit()
+        return redirect(url_for("companies"))
+
+@expose("/company/delete/<id>")
+def company_delete(request, id):
+    session.query(Executive).filter(Executive.company_id == id).delete()
+    session.query(IndustryCountry).filter(IndustryCountry.company_id == id).delete()
+    session.query(Company).filter(Company.id == id).delete()
+    session.commit()
+    return redirect(url_for('companies'))
 
 @expose("/industries")
 def industries(request):
@@ -321,3 +494,88 @@ def industries(request):
 
 def not_found(request):
     return render_template("not_found.html")
+
+
+# News CRUD -------------------
+@expose("/news/<news_type>")
+def news(request, news_type):
+    usersession = user_session(request)
+    if not usersession:
+        return redirect(url_for('/'))
+    return render_template("news.html", news_type=news_type, usersession=usersession)
+
+@expose("/newslist")
+def newslist(request):
+    usersession = user_session(request)
+    if not usersession:
+        return redirect(url_for('/'))
+    allnews = session.query(News).all()
+    return render_template("news/newslist.html", usersession=usersession, allnews=allnews)
+
+@expose("/news/add")
+def news_add(request):
+    usersession = user_session(request)
+    if not usersession:
+        return redirect(url_for('/'))
+
+    if request.method == "POST":
+        form_data = request.form.to_dict(flat=False)
+        insert_data = {}
+        currentTime = datetime.now()
+        insert_data['news_created'] = currentTime
+        if 'news_image' in request.files:
+            news_image = request.files.get("news_image")
+            insert_data['news_image'] = news_image.filename
+            print("news image name: ", news_image.filename)
+            path = os.path.join('./shorty/static/uploads/news/', secure_filename(news_image.filename))
+            news_image.save(path)
+        
+        for key, value in form_data.items():
+            insert_data[key] = value[0]
+        news = News()
+        for key,value in insert_data.items():
+            setattr(news, key, value)
+        session.add(news)
+        session.commit()
+        return redirect(url_for("newslist"))
+    return render_template("news/newsadd.html", usersession=usersession)
+
+@expose("/newsview/<id>")
+def news_detail(request, id):
+    usersession = user_session(request)
+    if not usersession:
+        return redirect(url_for('/'))
+    news = session.query(News).filter(News.id==id).one()
+    return render_template("news/newsdetail.html", usersession=usersession, news=news)
+
+@expose("/news/edit/<id>")
+def news_edit(request, id):
+    usersession = user_session(request)
+    if not usersession:
+        return redirect(url_for('/'))
+    news = session.query(News).filter(News.id==id).one()
+    if request.method == "POST":
+        form_data = request.form.to_dict(flat=False)
+        print("Update News: ", form_data)
+        insert_data = {}
+        currentTime = datetime.now()
+        insert_data['news_created'] = currentTime
+        
+        for key, value in form_data.items():
+            insert_data[key] = value[0]
+        
+        print("Insert Data: ", insert_data)
+        for key,value in insert_data.items():
+            setattr(news, key, value)
+        session.commit()
+        return redirect(url_for("newslist"))
+    return render_template("news/newsedit.html", usersession=usersession, news=news)
+
+@expose("/news/delete/<id>")
+def news_delete(request, id):
+    usersession = user_session(request)
+    if not usersession:
+        return redirect(url_for('/'))
+    session.query(News).filter(News.id==id).delete()
+    session.commit()
+    return redirect(url_for("newslist"))

@@ -1,0 +1,94 @@
+{% extends 'layout.html' %}
+{% block body %}
+<link rel="stylesheet" href="{{url_for('static', file='css/editor.css')}}">
+<div class="container">
+    <form action="" class="row" method="POST" enctype=multipart/form-data>
+        <div class="row">
+            <h1>Adding New Article</h1>
+        </div>
+        <div class="row py-3">
+            <div class="col-4">
+                <label class="fw-bold fs-4 text-warning">Country:</label>
+                <input name="news_country" class="form-control" type="text" placeholder="+ Add Country Name">
+            </div>
+            <div class="col-4">
+                <label class="fw-bold fs-4 text-warning">News Category:</label>
+                <select name="news_category" class="form-select" aria-label="Default select example" aria-placeholder="Select a Category">
+                    <option value="Business">Business</option>
+                    <option value="Market">Market</option>
+                    <option value="Politics">Politics</option>
+                    <option value="Technology">Technology</option>
+                    <option value="TV">TV</option>
+                    <option value="COVID-19">COVID-19</option>
+                </select>
+            </div>
+            <div class="col-4">
+                <label for="" class="fw-bold fs-4 text-warning">Title</label>
+                <input name="news_title" class="form-control" type="text" placeholder="+ Add News Title">
+            </div>
+        </div>
+        <div class="row">
+            <label class="text-primary fw-bold fs-4">Name of Reporter</label>
+            <input name="news_reporter" class="form-control" type="text" placeholder="+ Add  Name of Reporter">
+        </div>
+        <div class="row">
+            <label class="text-primary fw-bold fs-4">Source of Article</label>
+            <input name="news_source" class="form-control" type="text" placeholder="+ Add Source of Article">
+        </div>
+        <div class="row">
+            <div class="row">
+                <p class="text-primary fw-bold fs-4">Image of Article</p>
+            </div>     
+            <div class="row">
+                <div class="container">
+                    <div class="row">
+                    <div class="col-sm-2 imgUp">
+                        <div class="imagePreview"></div>
+                            <label class="btn btn-primary">+ Add Image
+                                <input name="news_image"  type="file" class="uploadFile img" value="Upload Photo" style="width: 0px;height: 0px;overflow: hidden;">
+                            </label>
+                            <input name="news_image_caption" type="text" class="form-control" placeholder="+ Add Caption of Image">
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="row py-3">
+            <label class="text-primary fw-bold fs-4">Article Content</label>
+            <textarea id="article_editor" name="news_content"></textarea>
+        </div>
+        <div class="row">
+            <button id="saveBtn" class="btn btn-success" type="submit">Save</button>
+        </div>
+    </form>
+</div>
+<script src="{{url_for('static', file='imageupload.js')}}"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/28.0.0/classic/ckeditor.js"></script>
+<script>
+    $(document).ready(function() {
+        var editor = ClassicEditor
+        .create( document.querySelector( '#article_editor' ), {
+            toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ],
+            heading: {
+                options: [
+                    { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                    { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                    { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' }
+                ]
+            },
+        })
+        .catch( error => {
+            console.error( error );
+        } );
+/* 
+        $('#saveBtn').click(async function (ev) {
+            ev.preventDefault()
+            console.log($('#article_editor').val())
+            console.log(await editor)
+            return false
+        }) */
+    });
+</script>
+{% endblock %}
