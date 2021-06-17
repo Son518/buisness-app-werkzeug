@@ -227,7 +227,7 @@ def countries(request):
 @expose("/country/new")
 def country_new(request):
     usersession = user_session(request)
-    if not usersession or (usersession['usertype'] is not 1):
+    if not usersession or (usersession['usertype'] != 1):
         return redirect(url_for('/'))
 
     industries = session.query(Industry).all()
@@ -273,7 +273,7 @@ def country_new(request):
 @expose("/country/edit/<id>")
 def country_edit(request, id):
     usersession = user_session(request)
-    if not usersession or (usersession['usertype'] is not 1):
+    if not usersession or (usersession['usertype'] != 1):
         return redirect(url_for('/'))
     industries = session.query(Industry).all()
     if request.method == 'GET':
@@ -328,7 +328,7 @@ def country_edit(request, id):
 @expose("/country/delete/<id>")
 def country_delete(request, id):
     usersession = user_session(request)
-    if not usersession or (usersession['usertype'] is not 1):
+    if not usersession or (usersession['usertype'] != 1):
         return redirect(url_for('/'))
     print("ID: ", id)
     session.query(Country).filter(Country.id == id).delete()
