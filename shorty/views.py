@@ -12,9 +12,10 @@ from werkzeug import secure_filename
 from .models import Company, Industry, User, Country, IndustryCountry, Executive, News
 from .utils import expose, Pagination, render_template, session, url_for, validate_url
 from datetime import datetime
-from cryptography.fernet import Fernet
-key = b'pRmgMa8T0INjEAfksaq2aafzoZXEuwKI7wDe4c1F8AY='
-fernet = Fernet(key)
+# from cryptography.fernet import Fernet
+
+# key = b'pRmgMa8T0INjEAfksaq2aafzoZXEuwKI7wDe4c1F8AY='
+# fernet = Fernet(key)
 
 import smtplib, ssl
 from email.mime.text import MIMEText
@@ -105,7 +106,8 @@ def signin(request):
         if result.count() == 0:
             login_err_msg = "Invaild User!"
         for row in result:
-            if fernet.decrypt(row.password.encode()).decode() == password:
+            # if fernet.decrypt(row.password.encode()).decode() == password:
+            if row.password == password:
                 session_data = {
                     "usertype": row.usertype,
                     "username": row.username,
@@ -190,9 +192,10 @@ def signup(request):
             newUser = User()
             newUser.email = email
             
-            encrypt_password = fernet.encrypt(password.encode())
-            print("encrypt password: ", encrypt_password, encrypt_password.decode())
-            newUser.password = encrypt_password
+            # encrypt_password = fernet.encrypt(password.encode())
+            # print("encrypt password: ", encrypt_password, encrypt_password.decode())
+            # newUser.password = encrypt_password
+            newUser.password = password
             session.add(newUser)
             session.commit()
             return redirect(url_for('signin'))
