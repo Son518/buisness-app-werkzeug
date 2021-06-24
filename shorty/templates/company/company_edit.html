@@ -172,6 +172,75 @@
             <div class="col-6"><input name="company_web" type="text" class="form-control my-1" placeholder="+ Add Web Address" value="{{company.company_web}}"></div>
         </div>
         <div class="row">
+            <div class="row">
+                <p>
+                    <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                      Advanced options
+                    </a>
+                </p>
+                <div class="collapse" id="collapseExample">
+                    <div class="row">
+                        <label class="text-primary fw-bold fs-4" for="title1">Story Title 1</label>
+                        <input type="text" class="form-control my-1" name="title1" value="{{stories.title1}}">
+
+                        <label class="text-primary fw-bold fs-4" for="content1">Story Content 1</label>
+                        <textarea name="content1" id="" class="form-control my-1" cols="30" rows="9">
+                            {{stories.content1}}
+                        </textarea>
+
+                        <hr class="my-3">
+
+                        <label class="text-primary fw-bold fs-4" for="title2">Story Title 2</label>
+                        <input type="text" class="form-control my-1" name="title2" value="{{stories.title2}}">
+
+                        <label class="text-primary fw-bold fs-4" for="content2">Story Content 2 </label>
+                        <textarea name="content2" id="" class="form-control my-1" cols="30" rows="9">
+                            {{stories.content2}}
+                        </textarea>
+                    </div>
+                    <hr class="my-3">
+                    <div class="row">
+                        <style>
+                            video {
+                                border: 1px solid black;
+                                display: block;
+                            }
+                        </style>
+                        <label class="text-primary fw-bold fs-4" for="company_video">Company Video</label>
+                        <input id="file-input" type="file" name="company_video" accept="video/*">
+                        <video src=" {{url_for('static', file='uploads/videos/'+video.company_video) if video else ''}} " id="video" width="300" height="300" controls></video>
+                        <script>
+                            const input = document.getElementById('file-input');
+                            const video = document.getElementById('video');
+                            const videoSource = document.createElement('source');
+        
+                            input.addEventListener('change', function() {
+                            const files = this.files || [];
+        
+                            if (!files.length) return;
+                            
+                            const reader = new FileReader();
+        
+                            reader.onload = function (e) {
+                                videoSource.setAttribute('src', e.target.result);
+                                video.appendChild(videoSource);
+                                video.load();
+                                video.play();
+                            };
+                            
+                            reader.onprogress = function (e) {
+                                console.log('progress: ', Math.round((e.loaded * 100) / e.total));
+                            };
+                            
+                            reader.readAsDataURL(files[0]);
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="row">
             <button class="btn btn-success" type="submit">Save</button>
         </div>
     </form>

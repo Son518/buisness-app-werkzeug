@@ -1,0 +1,222 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="container">
+    <div class="row my-2">
+        <div class="d-flex justify-content-end"> <span style="color: #0073bb; font-size:large;">2022 Eidtion (BW)</span> </div>
+        <div class="d-flex justify-content-center">
+            <h1 style="color: rgb(212, 175, 05); font-weight: bold;">BLUEBIZ GOLDEN 100</h1>
+        </div>
+        <div class="d-flex justify-content-center">
+            <h5 style="color: rgb(212, 175, 05); font-weight: bold;">Organizations Shaping the Future of Botswana</h5>
+        </div>
+    </div>
+    <div class="row  my-3">
+        <div class="d-flex justify-content-center">
+            <a class="btn btn-info mx-2" href="{{url_for('companies')}}">FULL LIST</a>
+            <a class="btn btn-success mx-2 dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                BY COMPANY TYPE
+            </a>
+            <ul class="dropdown-menu mx-2" aria-labelledby="dropdownMenuLink">
+                <li><a class="dropdown-item" href="{{url_for('companies')}}">All</a></li>
+                <li><a class="dropdown-item" href="{{url_for('companies', type='Public')}}">Public</a></li>
+                <li><a class="dropdown-item" href="{{url_for('companies', type='Private')}}">Private</a></li>
+                <li><a class="dropdown-item" href="{{url_for('companies', type='Government')}}">Government</a></li>
+                <li><a class="dropdown-item" href="{{url_for('companies', type='Co-operative')}}">Co-operative</a></li>
+            </ul>
+            <a class="btn btn-warning" href="{{url_for('company_by_industry')}}">BY INDUSTRY</a>
+        </div>
+    </div>
+    <div class="row my-2">
+      <!-- SIDE BAR -->
+      <div class="col-4">
+        <style>
+          .list-sidebar a {
+            color: black !important;
+            font-size: small;
+            text-decoration: none;
+          }
+          .list-sidebar .list-group-item {
+            background-color: #f5f5f5f7;
+            border: 1px solid #f5bd02;
+            border-top-width: 0;
+          }
+        </style>
+        <ul class="list-group list-sidebar">
+          <li class="list-group-item"  style="background-color: #0074bb;"> 
+            <a class="d-flex justify-content-center" href="#" style="font-size: large; color: #ffffff !important;">
+                {{credential.upper()}}
+            </a>
+          </li>
+          {% if companies %}
+            {% for company in companies %}
+            <li class="list-group-item">
+              <a class="d-flex justify-content-center" href="{{url_for('company_by_industry', industry=industry_id, company=company.id)}}">{{company.company_name.upper()}}</a>
+            </li>
+            {% else %}
+              <p style="color: green;">No Companies</p>
+            {% endfor %}
+          {% elif industries %}
+            {% for industry in industries %}
+            <li class="list-group-item">
+              <a class="d-flex justify-content-center" href="{{url_for('company_by_industry', industry=industry.id)}}">{{industry.industry_name.upper()}}</a>
+            </li>
+            {% else %}
+              <p style="color: green;">No Industries</p>
+            {% endfor %}
+          {% endif %}
+        </ul>
+      </div>
+      <!-- END SIDE BAR -->
+      
+      {% if company %}
+      <div class="col-8">
+        <div class="row">
+            <img src="{{url_for('static', file='uploads/'+company.company_logo)}}" style="width: 20%;" alt="">    
+        </div>
+        <div class="row my-3">
+            <ul class="nav nav-tabs" role="tablist" id="mytab">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="information-tab" data-bs-toggle="tab" role="tab" data-bs-target="#information" aria-controls="information" aria-selected="true" href="#information">Information</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="story-tab" data-bs-toggle="tab" role="tab"  data-bs-target="#story" aria-controls="story" aria-selected="false" href="#story">Story</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="video-tab" data-bs-toggle="tab" role="tab"  data-bs-target="#video" aria-controls="video" aria-selected="false" href="#video">Video</a>
+                </li>
+            </ul>
+            
+            <div id="company_tab" class="tab-content">
+                <div class="row my-3 tab-pane fade show active" id="information" role="tabpanel" aria-labelledby="information-tab">
+                    <div class="row my-3">
+                      <div class="col-5">
+                          <p class="fw-bold fs-4 text-warning">Company:</p>
+                          <p class="fw-boler fs-4">{{company.company_name}}</p>
+                      </div>
+                      <div class="col-5">
+                          <p class="fw-bold fs-4 text-warning">Industry:</p>
+                          {% for industry in industries %}
+                              <span class="fw-boler fs-5"> {{industry.industry_name}} </span>,
+                          {% endfor %}
+                      </div>
+                      <div class="col-2">
+                          <p class="fw-bold fs-4 text-warning">Type:</p>
+                          <p class="fw-boler fs-4">{{company.company_type}}</p>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <p class="text-primary fw-bold fs-4">Introduction</p>
+                        <p>{{company.company_intro}}</p>
+                    </div>
+                    <div class="row">
+                        <p class="text-primary fw-bold fs-4">Vision</p>
+                        <p>{{company.company_vision}}</p>
+                    </div>
+                    <div class="row">
+                        <p class="text-primary fw-bold fs-4">Mission</p>
+                        <p>{{company.company_mission}}</p>
+                    </div>
+                    <div class="row">
+                        <div class="row">
+                            <p class="text-primary fw-bold fs-4">Top Executives</p>
+                        </div>     
+                        <div class="row row-cols-3">
+                            {% for executive in executives %}
+                            <div class="col">
+                                <div class="card" style="width: auto;">
+                                    <img src="{{ url_for('static', file='uploads/'+executive.photo) }}" class="card-img-top" >
+                                    <div class="card-body">
+                                        <p class="card-text">
+                                            <span class="fw-bold fs-6 text-warning">{{executive.name}}</span><br>
+                                            <span class="text-warning" style="font-size: small;">  {{executive.title1}}</span><br>
+                                            <span class="text-warning" style="font-size: small;">  {{executive.title2}}</span><br>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                
+                    <div class="row">
+                        <p class="text-primary fw-bold fs-4">Company Description</p>
+                        <p>{{company.company_desc}}</p>
+                    </div>
+                    <div class="row">
+                        <p class="text-primary fw-bold fs-4">Products</p>
+                        <ul>
+                            <li>{{company.company_product1}}</li>
+                            <li>{{company.company_product2}}</li>
+                            <li>{{company.company_product3}}</li>
+                        </ul>
+                    </div>
+                    <div class="row">
+                        <p class="text-primary fw-bold fs-4">Services</p>
+                        <ul>
+                            <li>{{company.company_service1}}</li>
+                            <li>{{company.company_service2}}</li>
+                            <li>{{company.company_service3}}</li>
+                        </ul>
+                    </div>
+                    <div class="row">
+                        <p class="text-primary fw-bold fs-4">Employees</p>
+                        <p>{{company.company_employees}}</p>
+                    </div>
+                    <div class="row">
+                        <p class="text-primary fw-bold fs-4">Market</p>
+                        <p>{{company.company_market}}</p>
+                    </div>
+                    <div class="row">
+                        <p class="text-primary fw-bold fs-4">Contact Person:</p>
+                        <p>Mosetlho Kenamile</p>
+                        <p>General Manager - Operations</p>
+                    </div>
+                    <div class="row">
+                        <p class="text-primary fw-bold fs-4">Postal Address:</p>
+                        <p>{{company.company_postal_address}}</p>
+                    </div>
+                    <div class="row">
+                        <p class="text-primary fw-bold fs-4">Physical Address:</p>
+                        <p>{{company.company_physical_street}},</p>
+                        <p>{{company.company_physical_district}}</p>
+                        <p>{{company.company_physical_city}}</p>
+                        <p>{{company.company_physical_country}}</p>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-3"><span class="text-primary fw-bold">Tel: </span></div>
+                        <div class="col-9">{{company.company_tel}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3"><span class="text-primary fw-bold">Fax: </span></div>
+                        <div class="col-9">{{company.company_fax}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3"><span class="text-primary fw-bold">E-mail: </span></div>
+                        <div class="col-9">{{company.company_email}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3"><span class="text-primary fw-bold">Web: </span></div>
+                        <div class="col-9">{{company.company_web}}</div>
+                    </div>
+                </div>
+                <div class="row my-3 tab-pane fade" role="tabpanel" id="story" aria-labelledby="story-tab">
+                    <p class="text-primary fw-bold fs-4">WHERE {{ company.company_name.upper() }} IS GOING</p>
+                    {% if stories %}
+                    <p class="text-warning fw-bold fs-6"> {{stories.title1}} </p>
+                    <p> {{stories.content1}} </p>
+                    <hr class="my-3">
+                    <p class="text-warning fw-bold fs-6"> {{stories.title2}} </p>
+                    <p> {{stories.content2}} </p>
+                    {% endif %}
+                </div>
+                <div class="row my-3 tab-pane fade" role="tabpanel" id="video" aria-labelledby="video-tab">
+                    <video src=" {{url_for('static', file='uploads/videos/'+video.company_video) if video else ''}} " width="300" height="300" controls></video>
+                </div>
+            </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+</div>
+{% endblock %}

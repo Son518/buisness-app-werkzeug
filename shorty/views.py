@@ -9,19 +9,17 @@ from sqlalchemy.orm import Load
 from werkzeug.exceptions import NotFound
 from werkzeug.utils import redirect
 from werkzeug import secure_filename
-from .models import Company, Industry, User, Country, IndustryCountry, Executive, News
+from .models import Company, Industry, User, Country, IndustryCountry, Executive, News, Story, Video
 from .utils import expose, Pagination, render_template, session, url_for, validate_url
 from datetime import datetime
-# from cryptography.fernet import Fernet
-
-# key = b'pRmgMa8T0INjEAfksaq2aafzoZXEuwKI7wDe4c1F8AY='
-# fernet = Fernet(key)
-
-import smtplib, ssl
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-
+from nylas import APIClient
+from cryptography.fernet import Fernet
 from secure_cookie.session import FilesystemSessionStore
+import random
+import string
+
+key = b'pRmgMa8T0INjEAfksaq2aafzoZXEuwKI7wDe4c1F8AY='
+fernet = Fernet(key)
 
 session_store = FilesystemSessionStore()
 
@@ -101,17 +99,17 @@ def signin(request):
     if request.method == 'POST':
         email = request.form.get("email")
         password = request.form.get("password")
-        result = session.query(User).filter(User.email == email)
+        user = session.query(User).filter(User.email == email).one_or_none()
         
-        if result.count() == 0:
+        if user is None:
             login_err_msg = "Invaild User!"
-        for row in result:
-            # if fernet.decrypt(row.password.encode()).decode() == password:
-            if row.password == password:
+        else:
+            print(fernet.decrypt(user.password.encode()).decode(), password)
+            if fernet.decrypt(user.password.encode()).decode() == password:
                 session_data = {
-                    "usertype": row.usertype,
-                    "username": row.username,
-                    "id"      : row.id
+                    "usertype": user.usertype,
+                    "username": user.username,
+                    "id"      : user.id
                 }
                 new_session = session_store.new()
                 new_session['user'] = json.dumps(session_data)
@@ -128,53 +126,49 @@ def signin(request):
 def forgot_password(request):
     if request.method == 'POST':
         email = request.form.get("email")
-        print("Email: ", email)
-        sender_email = "seth.motlotle@gmail.com"
-        receiver_email = email
-        password = "Botswana"
+        user = session.query(User).filter(User.email==email).one_or_none()
 
-        message = MIMEMultipart("alternative")
-        message["Subject"] = "multipart test"
-        message["From"] = sender_email
-        message["To"] = receiver_email
+        if user:
+            letters = string.ascii_lowercase
+            random_password = ''.join(random.choice(letters) for i in range(20))
+            print("Random string of length", 20, "is:", random_password)
 
-        # Create the plain-text and HTML version of your message
-        text = """\
-        Hi,
-        How are you?
-        Real Python has many great tutorials:
-        www.realpython.com"""
-        html = """\
-        <html>
-        <body>
-            <p>Hi,<br>
-            How are you?<br>
-            <a href="http://www.realpython.com">Real Python</a> 
-            has many great tutorials.
-            </p>
-        </body>
-        </html>
-        """
+            encrypt_password = fernet.encrypt(random_password.encode())
+            print("encrypt password: ", encrypt_password, encrypt_password.decode())
 
-        # Turn these into plain/html MIMEText objects
-        part1 = MIMEText(text, "plain")
-        part2 = MIMEText(html, "html")
-        print(part1, part2)
-        # Add HTML/plain-text parts to MIMEMultipart message
-        # The email client will try to render the last part first
-        message.attach(part1)
-        message.attach(part2)
+            user.password = encrypt_password
+            session.commit()
 
-        # Create secure connection with server and send email
-        context = ssl.create_default_context()
-        print("Context: ", context, smtplib)
-        
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
-            print("server: ", server)
-            server.login(sender_email, password)
-            server.sendmail(
-                sender_email, receiver_email, message.as_string()
+            nylas = APIClient(
+                "1rn7dql5wn17g16kpq1bngjk6",
+                "cbwl6munoro37mvd23p39l9gf",
+                "enSSJD52X0uyWsWIZEijt2ApOwTzYd",
             )
+            draft = nylas.drafts.create()
+            draft.subject = "BlueBiz Password Recovery"
+            # Create the plain-text and HTML version of your message
+            
+            html = f"""\
+            <html>
+            <body>
+                <p>Hi,<br>
+                    Password Reset!<br>
+                    <a href="http://www.bluebiz.com">BlueBiz</a>
+                    Your New Password is {random_password}
+                </p>
+            </body>
+            </html>
+            """
+            draft.body = html
+            print("email content: ", html)
+            draft.to = [{'name': 'BlueBiz Support Team', 'email': email}]
+
+            draft.send()
+            return render_template("email_sent.html")
+            # return redirect(url_for("signin"))
+        else:
+            err_msg = "Not Registered Email!"
+            return render_template("forgot_password.html", err_msg=err_msg)
     return render_template("forgot_password.html")
 
 @expose("/signup")
@@ -192,10 +186,9 @@ def signup(request):
             newUser = User()
             newUser.email = email
             
-            # encrypt_password = fernet.encrypt(password.encode())
-            # print("encrypt password: ", encrypt_password, encrypt_password.decode())
-            # newUser.password = encrypt_password
-            newUser.password = password
+            encrypt_password = fernet.encrypt(password.encode())
+            print("encrypt password: ", encrypt_password, encrypt_password.decode())
+            newUser.password = encrypt_password
             session.add(newUser)
             session.commit()
             return redirect(url_for('signin'))
@@ -227,7 +220,7 @@ def countries(request):
 @expose("/country/new")
 def country_new(request):
     usersession = user_session(request)
-    if not usersession or (usersession['usertype'] != 1):
+    if not usersession or (usersession['usertype'] is not 1):
         return redirect(url_for('/'))
 
     industries = session.query(Industry).all()
@@ -273,7 +266,7 @@ def country_new(request):
 @expose("/country/edit/<id>")
 def country_edit(request, id):
     usersession = user_session(request)
-    if not usersession or (usersession['usertype'] != 1):
+    if not usersession or (usersession['usertype'] is not 1):
         return redirect(url_for('/'))
     industries = session.query(Industry).all()
     if request.method == 'GET':
@@ -328,7 +321,7 @@ def country_edit(request, id):
 @expose("/country/delete/<id>")
 def country_delete(request, id):
     usersession = user_session(request)
-    if not usersession or (usersession['usertype'] != 1):
+    if not usersession or (usersession['usertype'] is not 1):
         return redirect(url_for('/'))
     print("ID: ", id)
     session.query(Country).filter(Country.id == id).delete()
@@ -356,9 +349,17 @@ def companies(request):
     usersession = user_session(request)
     if not usersession:
         return redirect(url_for('/'))
-    companies = session.query(Company).all()
+    
+    company_type = request.args.get('type')
+    if company_type is not None:
+        companies = session.query(Company).filter(Company.company_type == company_type).all()
+    else:
+        companies = session.query(Company).all()
+
     for company in companies:
-        company.industries= session.query(Industry.industry_name).join(IndustryCountry, IndustryCountry.industry_id==Industry.id).filter(company.id == IndustryCountry.company_id).all()
+        company.industries= session.query(Industry.industry_name)\
+            .join(IndustryCountry, IndustryCountry.industry_id==Industry.id)\
+            .filter(company.id == IndustryCountry.company_id).all()
     
     return render_template("company/company_list.html", usersession=usersession, companies=companies)
 
@@ -445,21 +446,28 @@ def company_edit(request, id):
             join(IndustryCountry, Industry.id == IndustryCountry.industry_id).all()
         selected_industries = [item[0] for item in selected_industries]
         executives = session.query(Executive).filter(Executive.company_id == id).all()
+        stories = session.query(Story).filter(Story.company_id == id).one_or_none()
+        video = session.query(Video).filter(Video.company_id == id).one_or_none()
         print(industries, selected_industries)
         return render_template("company/company_edit.html", usersession=usersession, company=company, industries=industries, executives=executives, \
-            selected_industries=selected_industries)
+            selected_industries=selected_industries, stories=stories, video=video)
     
     if request.method == 'POST':
         form_data = request.form.to_dict(flat=False)
+
         insert_data = {}
         insert_industries = {}
+        stories = {}
+
         for key, value in form_data.items():
             if key == 'company_industry':
                 insert_industries = value
             elif key == 'member_name':
                 member_photos = request.files.getlist('member_photo')
-                print("value: ", value)
+                # print("value: ", value)
             elif key == 'member_title1' or key == 'member_title2': pass
+            elif key == 'title1' or key == 'title2' or key == 'content1' or key == 'content2':
+                stories[key] = value[0]
             else:
                 insert_data[key] = value[0]
         
@@ -471,6 +479,28 @@ def company_edit(request, id):
         #     logo_path = os.path.join('./shorty/static/uploads/', secure_filename(company_logo_file.filename))
         #     company.company_logo = company_logo_file.filename
         session.commit()
+        session.query(Story).filter(Story.company_id == id).delete()
+        company_story = Story()
+        print("Stories: ", stories)
+        company_story.company_id = id
+        company_story.title1 = stories['title1']
+        company_story.title2 = stories['title2']
+        company_story.content1 = stories['content1']
+        company_story.content2 = stories['content2']
+        session.add(company_story)
+        session.commit()
+
+        if 'company_video' in request.files:
+            print("----------")
+            video_file = request.files.get('company_video')
+            path = os.path.join('./shorty/static/uploads/videos', secure_filename(video_file.filename))
+            video_file.save(path)
+            company_video = Video()
+            company_video.company_id = id
+            company_video.company_video = video_file.filename
+            session.add(company_video)
+            session.commit()
+
         session.query(IndustryCountry).filter(IndustryCountry.company_id == id).delete()
         for industry_id in insert_industries:
             industry_country = IndustryCountry()
@@ -479,6 +509,42 @@ def company_edit(request, id):
             session.add(industry_country)
             session.commit()
         return redirect(url_for("companies"))
+
+@expose("/company/byindustry")
+def company_by_industry(request):
+    usersession = user_session(request)
+    if not usersession:
+        return redirect(url_for('/'))
+    industries = session.query(Industry).all()
+    if request.method == 'GET':
+        industry_id = request.args.get("industry")
+        company_id = request.args.get("company")
+        companies = None
+        company = None
+        executives = None
+        industry_name = ''
+        stories = {}
+        video = {}
+        if industry_id is not None:
+            companies = session.query(Company.id, Company.company_name)\
+                .join(IndustryCountry, IndustryCountry.company_id==Company.id)\
+                .filter(IndustryCountry.industry_id == industry_id)\
+                .all()
+            industry_name = session.query(Industry.industry_name).filter(Industry.id == industry_id).one()
+            print("Companies: ", companies, industry_name)
+        if company_id is not None:
+            company = session.query(Company).filter(Company.id == company_id).one()
+            industries = session.query(Industry.industry_name).filter(IndustryCountry.company_id == company_id)\
+                .join(IndustryCountry, Industry.id == IndustryCountry.industry_id).all()
+            executives = session.query(Executive).filter(Executive.company_id == company_id).all()
+            stories = session.query(Story).filter(Story.company_id == company_id).one_or_none()
+            video = session.query(Video).filter(Video.company_id == company_id).one_or_none()
+            print("Company: ", company, executives)
+        if company or companies:
+            return render_template('company/company_by_industry.html', companies=companies, \
+                credential=industry_name.industry_name+" Industry?", company=company, industry_id=industry_id, \
+                executives=executives, industries=industries, stories=stories, video=video, usersession=usersession)
+    return render_template('company/company_by_industry.html', industries=industries, credential='Industry', usersession=usersession)
 
 @expose("/company/delete/<id>")
 def company_delete(request, id):
@@ -582,3 +648,93 @@ def news_delete(request, id):
     session.query(News).filter(News.id==id).delete()
     session.commit()
     return redirect(url_for("newslist"))
+
+@expose("/industres")
+def industries(request):
+    usersession = user_session(request)
+    if not usersession:
+        return redirect(url_for('/'))
+    industries = session.query(Industry).all()
+    return render_template('industry/index.html', industries=industries, usersession=usersession)
+
+@expose("/industry/<id>")
+def industry(request, id):
+    usersession = user_session(request)
+    if not usersession:
+        return redirect(url_for('/'))
+    industry = session.query(Industry).filter(Industry.id == id).one()
+
+    if request.method == 'POST':
+        industry_name = request.form.get('industry_name')
+        print("Industry Name", industry_name)
+        industry.industry_name = industry_name
+        session.commit()
+        return redirect(url_for("industries"))
+    return render_template('industry/edit.html', industry=industry, usersession=usersession)
+
+@expose("/industry/add")
+def industry_add(request):
+    usersession = user_session(request)
+    if not usersession:
+        return redirect(url_for('/'))
+    if request.method == "POST":
+        industry_name = request.form.get('industry_name')
+        industry = Industry()
+        industry.industry_name = industry_name
+        session.add(industry)
+        session.commit()
+    return render_template('industry/add.html', usersession=usersession)
+
+@expose("/industry/del/<id>")
+def industry_del(request, id):
+    usersession = user_session(request)
+    if not usersession:
+        return redirect(url_for('/'))
+    session.query(Industry).filter(Industry.id == id).delete()
+    session.commit()
+    return redirect(url_for("industries"))
+
+# footer links
+@expose("/about")
+def about_bluebiz(request):
+    return render_template('footer/about_bluebiz.html')
+
+@expose("/advertise")
+def advertise(request):
+    return render_template('footer/advertise.html')
+    
+@expose("/privacyPolicy")
+def privacy_policy(request):
+    return render_template('footer/privacy_policy.html')
+
+@expose("/cookiePolicy")
+def cookie_policy(request):
+    return render_template('footer/cookie_policy.html')
+
+@expose("/dataPolicy")
+def data_policy(request):
+    return render_template('footer/data_policy.html')
+
+@expose("/careers")
+def careers(request):
+    return render_template('footer/careers.html')
+
+@expose("/subscriberAgreement")
+def subscriber_agreement(request):
+    return render_template('footer/subscriber_agreement.html')
+
+@expose("/trademarks")
+def trademarks(request):
+    return render_template('footer/trademarks.html')
+
+@expose("/copyrightPolicy")
+def copyright_policy(request):
+    return render_template('footer/copyright_policy.html')
+
+@expose("/contactus")
+def contactus(request):
+    return render_template('footer/contactus.html')
+
+@expose("/helpcenter")
+def helpcenter(request):
+    return render_template('footer/help_center.html')

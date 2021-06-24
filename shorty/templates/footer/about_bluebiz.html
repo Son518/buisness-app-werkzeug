@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="row">
+    <div class="col-6">
+        <div class="row">
+            <h1 class="fw-bold" style="color: rgb(212, 175, 5)">About BlueBiz Africa</h1>
+            <p style="color: rgb(0, 128, 255);">BlueBiz Africa aggregates business-impacting data about African business and economies and presents it to corporate Africa for well-informed decision-making. Local and international investors targeting African securities can also benefit. Governments, academia and researchers can also benefit.</p>
+            <p style="color: rgb(0, 128, 255);">BlueBiz Africa is domiciled in Gaborone, Botswana where the company was founded in 2007.</p>
+        </div>
+        <div class="row">
+            <div class="col-3"><span class="text-primary fw-bold">Phone:</span></div>
+            <div class="col-9"><span class="text-primary">(+267) 72 957 974, (+267) 72 957 974</span></div>
+        </div>
+        <div class="row">
+            <div class="col-3"><span class="text-primary fw-bold">E-mail:</span></div>
+            <div class="col-9"><span class="text-primary">info@bluebizafrica.com</span></div>
+        </div>
+        <div class="row">
+            <div class="col-3"><span class="text-primary fw-bold">Facebook:</span></div>
+            <div class="col-9"><span class="text-primary">BlueBizAfrica</span></div>
+        </div>
+        <div class="row">
+            <div class="col-3"><span class="text-primary fw-bold">Instagram:</span></div>
+            <div class="col-9"><span class="text-primary">BlueBizAfrica</span></div>
+        </div>
+        <div class="row">
+            <div class="col-3"><span class="text-primary fw-bold">Twitter:</span></div>
+            <div class="col-9"><span class="text-primary">BlueBizAfrica</span></div>
+        </div>
+        <div class="row">
+            <div class="col-3"><span class="text-primary fw-bold">Web:</span></div>
+            <div class="col-9"><span class="text-primary">www.bluebizafrica.com</span></div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div><img src="{{url_for('static', file='img/botswana.jpg')}}" alt=""></div>
+    </div>
+</div>
+{% endblock %}

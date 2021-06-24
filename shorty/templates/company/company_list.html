@@ -1,22 +1,29 @@
 {% extends 'layout.html' %}
 {% block body %}
 <div class="container">
-    <div class="row">
-        <h1>BOTSWANA GOLDEN 100</h1>
+    <div class="row my-2">
+      <div class="d-flex justify-content-end"> <span style="color: #0073bb; font-size:large;">2022 Eidtion (BW)</span> </div>
+      <div class="d-flex justify-content-center">
+          <h1 style="color: rgb(212, 175, 05); font-weight: bold;">BLUEBIZ GOLDEN 100</h1>
+      </div>
+      <div class="d-flex justify-content-center">
+          <h5 style="color: rgb(212, 175, 05); font-weight: bold;">Organizations Shaping the Future of Botswana</h5>
+      </div>
     </div>
     <div class="row">
-        <div class="mx-auto justify-content-center my-2">
-            <a class="btn btn-info" href="#">FULL LIST</a>
-            <a class="btn btn-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+        <div class="d-flex justify-content-center my-2">
+            <a class="btn btn-info mx-2" href="{{url_for('companies')}}">FULL LIST</a>
+            <a class="btn btn-success mx-2 dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                 BY COMPANY TYPE
             </a>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <li><a class="dropdown-item" href="#">Public</a></li>
-                <li><a class="dropdown-item" href="#">Private</a></li>
-                <li><a class="dropdown-item" href="#">Government</a></li>
-                <li><a class="dropdown-item" href="#">Co-operative</a></li>
+            <ul class="dropdown-menu mx-2" aria-labelledby="dropdownMenuLink">
+              <li><a class="dropdown-item" href="{{url_for('companies')}}">All</a></li>
+              <li><a class="dropdown-item" href="{{url_for('companies', type='Public')}}">Public</a></li>
+              <li><a class="dropdown-item" href="{{url_for('companies', type='Private')}}">Private</a></li>
+              <li><a class="dropdown-item" href="{{url_for('companies', type='Government')}}">Government</a></li>
+              <li><a class="dropdown-item" href="{{url_for('companies', type='Co-operative')}}">Co-operative</a></li>
             </ul>
-            <a class="btn btn-warning" href="#">BY INDUSTRY</a>
+            <a class="btn btn-warning" href="{{url_for('company_by_industry')}}">BY INDUSTRY</a>
         </div>
     </div>
     <div class="row">
@@ -38,7 +45,7 @@
             <tbody>
               {% for company in companies %}
               <tr>
-                <th scope="row">1</th>
+                <td>{{ loop.index }}</td>
                 <td>
                   <a href="{{url_for('company', id=company.id)}}">{{company.company_name}}</a>
                 </td>

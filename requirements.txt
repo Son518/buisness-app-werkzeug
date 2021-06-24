@@ -6,3 +6,4 @@ mysql
 mysql-connector-python
 secure-cookie
 cryptography
+nylas

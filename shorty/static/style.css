@@ -49,6 +49,14 @@ button a {
     font-weight: bold;
 }
 
+.dropdown .dropdown-toggle::after {
+    display: none !important;
+}
+
+.dropdown-hover-all .dropdown-menu, .dropdown-hover > .dropdown-menu.dropend { 
+    margin-left:-1px !important
+}
+
 .separater_menu {
     font-weight: bold;
     font-size: medium;
@@ -65,7 +73,7 @@ button a {
 }
 
 .main-menubar .nav .nav-item:hover, .main-menubar .nav .nav-item.active {
-    background-color: gold;
+    background-color: #f5bd02;
 }
 
 .main-menubar .nav .covid-item:hover, .main-menubar .nav .covid-item.active {
@@ -93,6 +101,19 @@ hr {
     margin-bottom: 1px;
     border: 0;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* tab */
+#mytab .nav-item {
+    margin-right: 1ex;
+}
+#mytab .nav-link.active {
+    background-color: #2f79a7 !important;
+    color: #ffffff !important;
+}
+#mytab .nav-link {
+    background-color: #b4d3ef !important;
+    color: #278dbd !important;
 }
 
 /* profile */

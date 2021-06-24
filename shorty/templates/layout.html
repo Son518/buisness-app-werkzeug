@@ -16,15 +16,40 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg static-top">
     <div class="container">
-      <span class="fas fa-bars" style="color: #0073bb; font-size: 35px;"></span>
-      <a class="navbar-brand" href="{{ url_for('/') }}">
-        <img width="200px" src="{{ url_for('static', file='img/logo.png') }}" alt="">
-      </a>
+      <div class="main-menu d-flex justify-content-start dropdown">
+        <a href="#" class="dropdown-toggle" id="defaultDropdown" data-bs-toggle="dropdown" aria-expanded="true">
+          <span class="fas fa-bars justify-content-lg-between" style="color: #0073bb; font-size: 35px;"></span>
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="defaultDropdown">
+          <li><a class="dropdown-item" href="{{url_for('newslist')}}">Home</a></li>
+          <li><a class="dropdown-item" href="{{url_for('countries')}}">Business</a></li>
+          <li><a class="dropdown-item" href="{{url_for('companies')}}">Markets</a></li>
+          <li><a class="dropdown-item" href="{{url_for('companies')}}">Politics</a></li>
+          <li><a class="dropdown-item" href="{{url_for('companies')}}">Technology</a></li>
+          <li><a class="dropdown-item" href="{{url_for('companies')}}">Subscription</a></li>
+          <li>
+            <a href="#" class="dropdown-item">Follow</a>
+            <ul class="dropdown-menu dropdown-submenu">
+              <li><a class="dropdown-item" href="{{url_for('newslist')}}">Home</a></li>
+              <li><a class="dropdown-item" href="{{url_for('countries')}}">Business</a></li>
+              <li><a class="dropdown-item" href="{{url_for('companies')}}">Markets</a></li>
+              <li><a class="dropdown-item" href="{{url_for('companies')}}">Politics</a></li>
+              <li><a class="dropdown-item" href="{{url_for('companies')}}">Technology</a></li>
+              <li><a class="dropdown-item" href="{{url_for('companies')}}">Subscription</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="d-flex justify-content-center">
+        <a class="navbar-brand d-flex  justify-content-center" href="{{ url_for('/') }}">
+          <img width="200px" src="{{ url_for('static', file='img/logo.png') }}" alt="">
+        </a>
+      </div>
       <button class="btn navbar-toggler" type="button" data-bs-toggle="collapse" 
         data-bs-target="#navbarResponsive" aria-expanded="false" aria-controls="navbarResponsive">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse justify-content-end" id="navbarResponsive"> 
+      <div class="d-flex justify-content-end" id="navbarResponsive"> 
         {% if usersession %}
           <ul class="navbar-nav">
             <li class="nav-item dropdown active">
@@ -34,10 +59,11 @@
               </a>
             
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li><a class="dropdown-item" href="{{url_for('newslist')}}">Account</a></li>
                 <li><a class="dropdown-item" href="{{url_for('newslist')}}">News</a></li>
                 <li><a class="dropdown-item" href="{{url_for('countries')}}">Countries</a></li>
                 <li><a class="dropdown-item" href="{{url_for('companies')}}">Botswana golden 100</a></li>
-                <li><a class="dropdown-item" href="#">Industries</a></li>
+                <li><a class="dropdown-item" href="{{url_for('industries')}}">Industries</a></li>
               </ul>
             </li>
             <li class="nav-item">
@@ -133,51 +159,51 @@
       <div class="row px-5 py-2">
         <div class="col-2">
           <p>
-            <a href="#!" class="text-reset fs-6">About BlueBiz Africa</a>
+            <a href="{{url_for('about_bluebiz')}}" class="text-reset fs-6">About BlueBiz Africa</a>
           </p>
           <p>
-            <a href="#!" class="text-reset fs-6">Data Policy</a>
+            <a href="{{url_for('data_policy')}}" class="text-reset fs-6">Data Policy</a>
           </p>
         </div>
         <div class="col-2">
           <p>
-            <a href="#!" class="text-reset fs-6">Privacy Policy</a>
+            <a href="{{url_for('privacy_policy')}}" class="text-reset fs-6">Privacy Policy</a>
           </p>
           <p>
-            <a href="#!" class="text-reset fs-6">Copyright Policy</a>
+            <a href="{{url_for('copyright_policy')}}" class="text-reset fs-6">Copyright Policy</a>
           </p>
         </div>
         <div class="col-3">
           <p>
-            <a href="#!" class="text-reset fs-6">Subscriber Agreement & Terms of Use</a>
+            <a href="{{url_for('subscriber_agreement')}}" class="text-reset fs-6">Subscriber Agreement & Terms of Use</a>
           </p>
           <p>
-            <a href="#!" class="text-reset fs-6">Trademarks</a>
-          </p>
-        </div>
-        <div class="col">
-          <p>
-            <a href="#!" class="text-reset fs-6">Cookie Policy</a>
+            <a href="{{url_for('trademarks')}}" class="text-reset fs-6">Trademarks</a>
           </p>
         </div>
         <div class="col">
           <p>
-            <a href="#!" class="text-reset fs-6">Careers</a>
+            <a href="{{url_for('cookie_policy')}}" class="text-reset fs-6">Cookie Policy</a>
           </p>
         </div>
         <div class="col">
           <p>
-            <a href="#!" class="text-reset fs-6">Advertise</a>
+            <a href="{{url_for('careers')}}" class="text-reset fs-6">Careers</a>
           </p>
         </div>
         <div class="col">
           <p>
-            <a href="#!" class="text-reset fs-6">Help Center</a>
+            <a href="{{url_for('advertise')}}" class="text-reset fs-6">Advertise</a>
           </p>
         </div>
         <div class="col">
           <p>
-            <a href="#!" class="text-reset fs-6">Contact Us</a>
+            <a href="{{url_for('helpcenter')}}" class="text-reset fs-6">Help Center</a>
+          </p>
+        </div>
+        <div class="col">
+          <p>
+            <a href="{{url_for('contactus')}}" class="text-reset fs-6">Contact Us</a>
           </p>
         </div>
       </div>
@@ -190,6 +216,44 @@
       </div>
       <!-- Copyright -->
     </div>
+    <!-- cookie policy popup -->    
+    <div class="modal" id="cookieModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title"><span class="fw-bold text-primary">Our Privacy Statement & Cookie Policy</span></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <p>Our website uses cookies to improve your online experience. They were placed on your computer when you launched this website. You can change your cookie settings through your browser.</p>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <a href="{{url_for('privacy_policy')}}" class="d-flex justify-content-start">Privacy Policy</a>
+              </div>
+              <div class="col-6">
+                <a href="{{url_for('cookie_policy')}}" class="d-flex justify-content-end">Cookie Policy</a>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+            <button type="button" id="confirm_cookie" class="btn btn-primary">OK to Continue</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      $(document).ready(function() {  
+        $('#cookieModal').modal('show');
+        $('#confirm_cookie').click(function () {
+          $('#cookieModal').modal('hide');
+        })
+      });
+    </script>
+    <!-- end cookie popup -->
   </div>
   <script src="{{ url_for('static', file='bootstrap/js/bootstrap.min.js') }}"></script>
 </body>

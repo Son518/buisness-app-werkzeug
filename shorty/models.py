@@ -1,5 +1,6 @@
 from datetime import datetime
 from decimal import Decimal
+from turtle import title
 from unicodedata import category
 
 from sqlalchemy import Boolean, Column, DateTime, Date, String, Integer, Text, Enum, DECIMAL, column
@@ -206,3 +207,18 @@ class IndustryCountry(Base):
     industry_id = Column(Integer)
     country_id = Column(Integer)
     company_id = Column(Integer)
+
+class Story(Base):
+    __tablename__ = "company_stories"
+    id = Column(Integer, primary_key=True)
+    company_id = Column(Integer)
+    title1 = Column(String(255))
+    content1 = Column(Text)
+    title2 = Column(String(255))
+    content2 = Column(Text)
+
+class Video(Base):
+    __tablename__ = "company_videos"
+    id = Column(Integer, primary_key=True)
+    company_id = Column(Integer)
+    company_video = Column(String(255))
