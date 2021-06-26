@@ -9,7 +9,7 @@ def make_app():
     from shorty.application import Shorty
 
     # filename = os.path.join(tempfile.gettempdir(), "shorty.db")
-    return Shorty(f"mysql+mysqlconnector://root@localhost:3306/bluebiz")
+    return Shorty(f"mysql+mysqlconnector://bluebiz:darkhorse1124@localhost:3306/bluebiz")
 
 
 def make_shell():

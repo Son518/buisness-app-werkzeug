@@ -1,11 +1,7 @@
 from datetime import datetime
-from decimal import Decimal
-from turtle import title
 from unicodedata import category
 
-from sqlalchemy import Boolean, Column, DateTime, Date, String, Integer, Text, Enum, DECIMAL, column
-# from sqlalchemy.orm import mapper, relationship
-
+from sqlalchemy import Boolean, Column, DateTime, Date, String, Integer, Text, Enum, DECIMAL
 from .utils import get_random_uid
 from .utils import Base
 from .utils import session
@@ -31,13 +27,13 @@ city_enum = Enum("Abidjan", "Abuja", "Accra", "Addis Ababa", "Algiers", \
         "Lusaka", "Malabo", "Maputo", "Maseru", "Mbabane", "Mogadishu", "Monrovia", "Moroni", "N’Djamena", \
         "Nairobi", "Niamey", "Nouakchott", "Ouagadougou", "Port Louis", "Porto-Novo", "Praia", "Pretoria", \
         "Rabat", "Sao Tome", "Serekunda", "Tripoli", "Tunis", "Victoria", "Windhoek", "Yamoussoukro", "Yaounde")
-currency_enum = Enum("Algerian dinar", "Angolan kwanza", "CFA franc", "Botswana pula", "CFA franc", "Burundian franc", "CFA franc", \
-        "Cape Verdean escudo", "CFA franc", "CFA franc", "Comorian franc", "CFA franc", "Congolese franc", "Djiboutian franc", "Egyptian pound", \
-        "CFA franc", "Eritrean nakfa", "Lilangeni", "Ethiopian birr", "CFA franc", "Dalasi", "Ghanaian cedi", "Guinean franc", "CFA franc", \
-        "CFA franc", "Kenyan shilling", "Lesotho loti", "Liberian dollar", "Libyan dinar", "Malagasy ariary", "Malawian kwacha", "CFA franc", \
-        "Ouguiya", "Mauritian rupee", "Moroccan dirham", "Mozambican metical", "Namibian dollar", "CFA franc", "Nigeria naira", "Rwandan franc", \
-        "Saint Helena pound", "Sao Tome and Principe dobra", "CFA franc", "Seychellois rupee", "Sierra Leone leone", "Somali shilling", "South African rand", \
-        "South Sudanese pound", "Sudanese pound", "Tanzanian shilling", "CFA Franc", "Tunisian dinar", "Ugandan shilling", "Zambian kwacha", "RTGS dollar")
+currency_enum = Enum("Algerian dinar", "Angolan kwanza",  "Botswana pula",  "Burundian franc",  \
+        "Cape Verdean escudo",  "CFA franc", "Comorian franc", "Congolese franc", "Djiboutian franc", "Egyptian pound", \
+         "Eritrean nakfa", "Lilangeni", "Ethiopian birr",  "Dalasi", "Ghanaian cedi", "Guinean franc",  \
+         "Kenyan shilling", "Lesotho loti", "Liberian dollar", "Libyan dinar", "Malagasy ariary", "Malawian kwacha",  \
+        "Ouguiya", "Mauritian rupee", "Moroccan dirham", "Mozambican metical", "Namibian dollar",  "Nigeria naira", "Rwandan franc", \
+        "Saint Helena pound", "Sao Tome and Principe dobra",  "Seychellois rupee", "Sierra Leone leone", "Somali shilling", "South African rand", \
+        "South Sudanese pound", "Sudanese pound", "Tanzanian shilling",  "Tunisian dinar", "Ugandan shilling", "Zambian kwacha", "RTGS dollar")
 area_number_enum = Enum("+20", "+27", "+211", "+212", "+213", "+216", "+218", "+220", "+221", "+222", "+223", \
         "+224", "+225", "+226", "+227", "+228", "+229", "+230", "+231", "+232", "+233", "+234", "+235", "+236", "+237",\
         "+238", "+239", "+240", "+241", "+242", "+243", "+244", "+245", "+248", "+249", "+250", "+251", "+252", "+253",\
