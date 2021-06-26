@@ -1,4 +1,4 @@
 import sys
-sys.path.insert(0, 'E:/Work/Safie/Bluebiz1')
+sys.path.insert(0, '/home/ubuntu/bluebiz')
 from manage import make_app
 application = make_app();
