@@ -122,6 +122,20 @@ def signin(request):
                 login_err_msg = "wrong password"
     return render_template("signin.html", login_err_msg=login_err_msg)
 
+
+# Profile
+@expose("/profile/edit")
+def profile_edit(request):
+    usersession = user_session(request)
+    if not usersession:
+        return redirect(url_for('/'))
+    user_id = usersession['id']
+
+    user = session.query(User).filter(User.id == user_id).one_or_none()
+    if user is not None:
+        return render_template('account/edit.html', usersession=usersession, user=user)
+    return redirect(url_for('/'))
+
 @expose('/forgot')
 def forgot_password(request):
     if request.method == 'POST':
@@ -563,7 +577,6 @@ def industries(request):
 
 def not_found(request):
     return render_template("not_found.html")
-
 
 # News CRUD -------------------
 @expose("/news/<news_type>")
