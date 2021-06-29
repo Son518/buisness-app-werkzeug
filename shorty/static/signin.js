@@ -22,5 +22,16 @@ $(function () {
             $('.register-show').removeClass('show-log-panel');
         }
     });
+
+    $("input[name=cancelBtn]").on('click', function() {
+        console.log("CANCEL");
+        $('.register-info-box').fadeIn();
+        $('.login-info-box').fadeOut();
+        
+        $('.white-panel').removeClass('right-log');
+        
+        $('.login-show').addClass('show-log-panel');
+        $('.register-show').removeClass('show-log-panel');
+    });
 });
 
