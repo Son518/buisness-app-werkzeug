@@ -1,0 +1,112 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="container">
+    <style>
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #BA68C8
+        }
+
+        .profile-button {
+            background: rgb(99, 39, 120);
+            box-shadow: none;
+            border: none
+        }
+
+        .profile-button:hover {
+            background: #682773
+        }
+
+        .profile-button:focus {
+            background: #682773;
+            box-shadow: none
+        }
+
+        .profile-button:active {
+            background: #682773;
+            box-shadow: none
+        }
+
+        .back:hover {
+            color: #682773;
+            cursor: pointer
+        }
+
+        .labels {
+            font-size: 11px
+        }
+
+        .add-experience:hover {
+            background: #BA68C8;
+            color: #fff;
+            cursor: pointer;
+            border: solid 1px #BA68C8
+        }
+        .profile-item {
+            font-weight: bold;
+        }
+    </style>
+    <div class="row">
+            <div class="col-3 border-right">
+                <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                    <img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
+                    <span class="font-weight-bold">{{user.username}}</span><span class="text-black-50">{{user.email}}</span><span> </span></div>
+            </div>
+            <div class="col-5 border-right">
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="text-right">Your Profile</h4>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-6"><label class="labels">First Name</label>
+                            <p class="profile-item">{{user.first_name}}</p>
+                        </div>
+                        <div class="col-md-6"><label class="labels">Last Name</label>
+                            <p class="profile-item">{{user.last_name}}</p>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6"><label class="labels">User Name</label>
+                            <p class="profile-item">{{user.username}}</p>
+                        </div>
+                        <div class="col-md-6"><label class="labels">Mobile Number</label>
+                            <p class="profile-item">{{user.mobile_number}}</p>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6"><label class="labels">Address Line 1</label>
+                            <p class="profile-item">{{user.address_line1}}</p>
+                        </div>
+                        <div class="col-md-6"><label class="labels">Address Line 2</label>
+                            <p class="profile-item">{{user.address_line2}}</p>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6"><label class="labels">Postcode</label>
+                            <p class="profile-item">{{user.post_code}}</p>
+                        </div>
+                        <div class="col-md-6"><label class="labels">State</label>
+                            <p class="profile-item">{{user.state}}</p>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6"><label class="labels">Area</label>
+                            <p class="profile-item">{{user.area}}</p>
+                        </div>
+                        <div class="col-md-6"><label class="labels">Email</label>
+                            <p class="profile-item">{{user.email}}</p>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6"><label class="labels">Country</label>
+                            <p class="profile-item">{{user.country}}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <a class="btn btn-primary profile-button" href="{{url_for('profile_edit')}}">Edit Profile</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+{% endblock %}

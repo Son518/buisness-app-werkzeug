@@ -23,6 +23,11 @@ def make_shell():
 def cli():
     pass
 
+@cli.command()
+@click.option("-e", "--email", type=str, default="bluebiz.admin@gmail.com", help="bluebize.admin@gmail.com")
+@click.option("-p", "--password", type=str, default="Mrpi3yo! BIlivvm.", help="Mrpi3yo! BIlivvm.")
+def createsuper(email, password):
+    make_app().create_superuser(email, password)
 
 @cli.command()
 def initdb():

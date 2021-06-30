@@ -24,6 +24,24 @@ class Shorty:
     def init_database(self):
         metadata.create_all(self.database_engine)
 
+    def create_superuser(self, email, password):
+        from cryptography.fernet import Fernet
+        from .models import User
+        superuser = User()
+        # config other fields
+        superuser.email = email
+        superuser.username = 'admin'
+        superuser.usertype = 1
+        # password encrypt
+        key = b'pRmgMa8T0INjEAfksaq2aafzoZXEuwKI7wDe4c1F8AY='
+        fernet = Fernet(key)
+        encrypt_password = fernet.encrypt(password.encode())
+        print("encrypt password: ", encrypt_password, encrypt_password.decode())
+        superuser.password = encrypt_password
+
+        session.add(superuser)
+        session.commit()
+
     def dispatch(self, environ, start_response):
         local.application = self
         request = Request(environ)

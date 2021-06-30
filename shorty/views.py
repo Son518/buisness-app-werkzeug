@@ -130,11 +130,29 @@ def profile_edit(request):
     if not usersession:
         return redirect(url_for('/'))
     user_id = usersession['id']
-
     user = session.query(User).filter(User.id == user_id).one_or_none()
+    if request.method == "POST":
+        form_data = request.form.to_dict(flat=True)
+        print(form_data)
+        for key in form_data:
+            setattr(user, key, form_data[key])
+
+        session.commit()
+        return redirect(url_for('profile_view'))
+
     if user is not None:
         return render_template('account/edit.html', usersession=usersession, user=user)
+    
     return redirect(url_for('/'))
+
+@expose("/profile/view")
+def profile_view(request):
+    usersession = user_session(request)
+    if not usersession:
+        return redirect(url_for('/'))
+    user_id = usersession['id']
+    user = session.query(User).filter(User.id == user_id).one_or_none()
+    return render_template('account/profile.html', usersession=usersession, user=user)
 
 @expose('/forgot')
 def forgot_password(request):
