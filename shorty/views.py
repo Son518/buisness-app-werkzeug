@@ -652,8 +652,8 @@ def news_add(request):
         if 'news_image' in request.files:
             news_image = request.files.get("news_image")
             insert_data['news_image'] = news_image.filename
-            
-            path = os.path.join('./shorty/static/uploads/news/', secure_filename(news_image.filename))
+            cwd = os.getcwd()
+            path = os.path.join(cwd+'/shorty/static/uploads/news/', secure_filename(news_image.filename))
             news_image.save(path)
         
         for key, value in form_data.items():
