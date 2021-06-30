@@ -223,6 +223,32 @@ def signup(request):
             newUser.password = encrypt_password
             session.add(newUser)
             session.commit()
+
+            nylas = APIClient(
+                "1rn7dql5wn17g16kpq1bngjk6",
+                "cbwl6munoro37mvd23p39l9gf",
+                "enSSJD52X0uyWsWIZEijt2ApOwTzYd",
+            )
+            draft = nylas.drafts.create()
+            draft.subject = "BlueBiz Password Recovery"
+            # Create the plain-text and HTML version of your message
+            
+            html = f"""\
+            <html>
+            <body>
+                <p>Hi,<br>
+                    Welcome to sign up Bluebiz!<br>
+                    You signed up to Bluebiz.com successfully.
+                    <a href="http://bluebiz.test.com">Please sign in</a>
+                </p>
+            </body>
+            </html>
+            """
+            draft.body = html
+            print("email content: ", html)
+            draft.to = [{'name': 'BlueBiz Support Team', 'email': email}]
+
+            draft.send()
             return redirect(url_for('signin'))
         return render_template("signin.html", err_msg=err_msg)
 
