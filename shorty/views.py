@@ -2,6 +2,7 @@ from ast import Try
 import json
 from os import error
 import os
+import time
 from time import timezone
 from sqlalchemy import true
 from sqlalchemy.sql.functions import count
@@ -441,10 +442,10 @@ def company_new(request):
             setattr(company, key, value)
         if 'company_logo' in request.files:
             company_logo_file = request.files.get("company_logo")
-            print("Company Logo File name: ", company_logo_file.filename)
-            logo_path = os.path.join('/var/www/bluebiz/shorty/static/uploads/', secure_filename(company_logo_file.filename))
+            filename = str(round(time.time() * 1000)) + secure_filename(company_logo_file.filename)
+            logo_path = os.path.join('/var/www/bluebiz/shorty/static/uploads/', filename)
             company_logo_file.save(logo_path)
-            company.company_logo = company_logo_file.filename
+            company.company_logo = filename
 
         session.add(company)
         session.commit()
@@ -458,13 +459,14 @@ def company_new(request):
                     pass
                 index = 0
                 for member_photo in member_photos:
-                    path = os.path.join('/var/www/bluebiz/shorty/static/uploads/', secure_filename(member_photo.filename))
+                    filename = str(round(time.time() * 1000)) + secure_filename(member_photo.filename)
+                    path = os.path.join('/var/www/bluebiz/shorty/static/uploads/', filename)
                     member_photo.save(path)
                     data = form_data
                     member_titles1 = data['member_title1']
                     member_titles2 = data['member_title2']
                     executive = Executive(name=value[index], title1=member_titles1[index], \
-                        title2=member_titles2[index], photo=member_photo.filename, company_id=company.id)
+                        title2=member_titles2[index], photo=filename, company_id=company.id)
                     index += 1
                     session.add(executive)
                     session.commit()
@@ -549,13 +551,13 @@ def company_edit(request, id):
         session.commit()
 
         if 'company_video' in request.files:
-            print("----------")
             video_file = request.files.get('company_video')
-            path = os.path.join('/var/www/bluebiz/shorty/static/uploads/videos', secure_filename(video_file.filename))
+            filename = str(round(time.time() * 1000)) + secure_filename(video_file.filename)
+            path = os.path.join('/var/www/bluebiz/shorty/static/uploads/videos', filename)
             video_file.save(path)
             company_video = Video()
             company_video.company_id = id
-            company_video.company_video = video_file.filename
+            company_video.company_video = filename
             session.add(company_video)
             session.commit()
 
@@ -651,8 +653,9 @@ def news_add(request):
         insert_data['news_created'] = currentTime
         if 'news_image' in request.files:
             news_image = request.files.get("news_image")
-            insert_data['news_image'] = news_image.filename
-            path = os.path.join('/var/www/bluebiz/shorty/static/uploads/news/', secure_filename(news_image.filename))
+            filename = str(round(time.time() * 1000)) + secure_filename(news_image.filename)
+            insert_data['news_image'] = filename
+            path = os.path.join('/var/www/bluebiz/shorty/static/uploads/news/', filename)
             news_image.save(path)
         
         for key, value in form_data.items():
