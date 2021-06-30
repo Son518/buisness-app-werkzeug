@@ -654,6 +654,7 @@ def news_add(request):
             insert_data['news_image'] = news_image.filename
             print("news image name: ", news_image.filename)
             upload_folder = '/var/www/bluebiz/'
+            print("OS PATH: ", os.path)
             path = os.path.join(upload_folder+'shorty/static/uploads/news/', secure_filename(news_image.filename))
             news_image.save(path)
         
