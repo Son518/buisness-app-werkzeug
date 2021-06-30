@@ -442,7 +442,7 @@ def company_new(request):
         if 'company_logo' in request.files:
             company_logo_file = request.files.get("company_logo")
             print("Company Logo File name: ", company_logo_file.filename)
-            logo_path = os.path.join('./shorty/static/uploads/', secure_filename(company_logo_file.filename))
+            logo_path = os.path.join('/var/www/bluebiz/shorty/static/uploads/', secure_filename(company_logo_file.filename))
             company_logo_file.save(logo_path)
             company.company_logo = company_logo_file.filename
 
@@ -458,7 +458,7 @@ def company_new(request):
                     pass
                 index = 0
                 for member_photo in member_photos:
-                    path = os.path.join('./shorty/static/uploads/', secure_filename(member_photo.filename))
+                    path = os.path.join('/var/www/bluebiz/shorty/static/uploads/', secure_filename(member_photo.filename))
                     member_photo.save(path)
                     data = form_data
                     member_titles1 = data['member_title1']
@@ -551,7 +551,7 @@ def company_edit(request, id):
         if 'company_video' in request.files:
             print("----------")
             video_file = request.files.get('company_video')
-            path = os.path.join('./shorty/static/uploads/videos', secure_filename(video_file.filename))
+            path = os.path.join('/var/www/bluebiz/shorty/static/uploads/videos', secure_filename(video_file.filename))
             video_file.save(path)
             company_video = Video()
             company_video.company_id = id
@@ -652,8 +652,7 @@ def news_add(request):
         if 'news_image' in request.files:
             news_image = request.files.get("news_image")
             insert_data['news_image'] = news_image.filename
-            cwd = os.getcwd()
-            path = os.path.join(cwd+'/shorty/static/uploads/news/', secure_filename(news_image.filename))
+            path = os.path.join('/var/www/bluebiz/shorty/static/uploads/news/', secure_filename(news_image.filename))
             news_image.save(path)
         
         for key, value in form_data.items():
