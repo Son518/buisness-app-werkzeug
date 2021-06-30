@@ -63,7 +63,7 @@ def user_session(request):
 
     the_session = session_store.get(sid)
 
-    if the_session.is_valid_key():
+    if the_session.is_valid_key('user'):
         userdata = the_session['user']
         return json.loads(userdata)
     return False
