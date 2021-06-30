@@ -62,10 +62,11 @@ def user_session(request):
         return False
 
     the_session = session_store.get(sid)
-
-    if the_session.is_valid_key('user'):
+    print(the_session)
+    if 'user' in the_session:
         userdata = the_session['user']
         return json.loads(userdata)
+    
     return False
 
 def exist_empty(data):
