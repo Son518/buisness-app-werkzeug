@@ -169,6 +169,10 @@ img.prfile {
     padding-left: 8px;
 }
 
+b, strong {
+    font-weight: bold !important;
+}
+
 /* social icons */
 
 .social-icon {
