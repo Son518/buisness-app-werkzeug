@@ -53,10 +53,12 @@
             
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <li><a class="dropdown-item" href="{{url_for('profile_edit')}}">Account</a></li>
+                {% if usersession.usertype == 1 %}
                 <li><a class="dropdown-item" href="{{url_for('newslist')}}">News</a></li>
+                <li><a class="dropdown-item" href="{{url_for('industries')}}">Industries</a></li>
+                {% endif %}
                 <li><a class="dropdown-item" href="{{url_for('countries')}}">Countries</a></li>
                 <li><a class="dropdown-item" href="{{url_for('companies')}}">BlueBiz Golden 100</a></li>
-                <li><a class="dropdown-item" href="{{url_for('industries')}}">Industries</a></li>
               </ul>
             </li>
             <li class="nav-item">
