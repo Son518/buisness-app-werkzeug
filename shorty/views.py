@@ -634,8 +634,8 @@ def news(request, news_type):
     if not usersession:
         return redirect(url_for('/'))
 
-    
-    return render_template("news.html", news_type=news_type, usersession=usersession)
+    all_news_by_category = session.query(News).filter(News.news_category == news_type).order_by(desc(News.news_created)).all()
+    return render_template("news.html", news_type=news_type, usersession=usersession, all_news_by_category=all_news_by_category)
 
 @expose("/newslist")
 def newslist(request):

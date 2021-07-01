@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% block body %}
 <div class="container">
-    {% if news_type == "tv" -%}
+    {% if news_type == "TV" -%}
     <div class="row">
         <div class="embed-responsive embed-responsive-16by9 p-2 d-flex justify-content-center">
             <iframe class="embed-responsive-item" width="480" height="270" src="https://www.youtube-nocookie.com/embed/FGBhQbmPwH8?rel=0" allowfullscreen></iframe>
@@ -11,78 +11,17 @@
     <div class="row">
         <div class="col-9">
         <div class="row row-cols-3">
+            {% for news in all_news_by_category %}
             <div class="col">
                 <div class="card" style="width: 18rem;">
                     <img src="{{ url_for('static', file='img/sample1.jpg') }}" class="card-img-top" width="286" height="180">
                     <div class="card-body">
-                        <p>{{news_type.capitalize()}}</p>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <p>{{news.news_category.capitalize()}}</p>
+                        <p class="card-text">{{news.news_content}}</p>
                     </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="card" style="width: 18rem;">
-                    <img src="{{ url_for('static', file='img/sample1.jpg') }}" class="card-img-top" width="286" height="180">
-                    <div class="card-body">
-                        <p>{{news_type.capitalize()}}</p>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card" style="width: 18rem;">
-                    <img src="{{ url_for('static', file='img/sample.jpg') }}" class="card-img-top" width="286" height="180">
-                    <div class="card-body">
-                        <p>{{news_type.capitalize()}}</p>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card" style="width: 18rem;">
-                    <img src="{{ url_for('static', file='img/sample1.jpg') }}" class="card-img-top" width="286" height="180">
-                    <div class="card-body">
-                        <p>{{news_type.capitalize()}}</p>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card" style="width: 18rem;">
-                    <img src="{{ url_for('static', file='img/sample.jpg') }}" class="card-img-top" width="286" height="180">
-                    <div class="card-body">
-                        <p>{{news_type.capitalize()}}</p>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card" style="width: 18rem;">
-                    <img src="{{ url_for('static', file='img/sample1.jpg') }}" class="card-img-top" width="286" height="180">
-                    <div class="card-body">
-                        <p>{{news_type.capitalize()}}</p>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card" style="width: 18rem;">
-                    <img src="{{ url_for('static', file='img/sample1.jpg') }}" class="card-img-top" width="286" height="180">
-                    <div class="card-body">
-                        <p>{{news_type.capitalize()}}</p>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card" style="width: 18rem;">
-                    <img src="{{ url_for('static', file='img/sample1.jpg') }}" class="card-img-top" width="286" height="180">
-                    <div class="card-body">
-                        <p>{{news_type.capitalize()}}</p>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
         </div>
         <div class="col-3"></div>
