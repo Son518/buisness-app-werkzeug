@@ -27,9 +27,9 @@
                     <td>{{news.news_reporter}}</td>
                     <td>{{news.news_created}}</td>
                     <td>
-                        <a href=" {{url_for('news_detail', id=news.id)}} " class="btn btn-primary"><i class="far fa-eye"></i></a>
-                        <a href=" {{url_for('news_edit', id=news.id)}} " class="btn btn-success"><i class="fas fa-edit"></i></a>
-                        <a href="" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
+                        <a href=" {{url_for('news_detail', id=news.id)}} " class=""><i class="far fa-eye"></i></a>
+                        <a href=" {{url_for('news_edit', id=news.id)}} " class=""><i class="fas fa-edit"></i></a>
+                        <a href="" class=""><i class="far fa-trash-alt"></i></a>
                     </td>
                 </tr>
                 {% endfor %}
