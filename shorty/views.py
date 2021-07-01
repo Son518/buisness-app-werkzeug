@@ -126,7 +126,6 @@ def signin(request):
                 login_err_msg = "wrong password"
     return render_template("signin.html", login_err_msg=login_err_msg)
 
-
 # Profile
 @expose("/profile/edit")
 def profile_edit(request):
@@ -221,7 +220,7 @@ def signup(request):
         else:
             newUser = User()
             newUser.email = email
-            
+            newUser.usertype = 2
             encrypt_password = fernet.encrypt(password.encode())
             print("encrypt password: ", encrypt_password, encrypt_password.decode())
             newUser.password = encrypt_password
