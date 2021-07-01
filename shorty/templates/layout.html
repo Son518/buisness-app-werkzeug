@@ -22,22 +22,14 @@
           <span class="fas fa-bars justify-content-lg-between" style="color: #0073bb; font-size: 35px;"></span>
         </a>
         <ul class="dropdown-menu" aria-labelledby="defaultDropdown">
-          <li><a class="dropdown-item" href="{{url_for('newslist')}}">Home</a></li>
-          <li><a class="dropdown-item" href="{{url_for('countries')}}">Business</a></li>
-          <li><a class="dropdown-item" href="{{url_for('companies')}}">Markets</a></li>
-          <li><a class="dropdown-item" href="{{url_for('companies')}}">Politics</a></li>
-          <li><a class="dropdown-item" href="{{url_for('companies')}}">Technology</a></li>
-          <li><a class="dropdown-item" href="{{url_for('companies')}}">Subscription</a></li>
+          <li><a class="dropdown-item" href="{{ url_for('/') }}">Home</a></li>
+          <li><a class="dropdown-item" href="{{ url_for('news', news_type='Business') }}">Business</a></li>
+          <li><a class="dropdown-item" href="{{ url_for('news', news_type='Market') }}">Markets</a></li>
+          <li><a class="dropdown-item" href="{{ url_for('news', news_type='Politics') }}">Politics</a></li>
+          <li><a class="dropdown-item" href="{{ url_for('news', news_type='Technology') }}">Technology</a></li>
+          <li><a class="dropdown-item" href="#">Subscription</a></li>
           <li>
             <a href="#" class="dropdown-item">Follow</a>
-            <ul class="dropdown-menu dropdown-submenu">
-              <li><a class="dropdown-item" href="{{url_for('newslist')}}">Home</a></li>
-              <li><a class="dropdown-item" href="{{url_for('countries')}}">Business</a></li>
-              <li><a class="dropdown-item" href="{{url_for('companies')}}">Markets</a></li>
-              <li><a class="dropdown-item" href="{{url_for('companies')}}">Politics</a></li>
-              <li><a class="dropdown-item" href="{{url_for('companies')}}">Technology</a></li>
-              <li><a class="dropdown-item" href="{{url_for('companies')}}">Subscription</a></li>
-            </ul>
           </li>
         </ul>
       </div>
@@ -56,7 +48,7 @@
             <li class="nav-item dropdown active">
               <!-- <a class="nav-link" href="{{url_for('profile')}}"><span class="separater_menu">|</span>My Profile {{usersession['username']}} </a> -->
               <a class="nav-link dropdown-toggle" href="{{url_for('profile')}}" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                <span class="separater_menu">|</span> My Profile 
+                <span class="separater_menu">|</span> My Profile {{usersession.usertype}}
               </a>
             
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -97,24 +89,24 @@
       <div class="container-fluid  justify-content-center main-menubar">
         <ul class="nav">
           <li class="nav-item mx-2 p-2 {{'active' if news_type == 'Business' }}">
-            <a class="nav-link" aria-current="page" href="{{ url_for('news', news_type='business') }}"> BUSINESS </a>
+            <a class="nav-link" aria-current="page" href="{{ url_for('news', news_type='Business') }}"> BUSINESS </a>
           </li>
           <li class="nav-item mx-2 p-2 {{'active' if news_type == 'Market' }}">
-            <a class="nav-link" href="{{ url_for('news', news_type='markets') }}"> MARKETS </a>
+            <a class="nav-link" href="{{ url_for('news', news_type='Market') }}"> MARKETS </a>
           </li>
           <li class="nav-item mx-2 p-2 {{'active' if news_type == 'Politics' }}">
-            <a class="nav-link" href="{{ url_for('news', news_type='politics') }}">POLITICS</a>
+            <a class="nav-link" href="{{ url_for('news', news_type='Politics') }}">POLITICS</a>
           </li>
           <li class="nav-item mx-2 p-2 {{'active' if news_type == 'Technology' }}">
-            <a class="nav-link" href="{{ url_for('news', news_type='technology') }}">TECHNOLOGY</a>
+            <a class="nav-link" href="{{ url_for('news', news_type='Technology') }}">TECHNOLOGY</a>
           </li>
           <li class="nav-item mx-2 p-2 {{'active' if news_type == 'countries' }}">
             <a class="nav-link" href="{{ url_for('countries') }}">COUNTRIES</a>
           </li>
           <li class="nav-item mx-2 p-2 {{'active' if news_type == 'TV' }}">
-            <a class="nav-link" href="{{ url_for('news', news_type='tv') }}">TV</a>
+            <a class="nav-link" href="{{ url_for('news', news_type='TV') }}">TV</a>
           </li>
-          <li class="nav-item mx-2 p-2 covid-item {{'active' if news_type == 'covid' }}">
+          <li class="nav-item mx-2 p-2 covid-item {{'active' if news_type == 'COVID-19' }}">
             <a class="nav-link" href="{{ url_for('news', news_type='COVID-19') }}" style="color: #fff !important;">COVID-19</a>
           </li>
         </ul>
