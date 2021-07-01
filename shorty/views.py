@@ -97,6 +97,7 @@ def index(request):
         politics_news = session.query(News).filter(News.news_category=='Politics').order_by(desc(News.news_created)).limit(1).first()
         business_news = session.query(News).filter(News.news_category=='Business').order_by(desc(News.news_created)).limit(1).first()
         technology_news = session.query(News).filter(News.news_category=='Technology').order_by(desc(News.news_created)).limit(1).first()
+        print("news",latest_news, business_news, politics_news, markets_news, technology_news)
         return render_template("index.html", usersession=usersession, latest_news=latest_news, markets_news=markets_news,\
             politics_news=politics_news, business_news=business_news, technology_news=technology_news)
 
