@@ -4,7 +4,7 @@ from os import error
 import os
 import time
 from time import timezone
-from sqlalchemy import true
+from sqlalchemy import desc
 from sqlalchemy.sql.functions import count
 from sqlalchemy.orm import Load
 from werkzeug.exceptions import NotFound
@@ -92,7 +92,13 @@ def index(request):
         return render_template("index.html")
     else:
         print("USER SESSION: ", usersession)
-        return render_template("index.html", usersession=usersession)
+        latest_news = session.query(News).order_by(desc(News.news_created)).limit(3).all()
+        markets_news = session.query(News).filter(News.news_category=='Market').order_by(desc(News.news_created)).limit(1).first()
+        politics_news = session.query(News).filter(News.news_category=='Politics').order_by(desc(News.news_created)).limit(1).first()
+        business_news = session.query(News).filter(News.news_category=='Business').order_by(desc(News.news_created)).limit(1).first()
+        technology_news = session.query(News).filter(News.news_category=='Technology').order_by(desc(News.news_created)).limit(1).first()
+        return render_template("index.html", usersession=usersession, latest_news=latest_news, markets_news=markets_news,\
+            politics_news=politics_news, business_news=business_news, technology_news=technology_news)
 
 @expose("/signin")
 def signin(request):
@@ -630,6 +636,8 @@ def news(request, news_type):
     usersession = user_session(request)
     if not usersession:
         return redirect(url_for('/'))
+
+    
     return render_template("news.html", news_type=news_type, usersession=usersession)
 
 @expose("/newslist")

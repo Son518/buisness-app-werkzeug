@@ -7,20 +7,17 @@
             <hr>
             <h3>LATEST NEWS</h3>
             <hr>
+            {% for news in latest_news %}
             <div>
-                <p>Business</p>
-                <p class="fw-bold">Japan’s Factory PMI Expands as virus Outbreak Weighs on Services</p>
+                <p>{{news.news_category.upper()}}</p>
+                <p class="fw-bold">
+                    <a href="{{url_for('news_detail', id=news.id)}}" style="text-decoration: none; color: black;">
+                        {{news.news_title}}
+                    </a>
+                </p>
             </div>
             <hr>
-            <div>
-                <p>Business</p>
-                <p class="fw-bold">Singapore Property Market Frenzy Continues as Prices Rise</p>
-            </div>
-            <hr>
-            <div>
-                <p>Business</p>
-                <p class="fw-bold">Ramadan Concerns Climb; New Curbs on Indian Fliers: Virus Update</p>
-            </div>
+            {% endfor %}
             
         </div>
         <!-- Content -->
@@ -53,30 +50,46 @@
             <div class="row">
                 <div class="col-3">
                     <div>
-                        <p>Markets</p>
-                        <p class="fw-bold">Asia Stocks Follow U.S. Lower on Tax Proposal: Markets Wrap</p>
-                        <p>Get up to speed with what’s moving global markets today.</p>
+                        <p>{{business_news.news_category.upper()}}</p>
+                        <p class="fw-bold">
+                            <a href="{{url_for('news_detail', id=business_news.id)}}" style="text-decoration: none; color: black;">
+                                {{business_news.news_title}}
+                            </a>
+                        </p>
+                        <!-- <p>Get up to speed with what’s moving global markets today.</p> -->
                     </div>
                 </div>
                 <div class="col-3">
                     <div>
-                        <p>Technology</p>
-                        <p class="fw-bold">Engen to Convert Oldest South Africa Refinery to Import Terminal</p>
-                        <p>Refinery has suffered losses for much of the last decade.</p>
+                        <p>{{markets_news.news_category.upper()}}</p>
+                        <p class="fw-bold">
+                            <a href="{{url_for('news_detail', id=markets_news.id)}}" style="text-decoration: none; color: black;">
+                                {{markets_news.news_title}}
+                            </a>
+                        </p>
+                        <!-- <p>Refinery has suffered losses for much of the last decade.</p> -->
                     </div>
                 </div>
                 <div class="col-3">
                     <div>
-                        <p>Politics</p>
-                        <p class="fw-bold">Another Libyan Oil Firm Cuts Output as Funding Row Worsens</p>
-                        <p>Libya now pumping less than 1 million barrels amid cash crunch.</p>
+                        <p>{{politics_news.news_category.upper()}}</p>
+                        <p class="fw-bold">
+                            <a href="{{url_for('news_detail', id=politics_news.id)}}" style="text-decoration: none; color: black;">
+                                {{politics_news.news_title}}
+                            </a>
+                        </p>
+                        <!-- <p>Libya now pumping less than 1 million barrels amid cash crunch.</p> -->
                     </div>
                 </div>
                 <div class="col-3">
                     <div>
-                        <p>Markets</p>
-                        <p class="fw-bold">Ex-Deloitte Auditor Faces Disciplinary Action Over Steinhoff</p>
-                        <p>Steinhoff came close to collapse in 2017 in accounting scandal.</p>
+                        <p>{{technology_news.news_category.upper()}}</p>
+                        <p class="fw-bold">
+                            <a href="{{url_for('news_detail', id=technology_news.id)}}" style="text-decoration: none; color: black;">
+                                {{technology_news.news_title}}
+                            </a>
+                        </p>
+                        <!-- <p>Steinhoff came close to collapse in 2017 in accounting scandal.</p>  -->
                     </div>
                 </div>
             </div>
@@ -87,18 +100,30 @@
             <h3>MOST READ</h3>
             <hr>
             <div>
-                <p> <span class="fw-bold fs-5">1</span>  Business</p>
-                <p class="fw-bold">Need A Meeting Room? This Bank CEO’s Office Is Open for Bookings</p>
+                <p> <span class="fw-bold fs-5">1</span>  {{business_news.news_category.upper()}}</p>
+                <p class="fw-bold">
+                    <a href="{{url_for('news_detail', id=business_news.id)}}" style="text-decoration: none; color: black;">
+                        {{business_news.news_title}}
+                    </a>
+                </p>
             </div>
             <hr>
             <div>
-                <p> <span class="fw-bold fs-5">2</span>  Work</p>
-                <p class="fw-bold">HSBC Manager Heart Attack Prompts Viral Post About Overwork</p>
+                <p> <span class="fw-bold fs-5">2</span>  {{politics_news.news_category.upper()}}</p>
+                <p class="fw-bold">
+                    <a href="{{url_for('news_detail', id=politics_news.id)}}" style="text-decoration: none; color: black;">
+                        {{politics_news.news_title}}
+                    </a>
+                </p>
             </div>
             <hr>
             <div>
-                <p> <span class="fw-bold fs-5">3</span> Wealth</p>
-                <p class="fw-bold">Romanian Programmer Turns ‘Crazy Idea’ Into $6 Billion Fortune</p>
+                <p> <span class="fw-bold fs-5">3</span> {{technology_news.news_category.upper()}}</p>
+                <p class="fw-bold">
+                    <a href="{{url_for('news_detail', id=technology_news.id)}}" style="text-decoration: none; color: black;">
+                        {{technology_news.news_title}}
+                    </a>
+                </p>
             </div>
         </div>
     </div>
