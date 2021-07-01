@@ -47,10 +47,99 @@
 
                 </div>
             </div>
-            
+            <div class="row">
+                <div class="col-3">
+                    <div>
+                        {% if business_news %}
+                        <p>{{business_news.news_category.upper()}}</p>
+                        <p class="fw-bold">
+                            <a href="{{url_for('news_detail', id=business_news.id)}}" style="text-decoration: none; color: black;">
+                                {{business_news.news_title}}
+                            </a>
+                        </p>
+                        {% endif %}
+                        <!-- <p>Get up to speed with what’s moving global markets today.</p> -->
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div>
+                        {% if markets_news %}
+                        <p>{{markets_news.news_category.upper()}}</p>
+                        <p class="fw-bold">
+                            <a href="{{url_for('news_detail', id=markets_news.id)}}" style="text-decoration: none; color: black;">
+                                {{markets_news.news_title}}
+                            </a>
+                        </p>
+                        {% endif %}
+                        <!-- <p>Refinery has suffered losses for much of the last decade.</p> -->
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div>
+                        {% if politics_news %}
+                        <p>{{politics_news.news_category.upper()}}</p>
+                        <p class="fw-bold">
+                            <a href="{{url_for('news_detail', id=politics_news.id)}}" style="text-decoration: none; color: black;">
+                                {{politics_news.news_title}}
+                            </a>
+                        </p>
+                        {% endif %}
+                        <!-- <p>Libya now pumping less than 1 million barrels amid cash crunch.</p> -->
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div>
+                        {% if technology_news %}
+                        <p>{{technology_news.news_category.upper()}}</p>
+                        <p class="fw-bold">
+                            <a href="{{url_for('news_detail', id=technology_news.id)}}" style="text-decoration: none; color: black;">
+                                {{technology_news.news_title}}
+                            </a>
+                        </p>
+                        {% endif %}
+                        <!-- <p>Steinhoff came close to collapse in 2017 in accounting scandal.</p>  -->
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- Most Read -->
-        
+        <div class="col-2">
+            <hr>
+            <h3>MOST READ</h3>
+            <hr>
+            <div>
+                <p> <span class="fw-bold fs-5">1</span>  {{business_news.news_category.upper()}}</p>
+                <p class="fw-bold">
+                    {% if business_news %}
+                    <a href="{{url_for('news_detail', id=business_news.id)}}" style="text-decoration: none; color: black;">
+                        {{business_news.news_title}}
+                    </a>
+                    {% endif %}
+                </p>
+            </div>
+            <hr>
+            <div>
+                <p> <span class="fw-bold fs-5">2</span>  {{politics_news.news_category.upper()}}</p>
+                <p class="fw-bold">
+                    {% if politics_news %}
+                    <a href="{{url_for('news_detail', id=politics_news.id)}}" style="text-decoration: none; color: black;">
+                        {{politics_news.news_title}}
+                    </a>
+                    {% endif %}
+                </p>
+            </div>
+            <hr>
+            <div>
+                <p> <span class="fw-bold fs-5">3</span> {{technology_news.news_category.upper()}}</p>
+                <p class="fw-bold">
+                    {% if technology_news %}
+                    <a href="{{url_for('news_detail', id=technology_news.id)}}" style="text-decoration: none; color: black;">
+                        {{technology_news.news_title}}
+                    </a>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
