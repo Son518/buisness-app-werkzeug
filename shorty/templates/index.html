@@ -108,36 +108,36 @@
             <h3>MOST READ</h3>
             <hr>
             <div>
+                {% if business_news %}
                 <p> <span class="fw-bold fs-5">1</span>  {{business_news.news_category.upper()}}</p>
                 <p class="fw-bold">
-                    {% if business_news %}
                     <a href="{{url_for('news_detail', id=business_news.id)}}" style="text-decoration: none; color: black;">
                         {{business_news.news_title}}
                     </a>
-                    {% endif %}
                 </p>
+                {% endif %}
             </div>
             <hr>
             <div>
+                {% if politics_news %}
                 <p> <span class="fw-bold fs-5">2</span>  {{politics_news.news_category.upper()}}</p>
                 <p class="fw-bold">
-                    {% if politics_news %}
                     <a href="{{url_for('news_detail', id=politics_news.id)}}" style="text-decoration: none; color: black;">
                         {{politics_news.news_title}}
                     </a>
-                    {% endif %}
                 </p>
+                {% endif %}
             </div>
             <hr>
             <div>
+                {% if technology_news %}
                 <p> <span class="fw-bold fs-5">3</span> {{technology_news.news_category.upper()}}</p>
                 <p class="fw-bold">
-                    {% if technology_news %}
                     <a href="{{url_for('news_detail', id=technology_news.id)}}" style="text-decoration: none; color: black;">
                         {{technology_news.news_title}}
                     </a>
-                    {% endif %}
                 </p>
+                {% endif %}
             </div>
         </div>
     </div>
