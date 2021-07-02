@@ -14,7 +14,7 @@
             {% for news in all_news_by_category %}
             <div class="col">
                 <div class="card">
-                    <img src="{{ url_for('static', file='img/sample1.jpg') }}" class="card-img-top" width="250" height="150">
+                    <img src="{{ url_for('static', file='uploads/news/'+news.news_image) }}" class="card-img-top" width="250" height="150">
                     <div class="card-body">
                         <p>{{news.news_category.capitalize()}}</p>
                         <p class="card-text">
