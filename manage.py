@@ -7,9 +7,9 @@ from werkzeug.serving import run_simple
 
 def make_app():
     from shorty.application import Shorty
-
+    return Shorty(f"mysql+mysqlconnector://root:darkhorse1124@localhost:3306/bluebiz")
     # filename = os.path.join(tempfile.gettempdir(), "shorty.db")
-    return Shorty(f"mysql+mysqlconnector://dbmasteruser:EDl=uo(*k^(0wzc+>aor[J*R`&yS_smS@ls-ecdee0357dd59b21c7ea5b0c99864d4255ce680b.co3jgj7mhva9.eu-west-3.rds.amazonaws.com:3306/bluebiz")
+    # return Shorty(f"mysql+mysqlconnector://dbmasteruser:EDl=uo(*k^(0wzc+>aor[J*R`&yS_smS@ls-ecdee0357dd59b21c7ea5b0c99864d4255ce680b.co3jgj7mhva9.eu-west-3.rds.amazonaws.com:3306/bluebiz")
 
 
 def make_shell():
