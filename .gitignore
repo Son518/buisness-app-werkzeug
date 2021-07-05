@@ -1,5 +1,7 @@
 # Logs
 logs
+shorty/static/img
+shorty/static/uploads
 *.log
 npm-debug.log*
 yarn-debug.log*
