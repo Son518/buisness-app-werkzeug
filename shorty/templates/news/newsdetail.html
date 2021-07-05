@@ -42,7 +42,9 @@
             <img src=" {{url_for('static', file='uploads/news/'+news.news_image)}} " alt="">
         </div>
         <div class="row py-3">
-            <label class="text-dark fw-bold fs-4">{{news.news_content}}</label>
+            <label class="text-dark fs-4">
+                {{news.news_content}}
+            </label>
         </div>
     </div>
 
