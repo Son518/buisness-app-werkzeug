@@ -203,7 +203,7 @@ class News(Base):
     news_sharing_links = Column(String(255))
     news_image = Column(String(255))
     news_image_caption = Column(String(255))
-    news_content = Column(String(255))
+    news_content = Column(Text)
 
 class IndustryCountry(Base):
     __tablename__ = "industry_country"
