@@ -133,7 +133,7 @@
                 {% if technology_news %}
                 <p> <span class="fw-bold fs-5">3</span> {{technology_news.news_category.upper()}}</p>
                 <p class="fw-bold">
-                    <a href="{{url_for('news_detail', id=technology_news.id)}}" style="text-decoration: none; color: black;">
+                    <a class="news_title" href="{{url_for('news_detail', id=technology_news.id)}}" style="text-decoration: none; color: black;">
                         {{technology_news.news_title}}
                     </a>
                 </p>

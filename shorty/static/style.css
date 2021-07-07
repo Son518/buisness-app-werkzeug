@@ -184,6 +184,13 @@ b, strong {
     height: 30px;
 }
 
+
+/* news  */
+
+a.news_title:hover{
+    text-decoration: dashed;
+}
+
 /* footer */
 
 .footer a {
