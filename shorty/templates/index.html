@@ -11,7 +11,7 @@
             <div>
                 <p>{{news.news_category.upper()}}</p>
                 <p class="fw-bold">
-                    <a href="{{url_for('news_detail', id=news.id)}}" style="text-decoration: none; color: black;">
+                    <a class="news_title" href="{{url_for('news_detail', id=news.id)}}" style="text-decoration: none; color: black;">
                         {{news.news_title}}
                     </a>
                 </p>
@@ -53,7 +53,7 @@
                         {% if business_news %}
                         <p>{{business_news.news_category.upper()}}</p>
                         <p class="fw-bold">
-                            <a href="{{url_for('news_detail', id=business_news.id)}}" style="text-decoration: none; color: black;">
+                            <a class="news_title" href="{{url_for('news_detail', id=business_news.id)}}" style="text-decoration: none; color: black;">
                                 {{business_news.news_title}}
                             </a>
                         </p>
@@ -66,7 +66,7 @@
                         {% if markets_news %}
                         <p>{{markets_news.news_category.upper()}}</p>
                         <p class="fw-bold">
-                            <a href="{{url_for('news_detail', id=markets_news.id)}}" style="text-decoration: none; color: black;">
+                            <a class="news_title" href="{{url_for('news_detail', id=markets_news.id)}}" style="text-decoration: none; color: black;">
                                 {{markets_news.news_title}}
                             </a>
                         </p>
@@ -79,7 +79,7 @@
                         {% if politics_news %}
                         <p>{{politics_news.news_category.upper()}}</p>
                         <p class="fw-bold">
-                            <a href="{{url_for('news_detail', id=politics_news.id)}}" style="text-decoration: none; color: black;">
+                            <a class="news_title" href="{{url_for('news_detail', id=politics_news.id)}}" style="text-decoration: none; color: black;">
                                 {{politics_news.news_title}}
                             </a>
                         </p>
@@ -92,7 +92,7 @@
                         {% if technology_news %}
                         <p>{{technology_news.news_category.upper()}}</p>
                         <p class="fw-bold">
-                            <a href="{{url_for('news_detail', id=technology_news.id)}}" style="text-decoration: none; color: black;">
+                            <a class="news_title" href="{{url_for('news_detail', id=technology_news.id)}}" style="text-decoration: none; color: black;">
                                 {{technology_news.news_title}}
                             </a>
                         </p>
@@ -111,7 +111,7 @@
                 {% if business_news %}
                 <p> <span class="fw-bold fs-5">1</span>  {{business_news.news_category.upper()}}</p>
                 <p class="fw-bold">
-                    <a href="{{url_for('news_detail', id=business_news.id)}}" style="text-decoration: none; color: black;">
+                    <a class="news_title" href="{{url_for('news_detail', id=business_news.id)}}" style="text-decoration: none; color: black;">
                         {{business_news.news_title}}
                     </a>
                 </p>
@@ -122,7 +122,7 @@
                 {% if politics_news %}
                 <p> <span class="fw-bold fs-5">2</span>  {{politics_news.news_category.upper()}}</p>
                 <p class="fw-bold">
-                    <a href="{{url_for('news_detail', id=politics_news.id)}}" style="text-decoration: none; color: black;">
+                    <a class="news_title" href="{{url_for('news_detail', id=politics_news.id)}}" style="text-decoration: none; color: black;">
                         {{politics_news.news_title}}
                     </a>
                 </p>
