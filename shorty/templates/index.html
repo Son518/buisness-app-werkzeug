@@ -142,4 +142,12 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        if ($('a.news_title').text() > 20) {
+            var new_str = $('a.news_title').text().substring(0, 20);
+            $('a.news_text').text(new_str);
+        }
+    });
+</script>
 {% endblock %}
