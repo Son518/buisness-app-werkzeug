@@ -188,7 +188,7 @@ b, strong {
 /* news  */
 
 a.news_title:hover{
-    text-decoration: dashed;
+    color: rgb(92, 92, 194);
 }
 
 /* footer */
