@@ -186,15 +186,15 @@ b, strong {
 
 
 /* news  */
-a.news_title {
+/* a.news_title {
     overflow: hidden;
     white-space: nowrap; 
     text-overflow: ellipsis;
 }
-
+ */
 a.news_title:hover{    
-    color: rgb(92, 92, 194) !important;
-    text-decoration: underline impr !important;
+    /* color: rgb(92, 92, 194) !important; */
+    text-decoration: underline !important;
 }
 
 /* footer */
