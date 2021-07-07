@@ -184,7 +184,14 @@ b, strong {
     height: 30px;
 }
 
+.box {
+    height: 4.5em;
+    overflow: hidden;
+}
 
+.box--fixed {
+    width: auto;
+}
 /* news  */
 /* a.news_title {
     overflow: hidden;
