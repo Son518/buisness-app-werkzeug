@@ -39,11 +39,13 @@
             </ul>
         </div>
         <div class="row">
-            <img src=" {{url_for('static', file='uploads/news/'+news.news_image)}} " alt="">
+            <div style="width: 15em;">
+                <img src=" {{url_for('static', file='uploads/news/'+news.news_image)}} " alt="">
+            </div>
             <p>{{news.news_image_caption}}</p>
         </div>
         <div class="row py-3">
-            <label class="text-dark fs-4">
+            <label class="text-dark fs-6">
                 {{news.news_content}}
             </label>
         </div>
