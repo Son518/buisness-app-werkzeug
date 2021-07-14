@@ -510,7 +510,7 @@ def company_edit(request, id):
         executives = session.query(Executive).filter(Executive.company_id == id).all()
         stories = session.query(Story).filter(Story.company_id == id).one_or_none()
         video = session.query(Video).filter(Video.company_id == id).one_or_none()
-        print(industries, selected_industries)
+        
         return render_template("company/company_edit.html", usersession=usersession, company=company, industries=industries, executives=executives, \
             selected_industries=selected_industries, stories=stories, video=video)
     
@@ -552,6 +552,7 @@ def company_edit(request, id):
         session.add(company_story)
         session.commit()
 
+        session.query(Video).filter(Video.company_id == id).delete()
         if 'company_video' in request.files:
             video_file = request.files.get('company_video')
             filename = str(round(time.time() * 1000)) + secure_filename(video_file.filename)
