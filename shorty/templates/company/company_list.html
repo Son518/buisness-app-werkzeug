@@ -55,10 +55,10 @@
                 <td>{{company.company_type}}</td>
                 <td>
                   {% for industry_name in company.industries %}
-                    {{industry_name[0]}} 
-                    {% if loop.index != len(company.industries) %}
+                    {% if loop.index > 1 %}
                     ,
                     {% endif %}
+                    {{industry_name[0]}}
                   {% else %}
                   <p style="color: green;">No Matched Industries</p>      
                   {% endfor %}
