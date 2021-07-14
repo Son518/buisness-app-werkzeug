@@ -202,7 +202,7 @@ class News(Base):
     news_source = Column(String(255))
     news_sharing_links = Column(String(255))
     news_image = Column(String(255))
-    news_image_caption = Column(String(255))
+    news_image_caption = Column(Text)
     news_content = Column(Text)
 
 class IndustryCountry(Base):

@@ -42,12 +42,16 @@
             <div class="row">
                 <div class="container">
                     <div class="row">
-                    <div class="col-sm-2 imgUp">
-                        <div class="imagePreview" {{ "style='background-image: url(" + url_for('static', file='uploads/news/'+news.news_image) + ");'"}}></div>
+                        <div class="col-sm-2 imgUp">
+                            <div class="imagePreview" {{ "style='background-image: url(" + url_for('static', file='uploads/news/'+news.news_image) + ");'"}}></div>
                             <label class="btn btn-primary">+ Replace Image
                                 <input name="news_image"  type="file" class="uploadFile img" value="Upload Photo" style="width: 0px;height: 0px;overflow: hidden;">
                             </label>
-                            <input name="news_image_caption" type="text" class="form-control" placeholder="+ Add Caption of Image" value=" {{news.news_image_caption}} ">
+                        </div>
+                        <div class="col-sm-6">
+                            <textarea id="news_image_caption_editor" name="news_image_caption" rows="3" class="form-control" placeholder="+ Add Caption of Image">
+                                {{news.news_image_caption}}
+                            </textarea>
                         </div>
                     </div>
                 </div>
@@ -72,6 +76,21 @@
     $(document).ready(function() {
         var editor = ClassicEditor
         .create( document.querySelector( '#article_editor' ), {
+            toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ],
+            heading: {
+                options: [
+                    { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                    { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                    { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' }
+                ]
+            },
+        })
+        .catch( error => {
+            console.error( error );
+        } );
+
+        var news_image_caption_editor = ClassicEditor
+        .create( document.querySelector( '#news_image_caption_editor' ), {
             toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ],
             heading: {
                 options: [
