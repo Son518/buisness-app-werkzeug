@@ -47,7 +47,7 @@
         </div>
         <div class="row">
             <label class="fw-bold fs-4 text-warning">Industry:</label>
-            <select id="industries" name="company_industry" class="" placeholder="{{ ('Please select the industry types...' if err_msg.industries else 'Looks good!') if err_msg else '' }}" multiple="multiple" size="10" value="">
+            <select id="industries" name="company_industry" class="" placeholder="{{ ('Please select the industry types...' if err_msg.industries else 'Looks good!') if err_msg else '' }}" multiple="multiple" size="100" value="">
                 {% for industry in industries %}
                 <option value="{{industry.id}}" {{ "selected" if industry.id in selected_industries }}>{{industry.industry_name}}</option>
                 {% else %}
