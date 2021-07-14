@@ -84,7 +84,7 @@
                         <div class="col-sm-2 imgUp">
                             <div class="imagePreview" {{ "style='background-image: url(" + url_for('static', file='uploads/'+executive.photo) + ");'"}} ></div>
                             <label class="btn btn-primary">+ Replace Photo
-                                <input name="member_photo"  type="file" class="uploadFile img" value="Upload Photo" style="width: 0px;height: 0px;overflow: hidden;">
+                                <input name="member_photo"  type="file" class="uploadFile img" value="Upload Photo" style="width: 0px;height: 0px; overflow: hidden;">
                             </label>
                             <input name="member_name" type="text" class="form-control" placeholder="+ Add Name" value="{{executive.name}}">
                             <input name="member_title1" type="text" class="form-control" placeholder="+ Add Title" value="{{executive.title1}}">
@@ -250,9 +250,9 @@
     $(document).ready(function(){
         var multipleCancelButton = new Choices('#industries', {
         removeItemButton: true,
-        maxItemCount:10,
-        searchResultLimit:10,
-        renderChoiceLimit:10
+        maxItemCount:100,
+        searchResultLimit:100,
+        renderChoiceLimit:100
         });
     });
 </script>
