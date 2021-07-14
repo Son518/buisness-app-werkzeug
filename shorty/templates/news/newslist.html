@@ -29,12 +29,38 @@
                     <td>
                         <a href=" {{url_for('news_detail', id=news.id)}} " class=""><i class="far fa-eye"></i></a>
                         <a href=" {{url_for('news_edit', id=news.id)}} " class=""><i class="fas fa-edit"></i></a>
-                        <a href="" class=""><i class="far fa-trash-alt"></i></a>
+                        <a href="#deleteModal" data-id="{{news.id}}" data-bs-toggle="modal" class=""><i class="far fa-trash-alt"></i></a>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Would you delete this news?</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a class="btn btn-danger" id="del_btn" href="{{url_for('news_delete', id=news.id)}}">Delete</a>
+            </div>
+        </div>
+        </div>
+    </div>
+    <script>
+        $(document).on("click", ".open-AddBookDialog", function () {
+            var newsId = $(this).data('id');
+            $(".modal-footer #del_btn").attr("href", "/news/delete/"+newsId);
+            // As pointed out in comments, 
+            // it is unnecessary to have to manually call the modal.
+            // $('#addBookDialog').modal('show');
+        });
+    </script>
 </div>
 {% endblock %}
