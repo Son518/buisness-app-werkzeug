@@ -9,7 +9,7 @@ from .utils import session
 from .utils import url_for
 import enum
 
-news_categories = Enum("Business", "Market", "Politics", "Technology", "TV", "COVID-19")
+news_categories = Enum("Business", "Markets", "Politics", "Technology", "TV", "COVID-19")
 type_enum = Enum("Public", "Private", "Government", "Co-operative")
 language_enum = Enum("Afar", "Afrikaans", "Akan", "Algerian Arabic", "Amharic", "Arabic", "Balanta", \
         "Bambara", "Bariba", "Berber", "Bulu", "Chewa", "Chokwe", "Comorian", "Creole", "Dangme", "Dioula", "Duala", \

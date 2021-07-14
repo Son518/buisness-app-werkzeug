@@ -25,7 +25,7 @@
         <ul class="dropdown-menu" aria-labelledby="defaultDropdown">
           <li><a class="dropdown-item" href="{{ url_for('/') }}">Home</a></li>
           <li><a class="dropdown-item" href="{{ url_for('news', news_type='Business') }}">Business</a></li>
-          <li><a class="dropdown-item" href="{{ url_for('news', news_type='Market') }}">Markets</a></li>
+          <li><a class="dropdown-item" href="{{ url_for('news', news_type='Markets') }}">Markets</a></li>
           <li><a class="dropdown-item" href="{{ url_for('news', news_type='Politics') }}">Politics</a></li>
           <li><a class="dropdown-item" href="{{ url_for('news', news_type='Technology') }}">Technology</a></li>
           <li><a class="dropdown-item" href="#">Subscription</a></li>
@@ -94,8 +94,8 @@
           <li class="nav-item mx-2 p-2 {{'active' if news_type == 'Business' }}">
             <a class="nav-link" aria-current="page" href="{{ url_for('news', news_type='Business') }}"> BUSINESS </a>
           </li>
-          <li class="nav-item mx-2 p-2 {{'active' if news_type == 'Market' }}">
-            <a class="nav-link" href="{{ url_for('news', news_type='Market') }}"> MARKETS </a>
+          <li class="nav-item mx-2 p-2 {{'active' if news_type == 'Markets' }}">
+            <a class="nav-link" href="{{ url_for('news', news_type='Markets') }}"> MARKETS </a>
           </li>
           <li class="nav-item mx-2 p-2 {{'active' if news_type == 'Politics' }}">
             <a class="nav-link" href="{{ url_for('news', news_type='Politics') }}">POLITICS</a>

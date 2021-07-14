@@ -89,7 +89,7 @@ def test(request):
 def index(request):
     usersession = user_session(request)
     latest_news = session.query(News).order_by(desc(News.news_created)).limit(3).all()
-    markets_news = session.query(News).filter(News.news_category=='Market').order_by(desc(News.news_created)).limit(1).first()
+    markets_news = session.query(News).filter(News.news_category=='Markets').order_by(desc(News.news_created)).limit(1).first()
     politics_news = session.query(News).filter(News.news_category=='Politics').order_by(desc(News.news_created)).limit(1).first()
     business_news = session.query(News).filter(News.news_category=='Business').order_by(desc(News.news_created)).limit(1).first()
     technology_news = session.query(News).filter(News.news_category=='Technology').order_by(desc(News.news_created)).limit(1).first()
