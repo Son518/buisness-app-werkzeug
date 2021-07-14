@@ -29,7 +29,7 @@
                     <td>
                         <a href=" {{url_for('news_detail', id=news.id)}} " class=""><i class="far fa-eye"></i></a>
                         <a href=" {{url_for('news_edit', id=news.id)}} " class=""><i class="fas fa-edit"></i></a>
-                        <a href="#deleteModal" data-id="{{news.id}}" data-bs-toggle="modal" class=""><i class="far fa-trash-alt"></i></a>
+                        <a href="#deleteModal" data-id="{{news.id}}" data-bs-toggle="modal" class="deleteNewsBtn"><i class="far fa-trash-alt"></i></a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -54,7 +54,7 @@
         </div>
     </div>
     <script>
-        $(document).on("click", ".open-AddBookDialog", function () {
+        $(document).on("click", ".deleteNewsBtn", function () {
             var newsId = $(this).data('id');
             $(".modal-footer #del_btn").attr("href", "/news/delete/"+newsId);
             // As pointed out in comments, 
